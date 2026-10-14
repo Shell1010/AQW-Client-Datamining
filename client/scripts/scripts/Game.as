@@ -34,7 +34,7 @@ package
 
       public static var strToken:String;
 
-      public static var vParam:String = "5.1";
+      public static var vParam:String = "1.2";
 
       public static var ISWEB:Boolean = true;
 
@@ -862,6 +862,7 @@ package
                         MovieClip(world.CHARS.getChildByName(_loc3_.oName)).gotoAndPlay(_loc3_.oFrame);
                      }
                      break;
+                  case "foo":
                   case "danceRequest":
                      if(_loc3_.cell == world.strFrame)
                      {
@@ -1151,6 +1152,7 @@ package
             var isNotUnlocked:Boolean = false;
             var existing:* = undefined;
             var c:Color = null;
+            var aopkwd:String = null;
             var stuS:String = null;
             var hasteCoeff:Number = NaN;
             var cd:* = undefined;
