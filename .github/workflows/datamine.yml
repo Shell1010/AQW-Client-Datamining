@@ -1,6 +1,6 @@
 name: datamine
 on:
-  schedule: [{ "cron": "0 0 * * *" }]
+  schedule: [{ cron: "*/15 * * * *" }] 
   workflow_dispatch:
 permissions: { contents: write }
 jobs:
