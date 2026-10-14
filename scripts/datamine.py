@@ -6,11 +6,11 @@ BASE = "https://game.aq.com/game"
 OUT = Path("client")            # committed tree
 STATE = Path("state.json")
 FFDEC = os.environ.get("FFDEC", "ffdec/ffdec-cli.jar")  # pinned version
-UA = {"User-Agent": "Mozilla/5.0 (aqw-datamine)"}
+UA = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:149.0) Gecko/20100101 Firefox/149.0"}
 
 def get_version():
     r = requests.get(f"{BASE}/api/data/gameversion",
-                     params={"ver": random.random()}, headers=UA, timeout=30)
+                     params={"ver": f"0.{random.random()}"}, headers=UA, timeout=30)
     r.raise_for_status()
     return r.json()
 
