@@ -20,7 +20,7 @@ jobs:
           curl -L -o ffdec.zip "https://github.com/jindrapetrik/jpexs-decompiler/releases/download/version26.3.0/ffdec_26.3.0.zip" && unzip ffdec.zip
         env:
           FFDEC_URL: ${{ vars.FFDEC_URL }}
-      - run: python datamine.py
+      - run: python scripts/datamine.py
       - name: Commit
         run: |
           git config user.name "datamine-bot"
