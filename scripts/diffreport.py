@@ -2,6 +2,7 @@ import argparse, collections, difflib, json, os, re, sys, time
 from pathlib import Path
 import requests
 from asparse import split_methods
+from discord_v2 import send_report, render
 
 def load_tree(root):
     d = {}
@@ -171,15 +172,22 @@ if __name__ == "__main__":
         return json.loads(p.read_text()).get(key, "?") if p.exists() else "?"
     ov, nv = get(old, "sVersion"), get(new, "sVersion")
     oa, na = get(old, "sAssets", "clientvars.json"), get(new, "sAssets", "clientvars.json")
-    header = f"**AQW client update** {ov} → {nv}" + (f"\nAssets: `{oa}` → `{na}`" if oa != na else "")
+
+    highlights = []
+    if newp:   highlights.append(("📦 New packet commands", ", ".join(f"`{p}`" for p in sorted(newp))))
+    if gonep:  highlights.append(("🗑️ Removed packet commands", ", ".join(f"`{p}`" for p in sorted(gonep))))
+    if urls:   highlights.append(("🌐 New URLs", "\n".join(f"`{u}`" for u in sorted(urls))))
+    if vd:     highlights.append(("⚙️ clientvars", "\n".join(vd)))
+    if link_lines: highlights.append(("🧬 Linkage", "\n".join(link_lines)))
+    strs = [s for s in sorted(newstr) if not s.startswith("http")]
+    if strs:   highlights.append(("🔤 New strings", "\n".join(f"`{s[:60]}`" for s in strs[:25])))
+
+    report = {"old": ov, "new": nv, "files": files, "assets": tuple(assets),
+              "assets_change": (oa, na) if oa != na else None, "highlights": highlights}
+    patch = "\n".join(patches)
     tag = f"AQW_{ov}_to_{nv}"
 
-    embeds = make_embeds(files, sorted(newp), sorted(gonep), sorted(urls), sorted(newstr), tuple(assets))
-    extra = []
-    if vd: extra.append("**clientvars**\n" + "\n".join(vd))
-    extra += link_lines
-    if extra: embeds.insert(1, chunk_embed("Vars / linkage", "\n".join(extra), 0xEB459E))
-    patch = "\n".join(patches)
     if a.dry_run:
-        print(header); [print(e["title"], "\n", e["description"], "\n---") for e in embeds]; sys.exit(0)
-    send(os.environ["DISCORD_WEBHOOK"], header, embeds, patch, tag)
+        print(json.dumps(render(report, tag + ".diff" if patch else None), indent=1))
+        sys.exit(0)
+    send_report(os.environ["DISCORD_WEBHOOK"], report, patch, tag)
