@@ -4,7 +4,7 @@ package liteAssets.draw
    import flash.events.*;
    import flash.text.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2264")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2252")]
    public class cEntry extends MovieClip
    {
 

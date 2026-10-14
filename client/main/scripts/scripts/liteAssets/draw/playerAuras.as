@@ -2,7 +2,7 @@ package liteAssets.draw
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol149")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol147")]
    public class playerAuras extends AuraHUD
    {
 

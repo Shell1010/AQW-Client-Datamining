@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol151")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol149")]
    public dynamic class TextArea_disabledSkin extends MovieClip
    {
 

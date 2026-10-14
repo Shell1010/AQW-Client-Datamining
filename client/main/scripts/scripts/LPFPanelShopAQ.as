@@ -16,7 +16,8 @@ package
 
       override public function fOpen(param1:Object) : void
       {
-         var _loc1_:int = 0;
+         var _loc1_:Object = null;
+         var _loc2_:int = 0;
          while(frames.length > 0)
          {
             if(frames[0].mc != null && frames[0].mc.fClose != null)
@@ -26,26 +27,26 @@ package
             frames.shift();
          }
          fData = param1.fData;
-         var _loc2_:Object = param1.r;
-         x = _loc2_.x;
-         if(_loc2_.y > -1)
+         _loc1_ = param1.r;
+         x = _loc1_.x;
+         if(_loc1_.y > -1)
          {
-            y = _loc2_.y;
+            y = _loc1_.y;
          }
          else
          {
-            _loc1_ = fParent.numChildren;
-            if(_loc1_ > 1)
+            _loc2_ = fParent.numChildren;
+            if(_loc2_ > 1)
             {
-               y = fParent.getChildAt(_loc1_ - 2).y + fParent.getChildAt(_loc1_ - 2).height + 10;
+               y = fParent.getChildAt(_loc2_ - 2).y + fParent.getChildAt(_loc2_ - 2).height + 10;
             }
             else
             {
                y = 10;
             }
          }
-         w = _loc2_.w;
-         h = _loc2_.h;
+         w = _loc1_.w;
+         h = _loc1_.h;
          xo = x;
          yo = y;
          if("closeType" in param1)

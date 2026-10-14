@@ -6,7 +6,7 @@ package
    import flash.net.*;
    import flash.text.TextField;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol971")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol963")]
    public class mcFBPassword extends MovieClip
    {
 

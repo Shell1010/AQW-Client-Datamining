@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3434")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3420")]
    public dynamic class auraDisplay extends MovieClip
    {
 

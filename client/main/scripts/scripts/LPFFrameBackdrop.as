@@ -3,7 +3,7 @@ package
    import flash.display.*;
    import flash.text.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2001")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1990")]
    public class LPFFrameBackdrop extends LPFFrame
    {
 

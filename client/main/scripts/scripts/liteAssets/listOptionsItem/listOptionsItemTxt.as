@@ -7,7 +7,7 @@ package liteAssets.listOptionsItem
    import liteAssets.draw.*;
    import liteAssets.mobile.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2162")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2151")]
    public class listOptionsItemTxt extends MovieClip
    {
 
@@ -60,26 +60,27 @@ package liteAssets.listOptionsItem
       private function onShown(param1:Event) : void
       {
          var _loc1_:int = 0;
+         var _loc2_:int = 0;
          removeEventListener(Event.ADDED_TO_STAGE,this.onShown);
-         var _loc2_:TextField = this["txtName"] as TextField;
+         var _loc3_:TextField = this["txtName"] as TextField;
          if(this.inputX < 0)
          {
             this.inputX = this.txtSearch.x;
          }
-         var _loc3_:int = int(this.inputX) - 5;
-         if(_loc2_ != null)
+         _loc1_ = int(this.inputX) - 5;
+         if(_loc3_ != null)
          {
-            _loc3_ = Math.max(_loc3_,int(_loc2_.x + _loc2_.textWidth) + 12);
+            _loc1_ = Math.max(_loc1_,int(_loc3_.x + _loc3_.textWidth) + 12);
          }
-         _loc1_ = 289 - 46 - 10 - 8 - _loc3_;
-         this.txtSearch.x = _loc3_ + 5;
-         this.txtSearch.width = _loc1_ - 8;
+         _loc2_ = 289 - 46 - 10 - 8 - _loc1_;
+         this.txtSearch.x = _loc1_ + 5;
+         this.txtSearch.width = _loc2_ - 8;
          this.box.graphics.clear();
          this.box.graphics.lineStyle(1,4868682,1,true);
          this.box.graphics.beginFill(789516);
-         this.box.graphics.drawRoundRect(0,0,_loc1_,22,8,8);
+         this.box.graphics.drawRoundRect(0,0,_loc2_,22,8,8);
          this.box.graphics.endFill();
-         this.box.x = _loc3_;
+         this.box.x = _loc1_;
          this.box.y = 5;
       }
 

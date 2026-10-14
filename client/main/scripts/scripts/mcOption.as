@@ -11,7 +11,7 @@ package
    import liteAssets.listOptionsItem.*;
    import liteAssets.mobile.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol876")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol868")]
    public class mcOption extends MovieClip
    {
 
@@ -1000,7 +1000,7 @@ package
          {
             this.optItem = new listOptionsItemTxt(this.rootClass,param1.sDesc);
          }
-         else if(param1.hasOwnProperty("extra") && param1.extra is String)
+         else if(param1.hasOwnProperty("extra") && param1.extra is String || param1.btn == true)
          {
             this.optItem = new listOptionsItemBtn(this.rootClass,param1.sDesc);
          }

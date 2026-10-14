@@ -11,7 +11,7 @@ package liteAssets.draw
    import flash.utils.*;
    import liteAssets.mobile.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2262")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2250")]
    public class cellMenu extends MovieClip
    {
 

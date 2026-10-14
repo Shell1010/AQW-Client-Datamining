@@ -4,7 +4,7 @@ package
    import flash.events.*;
    import flash.text.TextField;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2620")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2606")]
    public class HouseShop extends MovieClip
    {
 

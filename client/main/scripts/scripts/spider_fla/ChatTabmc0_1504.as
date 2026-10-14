@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol807")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol799")]
    public dynamic class ChatTabmc0_1504 extends MovieClip
    {
 

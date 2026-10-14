@@ -16,7 +16,7 @@ package
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2768")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2754")]
    public dynamic class mcAreaList extends MovieClip
    {
 

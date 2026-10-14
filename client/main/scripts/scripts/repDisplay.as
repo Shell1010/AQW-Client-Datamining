@@ -16,7 +16,7 @@ package
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2324")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2311")]
    public dynamic class repDisplay extends MovieClip
    {
 

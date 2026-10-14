@@ -58,7 +58,7 @@ package
          "k":"Weapon"
       },{
          "label":"Show only armor",
-         "icon":"iiclass",
+         "icon":"iwarmor",
          "k":"ar"
       },{
          "label":"Show only helms",
@@ -124,6 +124,8 @@ package
       };
 
       private static var sortRank:Object = null;
+
+      private static var lastTab:int = 0;
 
       private static var mtx:Matrix = new Matrix();
 
@@ -334,6 +336,10 @@ package
          {
             return false;
          }
+         if(param2 == "it" && param1.sType == "Item" && InvCat.isBag(param1))
+         {
+            return false;
+         }
          if(param2 == "pots")
          {
             _loc1_ = param1.sLink != null ? String(param1.sLink).toLowerCase() : "";
@@ -423,6 +429,7 @@ package
          }
          this.buildFormats();
          this.buildTabDefs();
+         this.tabIdx = lastTab < this.tabDefs.length ? int(lastTab) : 0;
          this.buildSearch();
          this.buildTabs();
          this.subStrip = new Sprite();
@@ -605,6 +612,7 @@ package
          this.tfSearch.addEventListener(KeyboardEvent.KEY_UP,this.onSearchKey,false,0,true);
          this.tfSearch.addEventListener(FocusEvent.FOCUS_IN,this.onSearchFocusIn,false,0,true);
          this.tfSearch.addEventListener(FocusEvent.FOCUS_OUT,this.onSearchFocusOut,false,0,true);
+         SearchAssist.attach(this.rootClass,this.searchBox,this.tfSearch,this.tfPlaceholder,_loc1_,24,855309);
          this.searchTimer = new Timer(150,1);
          this.searchTimer.addEventListener(TimerEvent.TIMER_COMPLETE,this.onSearchTimer);
       }
@@ -1014,7 +1022,7 @@ package
 
       private function selectTab(param1:int) : void
       {
-         this.tabIdx = param1;
+         this.tabIdx = lastTab = param1;
          this.subIdx = 0;
          this.scrollY = 0;
          this.showSubStrip();

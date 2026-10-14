@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol88")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol87")]
    public dynamic class ScrollThumb_downSkin extends MovieClip
    {
 

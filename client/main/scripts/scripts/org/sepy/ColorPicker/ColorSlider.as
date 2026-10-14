@@ -4,7 +4,7 @@ package org.sepy.ColorPicker
    import flash.events.*;
    import flash.geom.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2683")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2669")]
    public class ColorSlider extends MovieClip
    {
 

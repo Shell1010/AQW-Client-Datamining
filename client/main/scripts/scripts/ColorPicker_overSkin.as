@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2368")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2355")]
    public dynamic class ColorPicker_overSkin extends MovieClip
    {
 

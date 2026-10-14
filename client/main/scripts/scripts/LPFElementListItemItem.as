@@ -7,7 +7,7 @@ package
    import flash.text.*;
    import liteAssets.draw.detailedCheck;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2142")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2131")]
    public class LPFElementListItemItem extends LPFElementListItem
    {
 

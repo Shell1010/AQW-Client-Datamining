@@ -7,7 +7,7 @@ package liteAssets.draw
    import flash.text.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2188")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2177")]
    public class invSearch extends MovieClip
    {
 

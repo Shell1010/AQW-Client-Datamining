@@ -3,7 +3,7 @@ package
    import flash.display.MovieClip;
    import flash.text.TextField;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3423")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3409")]
    public dynamic class PreL extends MovieClip
    {
 

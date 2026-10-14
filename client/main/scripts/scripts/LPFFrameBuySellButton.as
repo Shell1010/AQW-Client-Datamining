@@ -4,7 +4,7 @@ package
    import flash.events.*;
    import flash.text.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2000")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1989")]
    public class LPFFrameBuySellButton extends LPFFrame
    {
 

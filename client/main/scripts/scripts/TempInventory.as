@@ -4,7 +4,7 @@ package
    import flash.events.*;
    import flash.text.TextField;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2735")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2721")]
    public class TempInventory extends MovieClip
    {
 

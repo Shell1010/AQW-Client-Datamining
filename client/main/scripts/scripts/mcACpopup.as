@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol1842")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1831")]
    public dynamic class mcACpopup extends MovieClip
    {
 

@@ -3,7 +3,7 @@ package org.sepy.ColorPicker
    import flash.display.*;
    import flash.events.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2696")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2682")]
    public class AdvancedColorButton extends MovieClip
    {
 

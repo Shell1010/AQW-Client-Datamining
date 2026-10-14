@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2339")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2326")]
    public dynamic class SliderThumb_upSkin extends MovieClip
    {
 

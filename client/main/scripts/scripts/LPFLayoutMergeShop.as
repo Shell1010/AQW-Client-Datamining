@@ -66,9 +66,9 @@ package
             "objData":fData.objData
          };
          _loc2_.r = {
-            "x":30,
+            "x":10,
             "y":80,
-            "w":900,
+            "w":940,
             "h":400
          };
          _loc2_.isOpen = true;
@@ -363,8 +363,14 @@ package
             "filter":"Weapon",
             "mc":{}
          },{
-            "sTag":"Show only armor",
+            "sTag":"Show only classes",
             "icon":"iiclass",
+            "state":-1,
+            "filter":"cl",
+            "mc":{}
+         },{
+            "sTag":"Show only armor",
+            "icon":"iwarmor",
             "state":-1,
             "filter":"ar",
             "mc":{}

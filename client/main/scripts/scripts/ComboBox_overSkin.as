@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2290")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2278")]
    public dynamic class ComboBox_overSkin extends MovieClip
    {
 

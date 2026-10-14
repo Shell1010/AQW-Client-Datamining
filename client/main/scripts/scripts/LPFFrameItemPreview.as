@@ -9,7 +9,7 @@ package
    import flash.text.*;
    import liteAssets.draw.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol1959")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1948")]
    public class LPFFrameItemPreview extends LPFFrame
    {
 

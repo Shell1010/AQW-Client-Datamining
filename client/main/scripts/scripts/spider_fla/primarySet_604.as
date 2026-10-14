@@ -19,7 +19,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2434")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2420")]
    public dynamic class primarySet_604 extends MovieClip
    {
 

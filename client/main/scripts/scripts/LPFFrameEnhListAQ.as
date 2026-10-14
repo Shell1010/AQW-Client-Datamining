@@ -339,6 +339,7 @@ package
          this.tfSearch.addEventListener(KeyboardEvent.KEY_UP,this.onSearchKey,false,0,true);
          this.tfSearch.addEventListener(FocusEvent.FOCUS_IN,this.onSearchFocusIn,false,0,true);
          this.tfSearch.addEventListener(FocusEvent.FOCUS_OUT,this.onSearchFocusOut,false,0,true);
+         SearchAssist.attach(this.rootClass,this.searchBox,this.tfSearch,this.tfPlaceholder,_loc1_,SEARCH_H,855309);
          this.searchTimer = new Timer(150,1);
          this.searchTimer.addEventListener(TimerEvent.TIMER_COMPLETE,this.onSearchTimer);
          this.setPlaceholderText();

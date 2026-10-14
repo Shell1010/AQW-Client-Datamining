@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2765")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2751")]
    public dynamic class mcAreaList_title_270 extends MovieClip
    {
 

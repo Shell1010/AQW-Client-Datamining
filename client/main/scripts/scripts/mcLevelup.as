@@ -16,7 +16,7 @@ package
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol1856")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1845")]
    public dynamic class mcLevelup extends MovieClip
    {
 

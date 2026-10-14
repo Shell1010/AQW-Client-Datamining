@@ -36,7 +36,8 @@ package
 
       private static const FILTER_MAP:Object = {
          "Weapon":["Sword","Axe","Gauntlet","Dagger","HandGun","Rifle","Gun","Whip","Bow","Mace","Polearm","Staff","Wand"],
-         "ar":["Class","Armor"],
+         "cl":["Class"],
+         "ar":["Armor"],
          "he":["Helm"],
          "ba":["Cape"],
          "pe":["Pet"],
@@ -409,6 +410,7 @@ package
          this.tfSearch.addEventListener(KeyboardEvent.KEY_UP,this.onSearchKey,false,0,true);
          this.tfSearch.addEventListener(FocusEvent.FOCUS_IN,this.onSearchFocusIn,false,0,true);
          this.tfSearch.addEventListener(FocusEvent.FOCUS_OUT,this.onSearchFocusOut,false,0,true);
+         SearchAssist.attach(this.rootClass,this.searchBox,this.tfSearch,this.tfPlaceholder,_loc1_,SEARCH_H,855309);
          this.searchTimer = new Timer(150,1);
          this.searchTimer.addEventListener(TimerEvent.TIMER_COMPLETE,this.onSearchTimer);
       }
@@ -457,12 +459,13 @@ package
       {
          var _loc1_:int = 0;
          var _loc2_:Sprite = null;
+         var _loc3_:int = Math.min(BTN_SIZE + BTN_GAP,int((h - SEARCH_H - STRIP_GAP - BTN_SIZE) / Math.max(1,this.filterDefs.length - 1)));
          _loc1_ = 0;
          while(_loc1_ < this.filterDefs.length)
          {
             _loc2_ = new Sprite();
             _loc2_.name = String(_loc1_);
-            _loc2_.y = _loc1_ * (BTN_SIZE + BTN_GAP);
+            _loc2_.y = _loc1_ * _loc3_;
             _loc2_.buttonMode = true;
             _loc2_.mouseChildren = false;
             this.addSubIcon(_loc2_,this.filterDefs[_loc1_].icon);
@@ -789,6 +792,7 @@ package
       {
          param1.priceText = null;
          param1.priceCoins = false;
+         param1.lvlLabel = false;
          var _loc1_:Boolean = Boolean(this.isSilhouetted(param2));
          param1.locked = _loc1_;
          param1.silhouette = _loc1_;

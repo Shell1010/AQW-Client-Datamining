@@ -39,6 +39,11 @@ package liteAssets.mobile
          return Security.sandboxType == "application";
       }
 
+      public static function get isTouchDevice() : Boolean
+      {
+         return isAIR || Capabilities.touchscreenType == TouchscreenType.FINGER;
+      }
+
       public static function get mode() : String
       {
          var _loc1_:String = game != null && game.litePreference != null ? game.litePreference.data.sTouchMode : null;
@@ -93,7 +98,7 @@ package liteAssets.mobile
 
       public static function touchPx(param1:Number = 9) : int
       {
-         if(!isAIR && !(mode == "on" && Capabilities.touchscreenType != TouchscreenType.NONE))
+         if(!isTouchDevice && !(mode == "on" && Capabilities.touchscreenType != TouchscreenType.NONE))
          {
             return 44;
          }
@@ -107,7 +112,7 @@ package liteAssets.mobile
 
       public static function physPx(param1:Number) : Number
       {
-         if(!isAIR && !(mode == "on" && Capabilities.touchscreenType != TouchscreenType.NONE))
+         if(!isTouchDevice && !(mode == "on" && Capabilities.touchscreenType != TouchscreenType.NONE))
          {
             return 0;
          }
@@ -230,7 +235,7 @@ package liteAssets.mobile
       private static function compute() : Boolean
       {
          var _loc1_:String = mode;
-         return _loc1_ == "on" || _loc1_ == "auto" && isAIR;
+         return _loc1_ == "on" || _loc1_ == "auto" && isTouchDevice;
       }
    }
 }

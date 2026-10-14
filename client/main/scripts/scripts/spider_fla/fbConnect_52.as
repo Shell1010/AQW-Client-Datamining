@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3640")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3627")]
    public dynamic class fbConnect_52 extends MovieClip
    {
 

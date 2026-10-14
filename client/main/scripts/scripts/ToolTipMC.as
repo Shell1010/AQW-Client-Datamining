@@ -7,7 +7,7 @@ package
    import flash.text.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2490")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2476")]
    public class ToolTipMC extends MovieClip
    {
 

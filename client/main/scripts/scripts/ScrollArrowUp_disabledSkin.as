@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol102")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol101")]
    public dynamic class ScrollArrowUp_disabledSkin extends MovieClip
    {
 

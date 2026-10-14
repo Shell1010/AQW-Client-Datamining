@@ -8,7 +8,7 @@ package
    import flash.utils.*;
    import liteAssets.mobile.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2507")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2493")]
    public class OFrameMC extends MovieClip
    {
 

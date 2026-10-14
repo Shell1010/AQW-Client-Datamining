@@ -203,7 +203,7 @@ package liteAssets.mobile
          this.lbls = [];
          this.kinds = [];
          this.offs = [];
-         this.zoneKey = new Vector.<Number>(12,true);
+         this.zoneKey = new Vector.<Number>(13,true);
          super();
          this.g = game;
          this.tabW = Mobile.touchPx(7);
@@ -248,6 +248,7 @@ package liteAssets.mobile
          this.applyPositions();
          this.applySkillsBtn();
          this.applyJoy();
+         this.applyTab();
          this.drawChevron();
          this.attach(false);
          try
@@ -294,28 +295,37 @@ package liteAssets.mobile
          var _loc3_:Object = _loc1_.opts();
          var _loc4_:Boolean = _loc3_.bJoyHidden == true;
          var _loc5_:Boolean = _loc3_.bSkillsHidden == true;
-         var _loc6_:Array = zKey;
-         if(_loc6_.length == 14 && _loc2_ != null && _loc6_[10] == _loc2_.x && _loc6_[11] == _loc2_.y && _loc6_[12] == _loc2_.width && _loc6_[13] == _loc2_.height && _loc6_[0] == _loc4_ && _loc6_[1] == _loc5_ && _loc6_[2] == _loc1_.x + _loc1_.joy.x && _loc6_[3] == _loc1_.y + _loc1_.joy.y && _loc6_[4] == _loc1_.x + _loc1_.skills.x && _loc6_[5] == _loc1_.y + _loc1_.skills.y && _loc6_[6] == _loc1_.skills.extL && _loc6_[7] == _loc1_.skills.extT && _loc6_[8] == _loc1_.skills.extR && _loc6_[9] == _loc1_.skills.extB)
+         var _loc6_:Boolean = _loc3_.bSkillsOff == true;
+         var _loc7_:Array = zKey;
+         if(_loc7_.length == 15 && _loc2_ != null && _loc7_[10] == _loc2_.x && _loc7_[11] == _loc2_.y && _loc7_[12] == _loc2_.width && _loc7_[13] == _loc2_.height && _loc7_[0] == _loc4_ && _loc7_[1] == _loc5_ && _loc7_[14] == _loc6_ && _loc7_[2] == _loc1_.x + _loc1_.joy.x && _loc7_[3] == _loc1_.y + _loc1_.joy.y && _loc7_[4] == _loc1_.x + _loc1_.skills.x && _loc7_[5] == _loc1_.y + _loc1_.skills.y && _loc7_[6] == _loc1_.skills.extL && _loc7_[7] == _loc1_.skills.extT && _loc7_[8] == _loc1_.skills.extR && _loc7_[9] == _loc1_.skills.extB)
          {
             return zCache;
          }
-         var _loc7_:Array = [];
+         var _loc8_:Array = [];
          if(!_loc4_)
          {
-            _loc7_.push(new Rectangle(_loc1_.x + _loc2_.x,_loc1_.y + _loc2_.y,_loc2_.width,_loc2_.height));
+            _loc8_.push(new Rectangle(_loc1_.x + _loc2_.x,_loc1_.y + _loc2_.y,_loc2_.width,_loc2_.height));
          }
-         var _loc8_:Rectangle = _loc1_.skills.handleRect;
-         if(_loc5_)
+         var _loc9_:Rectangle = _loc1_.skills.handleRect;
+         if(!_loc6_ && _loc5_)
          {
-            _loc7_.push(new Rectangle(_loc1_.x + _loc1_.skills.x + _loc8_.x,_loc1_.y + _loc1_.skills.y + _loc8_.y,_loc8_.width,_loc8_.height));
+            _loc8_.push(new Rectangle(_loc1_.x + _loc1_.skills.x + _loc9_.x,_loc1_.y + _loc1_.skills.y + _loc9_.y,_loc9_.width,_loc9_.height));
          }
-         else
+         else if(!_loc6_)
          {
-            _loc7_.push(new Rectangle(_loc1_.x + _loc1_.skills.x - _loc1_.skills.extL,_loc1_.y + _loc1_.skills.y - _loc1_.skills.extT,_loc1_.skills.extL + _loc1_.skills.extR,_loc1_.skills.extT + _loc1_.skills.extB));
+            _loc8_.push(new Rectangle(_loc1_.x + _loc1_.skills.x - _loc1_.skills.extL,_loc1_.y + _loc1_.skills.y - _loc1_.skills.extT,_loc1_.skills.extL + _loc1_.skills.extR,_loc1_.skills.extT + _loc1_.skills.extB));
          }
-         zKey = [_loc4_,_loc5_,_loc1_.x + _loc1_.joy.x,_loc1_.y + _loc1_.joy.y,_loc1_.x + _loc1_.skills.x,_loc1_.y + _loc1_.skills.y,_loc1_.skills.extL,_loc1_.skills.extT,_loc1_.skills.extR,_loc1_.skills.extB,_loc2_.x,_loc2_.y,_loc2_.width,_loc2_.height];
-         zCache = _loc7_;
-         return _loc7_;
+         zKey = [_loc4_,_loc5_,_loc1_.x + _loc1_.joy.x,_loc1_.y + _loc1_.joy.y,_loc1_.x + _loc1_.skills.x,_loc1_.y + _loc1_.skills.y,_loc1_.skills.extL,_loc1_.skills.extT,_loc1_.skills.extR,_loc1_.skills.extB,_loc2_.x,_loc2_.y,_loc2_.width,_loc2_.height,_loc6_];
+         zCache = _loc8_;
+         return _loc8_;
+      }
+
+      public static function applyTabOption() : void
+      {
+         if(inst != null)
+         {
+            inst.applyTab();
+         }
       }
 
       public static function windowOpenCached(param1:MovieClip) : Boolean
@@ -773,7 +783,9 @@ package liteAssets.mobile
          _loc2_ = Boolean(this.zset(_loc1_,7,this.skills.extB)) && _loc2_;
          _loc2_ = Boolean(this.zset(_loc1_,8,this.tab.x)) && _loc2_;
          _loc2_ = Boolean(this.zset(_loc1_,9,this.tab.y)) && _loc2_;
-         return Boolean(this.zset(_loc1_,10,this.opts().bSkillsHidden == true ? 1 : 0)) && _loc2_;
+         _loc2_ = Boolean(this.zset(_loc1_,10,this.opts().bSkillsHidden == true ? 1 : 0)) && _loc2_;
+         _loc2_ = Boolean(this.zset(_loc1_,11,this.tab.visible ? 1 : 0)) && _loc2_;
+         return Boolean(this.zset(_loc1_,12,this.opts().bSkillsOff == true ? 1 : 0)) && _loc2_;
       }
 
       private function zset(param1:Vector.<Number>, param2:int, param3:Number) : Boolean
@@ -799,15 +811,19 @@ package liteAssets.mobile
          var _loc3_:Number = this.joy.y + Joystick.PAD / 2;
          var _loc4_:Rectangle = new Rectangle(Math.max(0,Math.min(STAGE_W - _loc1_,_loc2_ - _loc1_ / 2)),Math.max(0,Math.min(LIMIT_Y - _loc1_,_loc3_ - _loc1_ / 2)),_loc1_,_loc1_);
          var _loc5_:Rectangle = this.skills.handleRect;
-         if(this.opts().bSkillsHidden == true)
+         var _loc6_:Boolean = this.opts().bSkillsOff != true;
+         if((_loc6_) && this.opts().bSkillsHidden == true)
          {
             _loc4_ = this.cutZone(_loc4_,new Rectangle(this.skills.x + _loc5_.x,this.skills.y + _loc5_.y,_loc5_.width,_loc5_.height),_loc2_,_loc3_);
          }
-         else
+         else if(_loc6_)
          {
             _loc4_ = this.cutZone(_loc4_,new Rectangle(this.skills.x - this.skills.extL,this.skills.y - this.skills.extT,this.skills.extL + this.skills.extR,this.skills.extT + this.skills.extB),_loc2_,_loc3_);
          }
-         _loc4_ = this.cutZone(_loc4_,new Rectangle(this.tab.x,this.tab.y,this.tabW,this.tabH),_loc2_,_loc3_);
+         if(this.tab.visible)
+         {
+            _loc4_ = this.cutZone(_loc4_,new Rectangle(this.tab.x,this.tab.y,this.tabW,this.tabH),_loc2_,_loc3_);
+         }
          _loc4_ = this.cutZone(_loc4_,this.barRect(),_loc2_,_loc3_);
          _loc4_ = this.cutZone(_loc4_,CHAT_RECT,_loc2_,_loc3_);
          if(this.zone != null && Boolean(this.zone.equals(_loc4_)))
@@ -940,6 +956,17 @@ package liteAssets.mobile
          }
       }
 
+      private function applyTab() : void
+      {
+         var _loc1_:Boolean = this.opts().bTabHidden == true;
+         if(_loc1_ && Boolean(this.open))
+         {
+            this.setOpen(false);
+         }
+         this.tab.visible = !_loc1_;
+         this.refreshZone();
+      }
+
       private function applyJoy() : void
       {
          var _loc1_:Boolean = this.opts().bJoyHidden == true;
@@ -1034,7 +1061,7 @@ package liteAssets.mobile
          var _loc4_:Boolean = this.gst != null && this.gst.focus is TextField;
          var _loc5_:Boolean = !_loc3_ && !_loc2_ && !this.blocked();
          this.skills.collapsed = !this.editing && this.opts().bSkillsHidden == true;
-         this.skills.shown = Boolean(this.editing) || _loc5_;
+         this.skills.shown = Boolean(this.editing) || _loc5_ && this.opts().bSkillsOff != true;
          this.refreshZone();
          var _loc6_:Boolean = _loc2_ && Boolean(GameKeys.controlsOn) && !_loc4_ || this.opts().bJoyHidden != true && (_loc5_ || Boolean(this.joy.pressed) && !_loc3_ && !_loc4_);
          if(this.editing)
@@ -1339,13 +1366,13 @@ package liteAssets.mobile
 
       private function applySkillsBtn() : void
       {
-         this.setOff(SKILLS_I,this.opts().bSkillsHidden == true);
+         this.setOff(SKILLS_I,this.opts().bSkillsOff == true);
       }
 
       private function onSkillsToggle(param1:MouseEvent) : void
       {
          var _loc1_:Object = this.opts();
-         _loc1_.bSkillsHidden = _loc1_.bSkillsHidden != true;
+         _loc1_.bSkillsOff = _loc1_.bSkillsOff != true;
          this.flush();
          this.applySkillsBtn();
          this.onTick(null);
@@ -1353,7 +1380,10 @@ package liteAssets.mobile
 
       private function onSkillsCollapse(param1:Event) : void
       {
-         this.onSkillsToggle(null);
+         var _loc1_:Object = this.opts();
+         _loc1_.bSkillsHidden = _loc1_.bSkillsHidden != true;
+         this.flush();
+         this.onTick(null);
       }
 
       private function onEdit(param1:MouseEvent) : void
@@ -1403,6 +1433,7 @@ package liteAssets.mobile
          delete _loc1_.posVMouse;
          _loc1_.bJoyHidden = false;
          _loc1_.bSkillsHidden = false;
+         _loc1_.bSkillsOff = false;
          _loc1_.bVMouseMin = false;
          this.flush();
          DropTray.resetPos();

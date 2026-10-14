@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2146")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2135")]
    public dynamic class LPFElementListViewTab extends MovieClip
    {
 

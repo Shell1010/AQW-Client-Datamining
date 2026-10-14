@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2130")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2119")]
    public dynamic class LPFIconRing extends MovieClip
    {
 

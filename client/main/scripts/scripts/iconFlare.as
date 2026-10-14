@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3460")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3446")]
    public dynamic class iconFlare extends MovieClip
    {
 

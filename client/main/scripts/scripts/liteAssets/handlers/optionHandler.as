@@ -670,6 +670,11 @@ package liteAssets.handlers
             case "Gamepad Controls":
                GamepadPanel.open(r);
                break;
+            case "Hide Mobile Menu Tab":
+               r.litePreference.data.dOptions["bTabHidden"] = !r.litePreference.data.dOptions["bTabHidden"];
+               r.litePreference.flush();
+               MobileHUD.applyTabOption();
+               break;
             case "Keybinds":
                KeybindsPanel.open(r);
                break;

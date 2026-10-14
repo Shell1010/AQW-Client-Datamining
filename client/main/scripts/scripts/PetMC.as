@@ -5,7 +5,7 @@ package
    import flash.geom.ColorTransform;
    import flash.utils.Timer;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3350")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3336")]
    public class PetMC extends MovieClip
    {
 

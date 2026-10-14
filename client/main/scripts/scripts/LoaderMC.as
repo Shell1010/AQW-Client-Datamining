@@ -7,7 +7,7 @@ package
    import flash.text.TextField;
    import types.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2150")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2139")]
    public class LoaderMC extends MovieClip
    {
 

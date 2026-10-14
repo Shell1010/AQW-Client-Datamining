@@ -20,7 +20,7 @@ package fl.controls
    import flash.text.TextFormat;
    import flash.ui.Keyboard;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2373")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2360")]
    public class ColorPicker extends UIComponent implements IFocusManagerComponent
    {
 

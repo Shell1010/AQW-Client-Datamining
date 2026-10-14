@@ -137,6 +137,50 @@ package
          return this.bankItems[param1];
       }
 
+      public function idByCharItemID(param1:int) : int
+      {
+         var _loc1_:Object = null;
+         for each(_loc1_ in this.bankItems)
+         {
+            if(int(_loc1_.CharItemID) == param1)
+            {
+               return int(_loc1_.ItemID);
+            }
+         }
+         return 0;
+      }
+
+      public function loadedFor(param1:String) : Boolean
+      {
+         return this.requestedTypes["All"] != null || this.requestedTypes[param1] != null;
+      }
+
+      public function adjustQty(param1:int, param2:*, param3:int) : int
+      {
+         var _loc1_:Object = this.bankItems[param1];
+         if(_loc1_ == null)
+         {
+            return -1;
+         }
+         var _loc2_:int = param2 != null ? int(param2) : int(int(_loc1_.iQty) + param3);
+         this.bankModified = true;
+         if(_loc2_ > 0)
+         {
+            _loc1_.iQty = _loc2_;
+            return _loc2_;
+         }
+         _loc1_.iQty = 0;
+         delete this.bankItems[param1];
+         if(_loc1_.bCoins == 0)
+         {
+            --this.Count;
+         }
+         var _loc3_:String = this.lastSearch;
+         this.resetSearch();
+         this.search(_loc3_);
+         return 0;
+      }
+
       public function resetSearch() : void
       {
          this.lastSearch = "";

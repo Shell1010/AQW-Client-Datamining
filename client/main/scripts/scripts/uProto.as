@@ -16,7 +16,7 @@ package
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2502")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2488")]
    public dynamic class uProto extends MovieClip
    {
 

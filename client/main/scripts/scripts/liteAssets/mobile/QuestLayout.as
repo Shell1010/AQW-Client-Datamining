@@ -49,24 +49,25 @@ package liteAssets.mobile
       {
          var _loc1_:int = 0;
          var _loc2_:TextField = null;
-         var _loc3_:int = 0;
+         var _loc3_:DisplayObject = null;
+         var _loc4_:int = 0;
          _loc1_ = rowH();
          param1.y = param2 * _loc1_;
          _loc2_ = param1.getChildByName("ti") as TextField;
-         var _loc4_:DisplayObject = param1.getChildByName("hit");
+         _loc3_ = param1.getChildByName("hit");
          var _loc5_:int = _loc1_ - ROW_GAP;
          var _loc6_:Number = _loc2_ != null ? _loc2_.y + (_loc2_.textHeight + 4) / 2 : _loc5_ / 2;
-         _loc3_ = Math.round(_loc5_ / 2 - _loc6_);
+         _loc4_ = Math.round(_loc5_ / 2 - _loc6_);
          if(_loc2_ != null)
          {
             _loc2_.x += TEXT_IN;
-            _loc2_.y += _loc3_;
+            _loc2_.y += _loc4_;
             _loc2_.filters = [TEXT_OUTLINE];
          }
-         if(_loc4_ != null)
+         if(_loc3_ != null)
          {
-            _loc4_.x += TEXT_IN;
-            _loc4_.y += _loc3_;
+            _loc3_.x += TEXT_IN;
+            _loc3_.y += _loc4_;
          }
          var _loc7_:DisplayObject = param1.getChildByName(PAD_NAME);
          if(_loc7_ != null)

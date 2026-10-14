@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol146")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol144")]
    public dynamic class RedXCloseButtonCloseMenu_881 extends MovieClip
    {
 

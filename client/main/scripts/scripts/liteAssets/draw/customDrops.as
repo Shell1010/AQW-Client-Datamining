@@ -12,7 +12,7 @@ package liteAssets.draw
    import flash.utils.*;
    import liteAssets.mobile.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2234")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2222")]
    public class customDrops extends MovieClip
    {
 

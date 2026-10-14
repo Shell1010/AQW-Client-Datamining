@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol927")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol919")]
    public dynamic class Female_Iris_Light_1462 extends MovieClip
    {
 

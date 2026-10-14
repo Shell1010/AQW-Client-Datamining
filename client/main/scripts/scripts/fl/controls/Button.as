@@ -5,7 +5,7 @@ package fl.controls
    import fl.managers.IFocusManagerComponent;
    import flash.display.DisplayObject;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3519")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3505")]
    public class Button extends LabelButton implements IFocusManagerComponent
    {
 

@@ -3,7 +3,7 @@ package org.sepy.ColorPicker
    import flash.display.*;
    import flash.geom.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2701")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2687")]
    public class ColorBox extends MovieClip
    {
 

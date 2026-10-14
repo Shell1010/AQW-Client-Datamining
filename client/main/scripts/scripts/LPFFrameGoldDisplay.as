@@ -4,7 +4,7 @@ package
    import flash.events.*;
    import flash.text.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol1969")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1958")]
    public class LPFFrameGoldDisplay extends LPFFrame
    {
 

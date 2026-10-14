@@ -3,7 +3,7 @@ package
    import flash.display.*;
    import flash.events.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2589")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2575")]
    public class PVPPanelMC extends MovieClip
    {
 

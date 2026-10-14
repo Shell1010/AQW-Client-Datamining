@@ -9,7 +9,7 @@ package liteAssets.draw
    import flash.text.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2314")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2301")]
    public class colorPicker extends MovieClip
    {
 

@@ -10,7 +10,7 @@ package liteAssets.draw
    import flash.text.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol1493")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1483")]
    public class charPage extends MovieClip
    {
 

@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2349")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2336")]
    public dynamic class SliderTick_skin extends MovieClip
    {
 

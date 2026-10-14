@@ -2,7 +2,7 @@ package
 {
    import flash.text.Font;
 
-   [Embed(source="/_assets/2_UIFontBoldItalic_Arial Bold Italic.ttf",
+   [Embed(source="/_assets/1_UIFontBoldItalic_Arial Bold Italic.ttf",
    fontName="Arial Bold Italic",
    fontFamily="Arial Bold Italic",
    mimeType="application/x-font",

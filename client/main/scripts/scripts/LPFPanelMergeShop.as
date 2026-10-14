@@ -7,6 +7,16 @@ package
    public class LPFPanelMergeShop extends LPFPanel
    {
 
+      private static const PV_X:int = 0;
+
+      private static const COMP_X:int = 327;
+
+      private static const COMP_W:int = 240;
+
+      private static const LIST_X:int = 588;
+
+      private static const LIST_W:int = 338;
+
       public function LPFPanelMergeShop()
       {
          super();
@@ -31,7 +41,7 @@ package
          fData = param1.fData;
          drawBG(LPFPanelBg2);
          bg.tPane1.text = "Preview";
-         bg.tPane2.text = "Cost";
+         bg.tPane2.text = "Components";
          bg.tPane3.text = "Item List";
          bg.tSearch.visible = false;
          bg.mcHouse.visible = false;
@@ -85,7 +95,7 @@ package
          _loc4_.frame = new LPFFrameBackdrop();
          _loc4_.fData = null;
          _loc4_.r = {
-            "x":15,
+            "x":PV_X + 15,
             "y":36,
             "w":290,
             "h":204
@@ -95,17 +105,17 @@ package
          _loc4_.frame = new LPFFrameBackdrop();
          _loc4_.fData = null;
          _loc4_.r = {
-            "x":15,
+            "x":PV_X + 15,
             "y":244,
             "w":290,
-            "h":121
+            "h":101
          };
          addFrame(_loc4_);
          _loc4_ = {};
          _loc4_.frame = new LPFFrameItemPreview();
          _loc4_.fData = null;
          _loc4_.r = {
-            "x":19,
+            "x":PV_X + 19,
             "y":40,
             "w":284,
             "h":-1
@@ -116,7 +126,7 @@ package
          _loc4_.frame = new LPFFrameEnhText();
          _loc4_.fData = null;
          _loc4_.r = {
-            "x":19,
+            "x":PV_X + 19,
             "y":245,
             "w":284,
             "h":-1
@@ -124,46 +134,16 @@ package
          _loc4_.eventTypes = ["listItemASel"];
          addFrame(_loc4_);
          _loc4_ = {};
-         _loc4_.frame = new LPFFrameBackdrop();
-         _loc4_.fData = null;
-         _loc4_.r = {
-            "x":14 + 574,
-            "y":44,
-            "w":304,
-            "h":336
-         };
-         addFrame(_loc4_);
-         var _loc5_:int = 50;
-         _loc4_ = {};
-         _loc4_.frame = new LPFFrameMergeListAQ();
-         _loc4_.fData = {"list":fData.items};
-         _loc4_.r = {
-            "x":20 + 574,
-            "y":_loc5_,
-            "w":292,
-            "h":274
-         };
-         addFrame(_loc4_);
-         _loc4_ = {};
-         _loc4_.frame = new LPFFrameSimpleText();
-         _loc4_.fData = {"msg":"<p align=\'center\'>Select an item from the list. Below are the required parts to buy the desired item.</p>"};
-         _loc4_.r = {
-            "x":-1,
-            "y":71,
-            "w":200,
-            "h":-1,
-            "center":true
-         };
-         addFrame(_loc4_);
-         _loc4_ = {};
          _loc4_.frame = new LPFFrameSimpleList();
-         _loc4_.fData = {"msg":"<p align=\'center\'>*Items must be in your backpack to appear.</p>"};
+         _loc4_.fData = {"msg":""};
          _loc4_.r = {
-            "x":-1,
-            "y":140,
-            "w":240,
+            "x":COMP_X,
+            "y":50,
+            "w":COMP_W,
             "h":-1,
-            "center":true
+            "maxH":322,
+            "vCenter":true,
+            "emptyMsg":"<p align=\'center\'>Select an item from the list to see what it needs.<br><br>Parts must be in your backpack.</p>"
          };
          _loc4_.eventTypes = ["refreshItems","listItemASel","updateQtyValue"];
          addFrame(_loc4_);
@@ -171,8 +151,8 @@ package
          _loc4_.frame = new LPFFrameCostDisplay();
          _loc4_.fData = null;
          _loc4_.r = {
-            "x":450,
-            "y":-70,
+            "x":PV_X + 222,
+            "y":-66,
             "w":-1,
             "h":-1,
             "xPosRule":"centerOnX"
@@ -180,14 +160,33 @@ package
          _loc4_.eventTypes = ["listItemASel","updateQtyValue"];
          addFrame(_loc4_);
          _loc4_ = {};
+         _loc4_.frame = new LPFFrameBackdrop();
+         _loc4_.fData = null;
+         _loc4_.r = {
+            "x":LIST_X - 6,
+            "y":36,
+            "w":LIST_W + 12,
+            "h":344
+         };
+         addFrame(_loc4_);
+         _loc4_ = {};
+         _loc4_.frame = new LPFFrameMergeListAQ();
+         _loc4_.fData = {"list":fData.items};
+         _loc4_.r = {
+            "x":LIST_X,
+            "y":42,
+            "w":LIST_W,
+            "h":282
+         };
+         addFrame(_loc4_);
+         _loc4_ = {};
          _loc4_.frame = new LPFFrameGenericButton();
          _loc4_.fData = null;
          _loc4_.r = {
-            "x":-1,
+            "x":PV_X + 174,
             "y":-40,
-            "w":250,
-            "h":-1,
-            "center":true
+            "w":-1,
+            "h":-1
          };
          _loc4_.eventTypes = ["previewButton1Update"];
          addFrame(_loc4_);
@@ -195,11 +194,10 @@ package
          _loc4_.frame = new LPFFrameQtySelector();
          _loc4_.fData = null;
          _loc4_.r = {
-            "x":-1,
-            "y":-80,
+            "x":PV_X + 41,
+            "y":-47.5,
             "w":-1,
-            "h":-1,
-            "center":true
+            "h":-1
          };
          _loc4_.eventTypes = ["listItemASel"];
          addFrame(_loc4_);

@@ -16,7 +16,7 @@ package
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol1869")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1858")]
    public dynamic class mcAchievement extends MovieClip
    {
 

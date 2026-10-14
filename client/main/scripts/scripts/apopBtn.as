@@ -7,7 +7,7 @@ package
    import flash.events.*;
    import flash.text.TextField;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2962")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2948")]
    public class apopBtn extends Sprite
    {
 

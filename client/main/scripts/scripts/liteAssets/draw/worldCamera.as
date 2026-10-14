@@ -10,7 +10,7 @@ package liteAssets.draw
    import flash.text.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol28")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol27")]
    public class worldCamera extends MovieClip
    {
 

@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol1473")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1465")]
    public dynamic class iwarmor extends MovieClip
    {
 

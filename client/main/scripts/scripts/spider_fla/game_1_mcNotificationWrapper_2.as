@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3524")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3510")]
    public dynamic class game_1_mcNotificationWrapper_2 extends MovieClip
    {
 

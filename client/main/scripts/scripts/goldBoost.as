@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2113")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2102")]
    public dynamic class goldBoost extends MovieClip
    {
 

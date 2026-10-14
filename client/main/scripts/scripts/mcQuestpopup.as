@@ -16,7 +16,7 @@ package
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol669")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol662")]
    public dynamic class mcQuestpopup extends MovieClip
    {
 

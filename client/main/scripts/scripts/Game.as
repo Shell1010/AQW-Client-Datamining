@@ -34,7 +34,7 @@ package
 
       public static var strToken:String;
 
-      public static var vParam:String = "5.1";
+      public static var vParam:String = "5.2";
 
       public static var ISWEB:Boolean = true;
 
@@ -67,6 +67,14 @@ package
       public static const FB_APP_ID:String = "51356733862";
 
       public static const FB_APP_SEC:String = "This should never be stored in the client";
+
+      private static const PROC_SLOTS:Object = {
+         "aa":"Auto Attack",
+         "a1":"Skill 1",
+         "a2":"Skill 2",
+         "a3":"Skill 3",
+         "a4":"Skill 4"
+      };
 
       MovieClip.prototype.removeAllChildren = function():void
       {
@@ -324,6 +332,8 @@ package
 
       public var TRAVEL_DATA_READY:Boolean = false;
 
+      private var mapUILoader:Loader;
+
       private var bLoaded:Number = 0;
 
       private var bTotal:Number = 0;
@@ -380,13 +390,15 @@ package
 
       internal var interfaceTotal:Number = 0;
 
-      public var newInstance:Boolean = false;
-
       public var BOOK_DATA_READY:* = null;
+
+      private var bookInfo:Object = null;
 
       public var bolLoader:Loader;
 
       public var bolContent:MovieClip;
+
+      private var bookLoaderMC:*;
 
       private var uncaughtSeen:Object;
 
@@ -433,6 +445,8 @@ package
       internal var disableTimer:Timer;
 
       public var regExLineSpace:RegExp;
+
+      public var procInfo:Object;
 
       public var showServers:Boolean = false;
 
@@ -569,6 +583,7 @@ package
          this.portraitsCnt = [];
          this.disableTimer = new Timer(50,1);
          this.regExLineSpace = /(\r\n)/gi;
+         this.procInfo = {};
          super();
          onConnectionHandler = function(param1:SFSEvent):*
          {
@@ -685,7 +700,6 @@ package
                   }
                }
             }
-            newInstance = true;
          };
          onLoginHandler = function(param1:SFSEvent):*
          {
@@ -772,7 +786,6 @@ package
                }
                serialCmdNext();
             }
-            newInstance = true;
          };
          onMultiConnectionHandler = function(param1:SFSEvent):*
          {
@@ -1731,6 +1744,10 @@ package
             if(protocol == "json")
             {
                cmd = resObj.cmd;
+               if(resObj.procs != null)
+               {
+                  mergeProcs(resObj.procs);
+               }
                if(sfc.debug)
                {
                   trace("[Resp] json: " + cmd);
@@ -3494,6 +3511,10 @@ package
                         dropitem.CharItemID = resObj.CharItemID;
                         dropitem.bBank = resObj.bBank;
                         dropitem.iQty = int(resObj.iQty);
+                        if(resObj.iQtyNow != null)
+                        {
+                           dropitem.iQtyNow = int(resObj.iQtyNow);
+                        }
                         if(resObj.EnhID != null)
                         {
                            dropitem.EnhID = int(resObj.EnhID);
@@ -8663,6 +8684,11 @@ package
 
       public function getTravelMapData() : void
       {
+         if(this.travelMapData != null)
+         {
+            this.showMapUI();
+            return;
+         }
          if(this.ui.getChildByName("travelLoaderMC"))
          {
             return;
@@ -8692,15 +8718,55 @@ package
 
       private function onTravelMapComplete(param1:Event) : void
       {
+         this.dropTravelLoader();
          var _loc1_:String = String(param1.target.data);
          var _loc2_:Object = JSON.parse(_loc1_);
          this.travelMapData = _loc2_;
          this.WorldMapData = new worldMap(this.travelMapData);
-         this.TRAVEL_DATA_READY = true;
-         this.ui.mcPopup.mcMap.removeChildAt(0);
-         var _loc3_:Loader = new AirLoader();
-         _loc3_.load(new URLRequest(vurl(serverFilePath + this.world.objInfo.sMap)),new LoaderContext(false,ApplicationDomain.currentDomain));
-         this.ui.mcPopup.mcMap.addChild(_loc3_);
+         this.showMapUI();
+      }
+
+      private function showMapUI() : void
+      {
+         var _loc1_:MovieClip = this.ui.mcPopup.currentLabel == "Map" ? this.ui.mcPopup.mcMap as MovieClip : null;
+         if(_loc1_ == null)
+         {
+            return;
+         }
+         if(this.mapUILoader != null)
+         {
+            try
+            {
+               this.mapUILoader.close();
+            }
+            catch(errC:Error)
+            {
+            }
+            try
+            {
+               this.mapUILoader.unloadAndStop();
+            }
+            catch(err:Error)
+            {
+            }
+            this.mapUILoader = null;
+         }
+         if(_loc1_.numChildren > 0)
+         {
+            _loc1_.removeChildAt(0);
+         }
+         this.mapUILoader = new AirLoader();
+         this.mapUILoader.load(new URLRequest(vurl(serverFilePath + this.world.objInfo.sMap)),new LoaderContext(false,AirLoader.trust(ApplicationDomain.currentDomain)));
+         _loc1_.addChild(this.mapUILoader);
+      }
+
+      private function dropTravelLoader() : void
+      {
+         if(this.travelLoaderMC != null && this.travelLoaderMC.parent != null)
+         {
+            this.travelLoaderMC.parent.removeChild(this.travelLoaderMC);
+         }
+         this.travelLoaderMC = null;
       }
 
       private function onTravelMapProgress(param1:ProgressEvent) : void
@@ -8727,11 +8793,7 @@ package
       private function onTravelError(param1:IOErrorEvent) : void
       {
          trace("[Load] ERR travel map load failed: " + param1.text);
-         if(this.travelLoaderMC)
-         {
-            this.travelLoaderMC.parent.removeChild(this.travelLoaderMC);
-            this.travelLoaderMC = null;
-         }
+         this.dropTravelLoader();
       }
 
       public function checkPasswordStrength(param1:String) : int
@@ -10716,12 +10778,12 @@ package
             this.iMaxLoadoutSlots = Number(this.world.objInfo["iMaxLoadoutSlots"]);
             if(ASSETS_READY == this.world.objInfo["sAssets"])
             {
-               this.BOOK_DATA_READY = null;
+               this.bookInfo = null;
                this.resumeOnLoginResponse();
             }
             else
             {
-               this.BOOK_DATA_READY = null;
+               this.bookInfo = null;
                this.loadExternalAssets();
             }
             return;
@@ -10735,15 +10797,20 @@ package
       public function retrieveBook() : void
       {
          var _loc1_:URLLoader = null;
-         if(this.ui.getChildByName("travelLoaderMC"))
+         if(this.bookInfo != null)
+         {
+            this.showBook();
+            return;
+         }
+         if(this.bookLoaderMC != null && this.bookLoaderMC.parent != null)
          {
             return;
          }
-         this.travelLoaderMC = new (this.world.getClass("mcLoader") as Class)();
-         this.travelLoaderMC.x = 400;
-         this.travelLoaderMC.y = 211;
-         this.travelLoaderMC.name = "travelLoaderMC";
-         this.ui.addChild(this.travelLoaderMC);
+         this.bookLoaderMC = new (this.world.getClass("mcLoader") as Class)();
+         this.bookLoaderMC.x = 400;
+         this.bookLoaderMC.y = 211;
+         this.bookLoaderMC.name = "bookLoaderMC";
+         this.ui.addChild(this.bookLoaderMC);
          _loc1_ = new URLLoader();
          _loc1_.addEventListener(Event.COMPLETE,this.onBoLComplete,false,0,true);
          _loc1_.addEventListener(ProgressEvent.PROGRESS,this.onBoLProgress,false,0,true);
@@ -10780,12 +10847,12 @@ package
          this.iMaxLoadoutSlots = Number(_loc2_["iMaxLoadoutSlots"]);
          if(ASSETS_READY == _loc2_["sAssets"])
          {
-            this.BOOK_DATA_READY = null;
+            this.bookInfo = null;
             this.resumeOnLoginResponse();
          }
          else
          {
-            this.BOOK_DATA_READY = null;
+            this.bookInfo = null;
             this.loadExternalAssets();
          }
       }
@@ -10805,41 +10872,78 @@ package
       public function onBoLComplete(param1:Event) : void
       {
          var _loc1_:URLLoader = null;
-         var _loc2_:Object = null;
          _loc1_ = param1.target as URLLoader;
          if(_loc1_ != null)
          {
             _loc1_.removeEventListener(Event.COMPLETE,this.onBoLComplete);
             _loc1_.removeEventListener(ProgressEvent.PROGRESS,this.onBoLProgress);
          }
-         _loc2_ = JSON.parse(param1.target.data);
-         this.world.bookData = _loc2_;
-         this.BOOK_DATA_READY = _loc2_;
-         this.ui.mcPopup.mcBook.removeChildAt(0);
-         if(this.bolContent)
-         {
-            if(this.newInstance)
-            {
-               this.newInstance = false;
-               this.bolContent.gotoAndStop("NavMenu");
-            }
-            this.ui.mcPopup.mcBook.addChild(this.bolContent);
-            return;
-         }
+         this.dropBookLoader();
+         this.bookInfo = JSON.parse(param1.target.data);
+         this.showBook();
+      }
+
+      private function showBook() : void
+      {
+         this.world.bookData = this.bookInfo;
+         this.dropBook();
          this.bolLoader = new AirLoader();
          this.bolLoader.contentLoaderInfo.addEventListener(Event.INIT,this.onBoLContentComplete,false,0,true);
          this.bolLoader.load(new URLRequest(vurl(Game.serverFilePath + this.world.objInfo.sBook)),new LoaderContext(false,AirLoader.trust(new ApplicationDomain(ApplicationDomain.currentDomain))));
       }
 
+      private function dropBook() : void
+      {
+         if(this.bolContent != null && this.bolContent.parent != null)
+         {
+            this.bolContent.parent.removeChild(this.bolContent);
+         }
+         this.bolContent = null;
+         if(this.bolLoader == null)
+         {
+            return;
+         }
+         this.bolLoader.contentLoaderInfo.removeEventListener(Event.INIT,this.onBoLContentComplete);
+         try
+         {
+            this.bolLoader.close();
+         }
+         catch(errC:Error)
+         {
+         }
+         try
+         {
+            this.bolLoader.unloadAndStop();
+         }
+         catch(err:Error)
+         {
+         }
+         this.bolLoader = null;
+      }
+
       public function onBoLContentComplete(param1:Event) : void
       {
+         var _loc1_:LoaderInfo = null;
+         var _loc2_:MovieClip = null;
          trace("[Load] BoL content loaded");
-         if(this.bolLoader != null)
+         _loc1_ = param1.currentTarget as LoaderInfo;
+         _loc1_.removeEventListener(Event.INIT,this.onBoLContentComplete);
+         if(this.bolLoader == null || _loc1_.loader != this.bolLoader)
          {
-            this.bolLoader.contentLoaderInfo.removeEventListener(Event.INIT,this.onBoLContentComplete);
+            return;
          }
-         this.bolContent = param1.currentTarget.content;
-         this.ui.mcPopup.mcBook.addChild(this.bolContent);
+         _loc2_ = this.ui.mcPopup.currentLabel == "Book" ? this.ui.mcPopup.mcBook as MovieClip : null;
+         if(_loc2_ == null)
+         {
+            this.dropBook();
+            return;
+         }
+         this.bolContent = _loc1_.content as MovieClip;
+         if(_loc2_.numChildren > 0)
+         {
+            _loc2_.removeChildAt(0);
+         }
+         _loc2_.addChild(this.bolContent);
       }
 
       private function onBoLProgress(param1:ProgressEvent) : void
@@ -10849,32 +10953,30 @@ package
          this.bTotal = param1.bytesTotal;
          _loc1_ = this.bLoaded / this.bTotal * 100;
          var _loc2_:Number = this.bLoaded / this.bTotal;
-         if(this.travelLoaderMC == null)
+         if(this.bookLoaderMC == null)
          {
             return;
          }
-         this.travelLoaderMC.mcPct.text = _loc1_ + "%";
+         this.bookLoaderMC.mcPct.text = _loc1_ + "%";
          if(this.bLoaded >= this.bTotal)
          {
-            if(this.travelLoaderMC.parent != null)
-            {
-               this.travelLoaderMC.parent.removeChild(this.travelLoaderMC);
-            }
-            this.travelLoaderMC = null;
+            this.dropBookLoader();
          }
       }
 
       private function onBoLError(param1:IOErrorEvent) : void
       {
          trace("[Load] ERR BoL load failed: " + param1.text);
-         if(this.travelLoaderMC)
+         this.dropBookLoader();
+      }
+
+      private function dropBookLoader() : void
+      {
+         if(this.bookLoaderMC != null && this.bookLoaderMC.parent != null)
          {
-            if(this.travelLoaderMC.parent != null)
-            {
-               this.travelLoaderMC.parent.removeChild(this.travelLoaderMC);
-            }
-            this.travelLoaderMC = null;
+            this.bookLoaderMC.parent.removeChild(this.bookLoaderMC);
          }
+         this.bookLoaderMC = null;
       }
 
       public function serialCmdInit(param1:String) : void
@@ -11253,8 +11355,13 @@ package
             "sDesc":"This will allow you to monitor your damage dealt, gold earned, and many more!"
          },{
             "strName":VolumePanel.touchLabel(),
-            "extra":"btn",
-            "sDesc":"Click to cycle Auto, On and Off.\nAuto enables mobile controls on the mobile app only; On enables them on any platform."
+            "btn":true,
+            "sDesc":"Click to cycle Auto, On and Off.\nAuto enables mobile controls on the mobile app only; On enables them on any platform.",
+            "extra":[{
+               "strName":"Hide Mobile Menu Tab",
+               "bEnabled":this.litePreference.data.dOptions["bTabHidden"],
+               "sDesc":"Hides the mobile controls\' pull tab and its Joy, Skills, Move, Reset, Mouse and Hide buttons.\nWhatever you left turned on (joystick, skills, mouse) stays on screen. Uncheck this to bring the tab back and change them."
+            }]
          },{
             "strName":"Gamepad Controls",
             "extra":"btn",
@@ -12663,6 +12770,133 @@ package
          return _loc1_;
       }
 
+      public function onDevServer() : Boolean
+      {
+         var _loc1_:String = null;
+         _loc1_ = this.objServerInfo != null && this.objServerInfo.sName != null ? String(this.objServerInfo.sName) : "";
+         return _loc1_.indexOf("Dev") >= 0 || _loc1_.indexOf("ServerTest") >= 0;
+      }
+
+      public function mergeProcs(param1:Object) : void
+      {
+         var _loc1_:String = null;
+         for(var _loc2_ in param1)
+         {
+            _loc1_ = _loc2_;
+            _loc2_;
+            this.procInfo[_loc1_] = param1[_loc1_];
+         }
+      }
+
+      public function procTipText(param1:int) : String
+      {
+         var _loc1_:Object = null;
+         var _loc2_:String = null;
+         var _loc3_:Number = NaN;
+         _loc1_ = this.procInfo[String(param1)];
+         if(_loc1_ == null)
+         {
+            return "<b>No skill info for this trait.</b>";
+         }
+         _loc2_ = "<b>" + _loc1_.nam + "</b>\n";
+         _loc3_ = Number(_loc1_.pct);
+         if(_loc3_ > 0)
+         {
+            _loc2_ = _loc2_ + ("<font color=\'#007A00\'>" + Math.round(_loc3_ * 10) / 10 + "% chance" + (PROC_SLOTS[_loc1_.ref] != null ? " on " + PROC_SLOTS[_loc1_.ref] : "") + "</font>\n");
+         }
+         return _loc2_ + this.skillTipBody(_loc1_);
+      }
+
+      public function skillTipBody(param1:Object) : String
+      {
+         var _loc1_:String = null;
+         _loc1_ = "";
+         if(param1.desc != null)
+         {
+            param1.desc = String(param1.desc).replace(this.regExLineSpace,"\n");
+         }
+         if(param1.typ != "passive")
+         {
+            if(param1.mp > 0)
+            {
+               _loc1_ = _loc1_ + ("<font color=\'#0033AA\'>" + param1.mp + "</font> mana, ");
+            }
+            _loc1_ = _loc1_ + ("<font color=\'#AA3300\'>" + param1.cd / 1000 + "</font> sec cooldown" + "\n");
+         }
+         switch(param1.typ)
+         {
+            case "p":
+            case "ph":
+            case "aa":
+               _loc1_ = _loc1_ + "Physical";
+               break;
+            case "m":
+               _loc1_ = _loc1_ + "Magical";
+               break;
+            case "ma":
+               _loc1_ = _loc1_ + "True Damage";
+               break;
+            case "pm":
+            case "mp":
+               _loc1_ = _loc1_ + "Hybrid";
+               break;
+            case "passive":
+               _loc1_ = _loc1_ + "<font color=\'#0033AA\'>Passive Ability</font>";
+         }
+         _loc1_ = _loc1_ + "\n";
+         if(param1.typ != "passive")
+         {
+            if(param1.range <= 301)
+            {
+               _loc1_ = _loc1_ + "A <font color=\'#AA3300\'>short range</font> ";
+            }
+            else if(param1.range >= 3000)
+            {
+               _loc1_ = _loc1_ + "An <font color=\'#0033AA\'>infinite range</font> ";
+            }
+            else if(param1.range >= 808)
+            {
+               _loc1_ = _loc1_ + "A <font color=\'#0033AA\'>long range</font> ";
+            }
+            else
+            {
+               _loc1_ = _loc1_ + "A <font color=\'#AA3300\'>medium range</font> ";
+            }
+            if(!param1.damage)
+            {
+               _loc1_ = _loc1_ + "status skill that applies to ";
+            }
+            else
+            {
+               _loc1_ = _loc1_ + ((param1.damage < 0 ? "skill" : "attack") + " that " + (param1.damage < 0 ? "heals " : "deals damage to "));
+            }
+            if(param1.tgt == "f")
+            {
+               _loc1_ = _loc1_ + ("<font color=\'#0033AA\'>" + (param1.tgtMax || 1));
+               _loc1_ = _loc1_ + (param1.tgtMax > 1 ? " friendly targets.</font>" : " target.</font>");
+            }
+            else if(param1.tgt == "s")
+            {
+               _loc1_ = _loc1_ + "<font color=\'#0033AA\'>yourself.</font>";
+            }
+            else
+            {
+               _loc1_ = _loc1_ + ("<font color=\'#AA3300\'>" + (param1.tgtMax || 1));
+               _loc1_ = _loc1_ + (param1.tgtMax > 1 ? " hostile targets.</font>" : " target.</font>");
+            }
+            _loc1_ = _loc1_ + "\n\n";
+         }
+         if(param1.sArg2 != null && param1.sArg2 != "")
+         {
+            _loc1_ = _loc1_ + param1.sArg2;
+         }
+         else if(param1.desc != null)
+         {
+            _loc1_ = _loc1_ + param1.desc;
+         }
+         return _loc1_;
+      }
+
       public function actIconOver(param1:MouseEvent) : *
       {
          var _loc1_:MovieClip = null;
@@ -12676,91 +12910,12 @@ package
                _loc2_ = _loc1_.actObj;
                if(_loc2_ != null)
                {
-                  _loc2_.desc = _loc2_.desc.replace(this.regExLineSpace,"\n");
                   _loc3_ = "<b>" + _loc2_.nam + "</b>\n";
                   if(!_loc2_.isOK)
                   {
                      _loc3_ = _loc3_ + ("<font color=\'#FF0000\'>Unlocks at Rank " + String(this.determineIndex(_loc1_.actionIndex)) + "!</font>\n");
                   }
-                  if(_loc2_.typ != "passive")
-                  {
-                     if(_loc2_.mp > 0)
-                     {
-                        _loc3_ = _loc3_ + ("<font color=\'#0033AA\'>" + _loc2_.mp + "</font> mana, ");
-                     }
-                     _loc3_ = _loc3_ + ("<font color=\'#AA3300\'>" + _loc2_.cd / 1000 + "</font> sec cooldown" + "\n");
-                  }
-                  switch(_loc2_.typ)
-                  {
-                     case "p":
-                     case "ph":
-                     case "aa":
-                        _loc3_ = _loc3_ + "Physical";
-                        break;
-                     case "m":
-                        _loc3_ = _loc3_ + "Magical";
-                        break;
-                     case "ma":
-                        _loc3_ = _loc3_ + "True Damage";
-                        break;
-                     case "pm":
-                     case "mp":
-                        _loc3_ = _loc3_ + "Hybrid";
-                        break;
-                     case "passive":
-                        _loc3_ = _loc3_ + "<font color=\'#0033AA\'>Passive Ability</font>";
-                  }
-                  _loc3_ = _loc3_ + "\n";
-                  if(_loc2_.typ != "passive")
-                  {
-                     if(_loc2_.range <= 301)
-                     {
-                        _loc3_ = _loc3_ + "A <font color=\'#AA3300\'>short range</font> ";
-                     }
-                     else if(_loc2_.range >= 3000)
-                     {
-                        _loc3_ = _loc3_ + "An <font color=\'#0033AA\'>infinite range</font> ";
-                     }
-                     else if(_loc2_.range >= 808)
-                     {
-                        _loc3_ = _loc3_ + "A <font color=\'#0033AA\'>long range</font> ";
-                     }
-                     else
-                     {
-                        _loc3_ = _loc3_ + "A <font color=\'#AA3300\'>medium range</font> ";
-                     }
-                     if(!_loc2_.damage)
-                     {
-                        _loc3_ = _loc3_ + "status skill that applies to ";
-                     }
-                     else
-                     {
-                        _loc3_ = _loc3_ + ((_loc2_.damage < 0 ? "skill" : "attack") + " that " + (_loc2_.damage < 0 ? "heals " : "deals damage to "));
-                     }
-                     if(_loc2_.tgt == "f")
-                     {
-                        _loc3_ = _loc3_ + ("<font color=\'#0033AA\'>" + (_loc2_.tgtMax || 1));
-                        _loc3_ = _loc3_ + (_loc2_.tgtMax > 1 ? " friendly targets.</font>" : " target.</font>");
-                     }
-                     else if(_loc2_.tgt == "s")
-                     {
-                        _loc3_ = _loc3_ + "<font color=\'#0033AA\'>yourself.</font>";
-                     }
-                     else
-                     {
-                        _loc3_ = _loc3_ + ("<font color=\'#AA3300\'>" + (_loc2_.tgtMax || 1));
-                        _loc3_ = _loc3_ + (_loc2_.tgtMax > 1 ? " hostile targets.</font>" : " target.</font>");
-                     }
-                     _loc3_ = _loc3_ + "\n\n";
-                  }
-                  if(_loc2_.sArg2 != "")
-                  {
-                     _loc3_ = _loc3_ + _loc2_.sArg2;
-                  }
-                  else
-                  {
-                     _loc3_ = _loc3_ + _loc2_.desc;
-                  }
+                  _loc3_ = _loc3_ + this.skillTipBody(_loc2_);
                   this.ui.ToolTip.openWith({
                      "str":_loc3_,
                      "lowerright":true
@@ -13762,6 +13917,9 @@ package
          var _loc1_:MovieClip = null;
          var _loc2_:String = null;
          var _loc3_:Object = null;
+         var _loc4_:MovieClip = null;
+         var _loc5_:* = undefined;
+         var _loc6_:Dictionary = null;
          if(currentLabel == "Select")
          {
             this.mcCharSelect.mcSetColor(param1,param2,param3);
@@ -13770,9 +13928,16 @@ package
          if(this._colorCache[param1] != null)
          {
             _loc3_ = this._colorCache[param1];
-            if(_loc3_.avatarMC != null && _loc3_.avatarMC.pAV != undefined && param1.parent != null)
+            _loc4_ = null;
+            for(var _loc7_ in _loc3_.avatar)
             {
-               _loc3_.avatarMC.pAV.pMC.setColor(param1,_loc3_.typ,param2,param3);
+               _loc5_ = _loc7_;
+               _loc7_;
+               _loc4_ = _loc5_ as MovieClip;
+            }
+            if(_loc4_ != null && _loc4_.pAV != undefined && param1.parent != null)
+            {
+               _loc4_.pAV.pMC.setColor(param1,_loc3_.typ,param2,param3);
                return;
             }
             delete this._colorCache[param1];
@@ -13809,8 +13974,10 @@ package
          }
          if(_loc2_ != "none")
          {
+            _loc6_ = new Dictionary(true);
+            _loc6_[_loc1_] = true;
             this._colorCache[param1] = {
-               "avatarMC":_loc1_,
+               "avatar":_loc6_,
                "typ":_loc2_
             };
             if(_loc1_.pAV == undefined)

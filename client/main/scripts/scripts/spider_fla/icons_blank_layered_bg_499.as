@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2592")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2578")]
    public dynamic class icons_blank_layered_bg_499 extends MovieClip
    {
 

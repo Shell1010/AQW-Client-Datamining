@@ -5,7 +5,7 @@ package org.sepy.ColorPicker
    import flash.filters.*;
    import flash.geom.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2689")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2675")]
    public class ColorMap extends MovieClip
    {
 

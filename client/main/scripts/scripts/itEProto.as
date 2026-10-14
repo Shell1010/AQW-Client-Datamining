@@ -3,7 +3,7 @@ package
    import flash.display.MovieClip;
    import flash.text.TextField;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2802")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2789")]
    public dynamic class itEProto extends MovieClip
    {
 

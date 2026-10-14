@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3502")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3488")]
    public dynamic class avoidDisplay extends MovieClip
    {
 

@@ -3,7 +3,7 @@ package liteAssets.draw
    import flash.display.MovieClip;
    import flash.text.TextField;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2261")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2249")]
    public dynamic class draggableDrops extends MovieClip
    {
 

@@ -5,7 +5,7 @@ package
    import flash.geom.Rectangle;
    import flash.text.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol1930")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1919")]
    public class LPFFrameListViewTabbed extends LPFFrame
    {
 

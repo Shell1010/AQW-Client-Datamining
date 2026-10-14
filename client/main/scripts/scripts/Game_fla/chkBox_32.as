@@ -2,7 +2,7 @@ package Game_fla
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2475")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2461")]
    public dynamic class chkBox_32 extends MovieClip
    {
 

@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol69")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol68")]
    public dynamic class CellRenderer_selectedDisabledSkin extends MovieClip
    {
 

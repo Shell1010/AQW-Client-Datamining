@@ -3,7 +3,7 @@ package
    import flash.display.MovieClip;
    import flash.text.TextField;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol944")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol936")]
    public dynamic class mcGuildListItem extends MovieClip
    {
 

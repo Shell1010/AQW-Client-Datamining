@@ -7,7 +7,7 @@ package
    import flash.text.*;
    import liteAssets.draw.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2123")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2112")]
    public class BankPreview extends MovieClip
    {
 

@@ -819,6 +819,8 @@ package
 
       private var cellWatchTicks:int = 0;
 
+      private var cellWatchSettle:int = 0;
+
       private var cellSetupStamp:String = null;
 
       private var propWireTicks:int = -1;
@@ -2567,6 +2569,7 @@ package
       {
          this.cellWatchFrame = param1;
          this.cellWatchTicks = 45;
+         this.cellWatchSettle = 0;
          removeEventListener(Event.ENTER_FRAME,this.cellArrivalWatch);
          addEventListener(Event.ENTER_FRAME,this.cellArrivalWatch,false,0,true);
       }
@@ -2584,6 +2587,10 @@ package
          }
          if(this.map.currentLabel == this.cellWatchFrame && !this.map.isPlaying)
          {
+            if(this.cellSetupStamp != this.cellWatchFrame && ++this.cellWatchSettle < 4 && this.cellWatchTicks-- > 0)
+            {
+               return;
+            }
             removeEventListener(Event.ENTER_FRAME,this.cellArrivalWatch);
             strA = this.cellWatchFrame;
             this.cellWatchFrame = null;
@@ -10329,6 +10336,7 @@ package
          var ai:* = undefined;
          var actObj:* = undefined;
          var icon1:* = undefined;
+         var mineMoving:Boolean = false;
          var sCatR:String = null;
          var filterIndex:int = 0;
          var resObj:Object = param1;
@@ -10530,9 +10538,14 @@ package
                                  case "stone":
                                     try
                                     {
+                                       mineMoving = tMC.pAV != null && Boolean(tMC.pAV.isMyAvatar) && ("walking" in tMC && Boolean(tMC.walking) || "steering" in tMC && Boolean(tMC.steering));
                                        if("stopWalking" in tMC && tMC.stopWalking is Function)
                                        {
                                           tMC.stopWalking();
+                                       }
+                                       if(mineMoving)
+                                       {
+                                          this.steerSend(int(tMC.x),int(tMC.y));
                                        }
                                     }
                                     catch(eSW:Error)

@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2351")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2338")]
    public dynamic class SliderTrack_disabledSkin extends MovieClip
    {
 

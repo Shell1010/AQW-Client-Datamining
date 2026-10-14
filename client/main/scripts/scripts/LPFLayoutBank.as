@@ -256,7 +256,7 @@ package
             "mc":{}
          },{
             "sTag":"Show only armor",
-            "icon":"iiclass",
+            "icon":"iwarmor",
             "state":-1,
             "filter":"ar",
             "mc":{}

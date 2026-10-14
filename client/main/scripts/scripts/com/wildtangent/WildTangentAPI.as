@@ -9,7 +9,7 @@ package com.wildtangent
    import flash.system.LoaderContext;
    import flash.system.SecurityDomain;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2894")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2880")]
    public class WildTangentAPI extends Sprite
    {
 

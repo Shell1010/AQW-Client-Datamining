@@ -2,7 +2,7 @@ package org.sepy.ColorPicker
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2698")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2684")]
    public class FaceColor extends MovieClip
    {
 

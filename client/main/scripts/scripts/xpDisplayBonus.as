@@ -16,7 +16,7 @@ package
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2318")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2305")]
    public dynamic class xpDisplayBonus extends MovieClip
    {
 

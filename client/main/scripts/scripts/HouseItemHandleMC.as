@@ -16,7 +16,7 @@ package
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2630")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2616")]
    public dynamic class HouseItemHandleMC extends MovieClip
    {
 

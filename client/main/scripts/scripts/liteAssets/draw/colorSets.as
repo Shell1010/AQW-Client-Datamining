@@ -10,7 +10,7 @@ package liteAssets.draw
    import flash.text.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2294")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2282")]
    public class colorSets extends MovieClip
    {
 

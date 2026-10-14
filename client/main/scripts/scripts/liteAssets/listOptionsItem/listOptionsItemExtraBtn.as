@@ -8,7 +8,7 @@ package liteAssets.listOptionsItem
    import liteAssets.handlers.*;
    import liteAssets.mobile.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2165")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2154")]
    public class listOptionsItemExtraBtn extends MovieClip
    {
 

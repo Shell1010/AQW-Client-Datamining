@@ -2,13 +2,17 @@ package
 {
    import flash.display.*;
    import flash.events.*;
+   import flash.geom.*;
    import flash.text.*;
-   import liteAssets.draw.*;
    import liteAssets.mobile.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol1906")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1895")]
    public class LPFFrameSimpleList extends LPFFrame
    {
+
+      private static const SB_W:int = 5;
+
+      private static const PAD:int = 8;
 
       public var bg:MovieClip;
 
@@ -16,27 +20,43 @@ package
 
       public var ti:TextField;
 
+      private var plate:MovieClip;
+
       private var rootClass:MovieClip;
 
       private var r:Object;
 
-      internal var maskMC:Shape;
+      private var footMsg:String = "";
+
+      private var listBaseY:Number = 0;
+
+      private var bgBaseY:Number = 0;
+
+      private var maskMC:Shape;
+
+      private var sbTrack:Sprite;
+
+      private var sbThumb:Sprite;
 
       private var touchScroll:TouchScroll;
 
-      internal var scrollMC:mergeScroll;
+      private var wheelStage:Stage;
 
-      internal var mDown:Boolean = false;
+      private var dragStage:Stage;
 
-      internal var hRun:int = 0;
+      private var scrollY:Number = 0;
 
-      internal var dRun:int = 0;
+      private var maxScroll:Number = 0;
 
-      internal var mbY:int = 0;
+      private var viewH:int = 0;
 
-      internal var mhY:int = 0;
+      private var thumbH:int = 0;
 
-      internal var mbD:int = 0;
+      private var dragOff:Number = 0;
+
+      private var closed:Boolean = false;
+
+      private var lastData:Object;
 
       public function LPFFrameSimpleList()
       {
@@ -55,6 +75,14 @@ package
          }
          this.r = param1.r;
          w = int(this.r.w);
+         this.listBaseY = this.iList.y;
+         this.bgBaseY = this.bg.y;
+         if(this.r.vCenter)
+         {
+            this.plate = new LPFFrameBackdrop();
+            this.plate.visible = false;
+            addChildAt(this.plate,0);
+         }
          this.ti.autoSize = "left";
          if("eventTypes" in param1)
          {
@@ -62,16 +90,27 @@ package
          }
          if("msg" in fData && fData.msg.length > 0)
          {
-            this.ti.htmlText = fData.msg;
+            this.footMsg = fData.msg;
          }
          this.fDraw();
          positionBy(this.r);
+         this.wheelStage = stage;
+         if(this.wheelStage != null)
+         {
+            this.wheelStage.addEventListener(MouseEvent.MOUSE_WHEEL,this.onStageWheel,true,0,true);
+         }
          getLayout().registerForEvents(this,eventTypes);
       }
 
       override public function fClose() : void
       {
-         this.detachTouch();
+         this.closed = true;
+         this.clearScroll();
+         if(this.wheelStage != null)
+         {
+            this.wheelStage.removeEventListener(MouseEvent.MOUSE_WHEEL,this.onStageWheel,true);
+         }
+         this.wheelStage = null;
          fData = null;
          getLayout().unregisterFrame(this);
          if(parent != null)
@@ -82,107 +121,291 @@ package
 
       private function fDraw() : void
       {
-         var _loc1_:LPFElementSimpleItem = null;
-         var _loc2_:DisplayObject = null;
-         var _loc3_:DisplayObject = null;
+         var _loc1_:Array = null;
+         var _loc2_:int = 0;
+         var _loc3_:int = 0;
          var _loc4_:Array = null;
-         var _loc5_:Object = null;
-         var _loc6_:int = 0;
+         var _loc5_:int = 0;
+         var _loc6_:Boolean = false;
+         var _loc7_:int = 0;
+         var _loc8_:int = 0;
+         var _loc9_:int = 0;
+         var _loc10_:int = 0;
+         var _loc11_:Number = fData != null && fData === this.lastData ? Number(this.scrollY) : 0;
+         this.lastData = fData;
          while(this.iList.numChildren > 0)
          {
             this.iList.removeChildAt(0);
          }
-         if(this.scrollMC)
-         {
-            this.scrollMC.visible = false;
-            this.scrollMC.h.y = 0;
-            this.iList.y = 0;
-            this.bg.height = this.iList.height + 1;
-            this.ti.y = this.bg.height + 2;
-            this.scrollMC.hit.removeEventListener(MouseEvent.MOUSE_DOWN,this.merge_scrDown);
-            this.scrollMC.h.removeEventListener(Event.ENTER_FRAME,this.merge_hEF);
-            this.iList.removeEventListener(Event.ENTER_FRAME,this.merge_dEF);
-            removeEventListener(MouseEvent.MOUSE_WHEEL,this.onMergeBoxScroll);
-            this.detachTouch();
-            removeChild(this.scrollMC);
-            removeChild(this.maskMC);
-            this.scrollMC = null;
-            this.maskMC = null;
-            this.iList.mask = null;
-         }
+         this.clearScroll();
          if(fData != null && fData.turnin != null)
          {
-            _loc4_ = InvCat.isToken(fData) ? fData.turnin.concat([{
+            _loc1_ = InvCat.isToken(fData) ? fData.turnin.concat([{
                "ItemID":int(fData.TokID),
                "sName":InvCat.tokenName(fData,this.rootClass.world),
                "iQty":int(fData.TokQty)
             }]) : fData.turnin;
-            _loc6_ = 0;
-            while(_loc6_ < _loc4_.length)
+            _loc2_ = int(this.capHeight());
+            _loc3_ = int(this.iList.x) * 2;
+            _loc4_ = this.buildRows(_loc1_,int(w) - _loc3_);
+            _loc5_ = int(_loc4_[_loc4_.length - 1]);
+            _loc6_ = _loc2_ > 0 && _loc5_ + this.listBaseY * 2 > _loc2_;
+            if(_loc6_)
             {
-               _loc5_ = _loc4_[_loc6_];
-               _loc1_ = new LPFElementSimpleItem();
-               _loc2_ = this.iList.addChild(_loc1_);
-               _loc1_.fOpen({"fData":_loc5_});
-               if(_loc6_ > 0)
+               _loc4_ = this.buildRows(_loc1_,int(w) - _loc3_ - SB_W - 3);
+               _loc5_ = int(_loc4_[_loc4_.length - 1]);
+            }
+            _loc7_ = _loc2_;
+            if(_loc6_)
+            {
+               _loc9_ = int(_loc4_[1]);
+               for each(_loc10_ in _loc4_)
                {
-                  _loc3_ = this.iList.getChildAt(_loc6_ - 1);
-                  _loc2_.y = _loc3_.y + _loc3_.height;
+                  if(_loc10_ + this.listBaseY * 2 <= _loc7_)
+                  {
+                     _loc9_ = _loc10_;
+                  }
                }
-               _loc2_.x = int(w / 2 - _loc2_.width / 2);
-               _loc6_++;
+               _loc7_ = _loc9_ + int(this.listBaseY * 2);
             }
-            this.bg.height = int(this.iList.height + this.iList.y * 2) + 1;
+            this.bg.visible = false;
             this.bg.width = int(w);
+            this.bg.height = _loc6_ ? _loc7_ : int(_loc5_ + this.listBaseY * 2) + 1;
+            _loc8_ = int(this.centerOffset(_loc6_ ? 0 : int(int(this.bg.height) + PAD * 2)));
+            this.iList.y = this.listBaseY + _loc8_;
+            this.bg.y = this.bgBaseY + _loc8_;
+            this.placePlate(this.bg.y,this.bg.height);
             this.ti.width = int(w - 2);
-            if(this.ti.htmlText.length > 0)
-            {
-               this.ti.y = this.bg.height + 2;
-               this.ti.visible = true;
-            }
-            else
-            {
-               this.ti.visible = false;
-            }
+            this.ti.htmlText = this.footMsg;
+            this.ti.visible = this.ti.htmlText.length > 0;
+            this.ti.y = this.bg.height + 2;
             visible = true;
-            if(_loc4_.length >= 5)
+            if(_loc6_)
             {
-               this.bg.height = 166;
-               this.maskMC = new Shape();
-               this.maskMC.graphics.beginFill(0);
-               this.maskMC.graphics.drawRect(0,0,this.bg.width,this.bg.height);
-               this.maskMC.graphics.endFill();
-               addChild(this.maskMC);
-               this.maskMC.name = "maskMC";
-               this.maskMC.x = this.bg.x;
-               this.maskMC.y = this.bg.y;
-               this.iList.mask = this.maskMC;
-               this.scrollMC = new mergeScroll();
-               addChild(this.scrollMC);
-               this.scrollMC.name = "scrollMC";
-               this.scrollMC.x = this.bg.x + this.bg.width - this.scrollMC.width / 2;
-               this.scrollMC.y = this.bg.y + 5;
-               this.scrollMC.height = this.bg.height - 10;
-               this.scrollMC.h.height /= 2;
-               this.hRun = this.scrollMC.b.height - this.scrollMC.h.height;
-               this.dRun = int(this.iList.height + this.iList.y * 2) + 1 - this.maskMC.height + 5;
-               this.scrollMC.h.y = 0;
-               this.iList.y = 0;
-               this.iList.oy = this.iList.y;
-               this.scrollMC.hit.alpha = 0;
-               this.mDown = false;
-               this.scrollMC.hit.addEventListener(MouseEvent.MOUSE_DOWN,this.merge_scrDown,false,0,true);
-               this.scrollMC.h.addEventListener(Event.ENTER_FRAME,this.merge_hEF,false,0,true);
-               this.iList.addEventListener(Event.ENTER_FRAME,this.merge_dEF,false,0,true);
-               this.ti.y = this.bg.height + 2;
-               addEventListener(MouseEvent.MOUSE_WHEEL,this.onMergeBoxScroll,false,0,true);
-               this.touchScroll = TouchScroll.attach(MovieClip(getChildByName("iList")),this.touchGetPos,this.touchSetPos,this.touchGetMax);
+               this.buildScroll(_loc5_);
+               this.setScroll(_loc11_);
             }
+         }
+         else if(this.r != null && "emptyMsg" in this.r)
+         {
+            this.bg.visible = false;
+            this.ti.width = int(w - 2);
+            this.ti.htmlText = this.r.emptyMsg;
+            this.ti.y = PAD + this.centerOffset(int(this.ti.height) + PAD * 2);
+            this.placePlate(this.ti.y - 4,this.ti.height + 8);
+            this.ti.visible = true;
+            visible = true;
          }
          else
          {
             visible = false;
          }
+      }
+
+      private function placePlate(param1:Number, param2:Number) : void
+      {
+         if(this.plate == null)
+         {
+            return;
+         }
+         this.plate.bg.width = int(w);
+         this.plate.bg.height = int(param2 + PAD * 2);
+         this.plate.x = 0;
+         this.plate.y = int(param1 - PAD);
+         this.plate.visible = true;
+      }
+
+      private function buildRows(param1:Array, param2:int) : Array
+      {
+         var _loc1_:int = 0;
+         var _loc2_:LPFElementSimpleItem = null;
+         while(this.iList.numChildren > 0)
+         {
+            this.iList.removeChildAt(0);
+         }
+         var _loc3_:Array = [0];
+         _loc1_ = 0;
+         var _loc4_:int = 0;
+         while(_loc4_ < param1.length)
+         {
+            _loc2_ = new LPFElementSimpleItem();
+            _loc2_.rowW = param2;
+            _loc2_.stripe = _loc4_ % 2 == 1;
+            this.iList.addChild(_loc2_);
+            _loc2_.fOpen({"fData":param1[_loc4_]});
+            _loc2_.x = 0;
+            _loc2_.y = _loc1_;
+            _loc1_ += _loc2_.rowHeight;
+            _loc3_.push(_loc1_);
+            _loc4_++;
+         }
+         return _loc3_;
+      }
+
+      private function centerOffset(param1:int) : int
+      {
+         if(param1 <= 0 || this.r == null || !this.r.vCenter || !("maxH" in this.r))
+         {
+            return 0;
+         }
+         var _loc1_:int = int(this.capHeight());
+         return Math.max(0,Math.floor((_loc1_ - param1) / 2));
+      }
+
+      private function capHeight() : int
+      {
+         return this.r != null && "maxH" in this.r ? int(this.r.maxH) : 0;
+      }
+
+      private function buildScroll(param1:int) : void
+      {
+         this.viewH = int(this.bg.height);
+         this.maxScroll = Math.max(0,param1 + this.listBaseY * 2 - this.viewH);
+         this.maskMC = new Shape();
+         this.maskMC.graphics.beginFill(0);
+         this.maskMC.graphics.drawRect(0,0,this.bg.width,this.viewH);
+         this.maskMC.graphics.endFill();
+         this.maskMC.x = this.bg.x;
+         this.maskMC.y = this.bg.y;
+         addChild(this.maskMC);
+         this.iList.mask = this.maskMC;
+         this.sbTrack = new Sprite();
+         this.sbTrack.x = this.bg.x + this.bg.width - SB_W - 2;
+         this.sbTrack.y = this.bg.y + 2;
+         var _loc1_:Graphics = this.sbTrack.graphics;
+         _loc1_.beginFill(0,0.35);
+         _loc1_.drawRoundRect(0,0,SB_W,this.viewH - 4,SB_W,SB_W);
+         _loc1_.endFill();
+         this.sbThumb = new Sprite();
+         this.sbThumb.buttonMode = true;
+         this.sbTrack.addChild(this.sbThumb);
+         addChild(this.sbTrack);
+         var _loc2_:int = this.viewH - 4;
+         this.thumbH = Math.max(24,Math.min(_loc2_,int(_loc2_ * this.viewH / (param1 + this.listBaseY * 2))));
+         var _loc3_:Matrix = new Matrix();
+         _loc3_.createGradientBox(SB_W,this.thumbH,0,0,0);
+         _loc1_ = this.sbThumb.graphics;
+         _loc1_.lineStyle(1,13145646,1,true);
+         _loc1_.beginGradientFill(GradientType.LINEAR,[8912896,14155776,8912896],[1,1,1],[0,127,255],_loc3_);
+         _loc1_.drawRoundRect(0,0,SB_W,this.thumbH,SB_W,SB_W);
+         _loc1_.endFill();
+         this.sbTrack.addEventListener(MouseEvent.MOUSE_DOWN,this.onTrackDown,false,0,true);
+         this.touchScroll = TouchScroll.attach(this.iList,this.touchGetPos,this.setScroll,this.touchGetMax);
+         this.setScroll(0);
+      }
+
+      private function clearScroll() : void
+      {
+         this.endDrag();
+         if(this.touchScroll != null)
+         {
+            this.touchScroll.detach();
+            this.touchScroll = null;
+         }
+         if(this.sbTrack != null)
+         {
+            this.sbTrack.removeEventListener(MouseEvent.MOUSE_DOWN,this.onTrackDown);
+            if(this.sbTrack.parent != null)
+            {
+               this.sbTrack.parent.removeChild(this.sbTrack);
+            }
+         }
+         if(this.maskMC != null && this.maskMC.parent != null)
+         {
+            this.maskMC.parent.removeChild(this.maskMC);
+         }
+         this.iList.mask = null;
+         this.sbTrack = null;
+         this.sbThumb = null;
+         this.maskMC = null;
+         this.scrollY = 0;
+         this.maxScroll = 0;
+         this.iList.y = this.listBaseY;
+      }
+
+      private function setScroll(param1:Number) : void
+      {
+         this.scrollY = Math.max(0,Math.min(this.maxScroll,param1));
+         this.iList.y = Math.round(this.listBaseY - this.scrollY);
+         if(this.sbThumb != null)
+         {
+            this.sbThumb.y = this.maxScroll > 0 ? Math.round((this.viewH - 4 - this.thumbH) * this.scrollY / this.maxScroll) : 0;
+         }
+      }
+
+      private function touchGetPos() : Number
+      {
+         return this.scrollY;
+      }
+
+      private function touchGetMax() : Number
+      {
+         return this.maxScroll;
+      }
+
+      private function onStageWheel(param1:MouseEvent) : void
+      {
+         if(Boolean(this.closed) || this.maskMC == null || !visible || stage == null)
+         {
+            return;
+         }
+         if(!this.maskMC.hitTestPoint(param1.stageX,param1.stageY,true))
+         {
+            return;
+         }
+         this.setScroll(this.scrollY - param1.delta * 12);
+      }
+
+      private function onTrackDown(param1:MouseEvent) : void
+      {
+         if(this.sbThumb == null)
+         {
+            return;
+         }
+         if(param1.target == this.sbThumb)
+         {
+            this.dragOff = this.sbTrack.mouseY - this.sbThumb.y;
+            this.dragStage = stage;
+            if(this.dragStage != null)
+            {
+               this.dragStage.addEventListener(MouseEvent.MOUSE_MOVE,this.onDragMove,false,0,true);
+               this.dragStage.addEventListener(MouseEvent.MOUSE_UP,this.onDragUp,false,0,true);
+            }
+         }
+         else
+         {
+            this.setScroll(this.scrollY + (this.sbTrack.mouseY < this.sbThumb.y ? -this.viewH : this.viewH));
+         }
+      }
+
+      private function onDragMove(param1:MouseEvent) : void
+      {
+         if(this.sbTrack == null)
+         {
+            return;
+         }
+         var _loc1_:Number = this.viewH - 4 - this.thumbH;
+         if(_loc1_ <= 0)
+         {
+            return;
+         }
+         this.setScroll((this.sbTrack.mouseY - this.dragOff) / _loc1_ * this.maxScroll);
+      }
+
+      private function onDragUp(param1:MouseEvent) : void
+      {
+         this.endDrag();
+      }
+
+      private function endDrag() : void
+      {
+         if(this.dragStage == null)
+         {
+            return;
+         }
+         this.dragStage.removeEventListener(MouseEvent.MOUSE_MOVE,this.onDragMove);
+         this.dragStage.removeEventListener(MouseEvent.MOUSE_UP,this.onDragUp);
+         this.dragStage = null;
       }
 
       override public function notify(param1:Object) : void
@@ -206,110 +429,6 @@ package
          {
             this.fDraw();
             positionBy(this.r);
-         }
-      }
-
-      private function merge_scrDown(param1:MouseEvent) : *
-      {
-         this.mbY = int(param1.currentTarget.parent.mouseY);
-         this.mhY = int(MovieClip(param1.currentTarget.parent).h.y);
-         this.mDown = true;
-         this.rootClass.stage.addEventListener(MouseEvent.MOUSE_UP,this.merge_scrUp,false,0,true);
-      }
-
-      private function merge_scrUp(param1:MouseEvent) : *
-      {
-         this.mDown = false;
-         this.rootClass.stage.removeEventListener(MouseEvent.MOUSE_UP,this.merge_scrUp);
-      }
-
-      private function merge_hEF(param1:Event) : *
-      {
-         var _loc1_:* = undefined;
-         if(this.mDown)
-         {
-            _loc1_ = MovieClip(param1.currentTarget.parent);
-            this.mbD = int(param1.currentTarget.parent.mouseY) - this.mbY;
-            _loc1_.h.y = this.mhY + this.mbD;
-            if(_loc1_.h.y + _loc1_.h.height > _loc1_.b.height)
-            {
-               _loc1_.h.y = int(_loc1_.b.height - _loc1_.h.height);
-            }
-            if(_loc1_.h.y < 0)
-            {
-               _loc1_.h.y = 0;
-            }
-         }
-      }
-
-      private function merge_dEF(param1:Event) : *
-      {
-         var _loc1_:* = MovieClip(param1.currentTarget.parent).getChildByName("scrollMC");
-         var _loc2_:* = MovieClip(param1.currentTarget);
-         var _loc3_:* = -_loc1_.h.y / this.hRun;
-         var _loc4_:* = int(_loc3_ * this.dRun) + _loc2_.oy;
-         if(Math.abs(_loc4_ - _loc2_.y) > 0.2)
-         {
-            _loc2_.y += (_loc4_ - _loc2_.y) / 4;
-         }
-         else
-         {
-            _loc2_.y = _loc4_;
-         }
-      }
-
-      private function detachTouch() : void
-      {
-         if(this.touchScroll != null)
-         {
-            this.touchScroll.detach();
-            this.touchScroll = null;
-         }
-      }
-
-      private function touchGetPos() : Number
-      {
-         if(this.scrollMC == null || this.dRun <= 0 || this.hRun <= 0)
-         {
-            return 0;
-         }
-         return MovieClip(this.scrollMC).h.y / this.hRun * this.dRun;
-      }
-
-      private function touchSetPos(param1:Number) : void
-      {
-         if(this.scrollMC == null || this.dRun <= 0)
-         {
-            return;
-         }
-         var _loc1_:MovieClip = MovieClip(this.scrollMC);
-         _loc1_.h.y = int(param1 / this.dRun * this.hRun);
-         if(_loc1_.h.y + _loc1_.h.height > _loc1_.b.height)
-         {
-            _loc1_.h.y = int(_loc1_.b.height - _loc1_.h.height);
-         }
-         if(_loc1_.h.y < 0)
-         {
-            _loc1_.h.y = 0;
-         }
-      }
-
-      private function touchGetMax() : Number
-      {
-         return this.scrollMC == null || this.dRun <= 0 || this.hRun <= 0 ? 0 : this.dRun;
-      }
-
-      public function onMergeBoxScroll(param1:MouseEvent) : void
-      {
-         var _loc1_:MovieClip = MovieClip(param1.currentTarget.getChildByName("scrollMC"));
-         _loc1_.h.y += param1.delta * -1 * 6;
-         if(_loc1_.h.y < 0)
-         {
-            _loc1_.h.y = 0;
-         }
-         if(_loc1_.h.y + _loc1_.h.height > _loc1_.b.height)
-         {
-            _loc1_.h.y = int(_loc1_.b.height - _loc1_.h.height);
          }
       }
    }

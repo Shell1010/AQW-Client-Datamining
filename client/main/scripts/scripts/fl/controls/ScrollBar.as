@@ -7,7 +7,7 @@ package fl.controls
    import flash.display.DisplayObjectContainer;
    import flash.events.MouseEvent;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol105")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol104")]
    public class ScrollBar extends UIComponent
    {
 

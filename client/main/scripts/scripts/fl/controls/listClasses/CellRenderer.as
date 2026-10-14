@@ -3,7 +3,7 @@ package fl.controls.listClasses
    import fl.controls.LabelButton;
    import flash.events.MouseEvent;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol76")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol75")]
    public class CellRenderer extends LabelButton implements ICellRenderer
    {
 

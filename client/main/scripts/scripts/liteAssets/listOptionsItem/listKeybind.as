@@ -8,7 +8,7 @@ package liteAssets.listOptionsItem
    import flash.utils.*;
    import liteAssets.handlers.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2213")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2202")]
    public class listKeybind extends MovieClip
    {
 

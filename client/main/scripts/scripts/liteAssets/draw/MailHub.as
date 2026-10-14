@@ -25,6 +25,10 @@ package liteAssets.draw
 
       private static const TOAST_Y:int = 353;
 
+      private static const PRESSED_CT:ColorTransform = new ColorTransform(0.75,0.75,0.75);
+
+      private static const PLAIN_CT:ColorTransform = new ColorTransform();
+
       public var rootClass:MovieClip;
 
       public var mails:Array = [];
@@ -116,6 +120,8 @@ package liteAssets.draw
       private var toastLastTick:int = 0;
 
       private var toastHover:Boolean = false;
+
+      private var ringArt:DisplayObject;
 
       private var pulseSkip:Boolean = false;
 
@@ -263,6 +269,7 @@ package liteAssets.draw
                   this.hudBtn.parent.removeChild(this.hudBtn);
                }
                this.hudBtn = null;
+               this.ringArt = null;
             }
             try
             {
@@ -1450,19 +1457,64 @@ package liteAssets.draw
          }
       }
 
+      private function ringPlate() : DisplayObject
+      {
+         var _loc1_:DisplayObject = null;
+         if(this.ringArt != null)
+         {
+            return this.ringArt;
+         }
+         try
+         {
+            _loc1_ = new (getDefinitionByName("UIRingPlate") as Class)() as DisplayObject;
+            if(_loc1_ != null && this.hudBtn != null)
+            {
+               this.hudBtn.addChildAt(_loc1_,0);
+               this.ringArt = _loc1_;
+            }
+         }
+         catch(e:Error)
+         {
+         }
+         return this.ringArt;
+      }
+
       private function drawHudBg(param1:Boolean) : void
       {
          var _loc1_:Graphics = null;
          var _loc2_:Matrix = null;
          var _loc3_:Graphics = null;
+         var _loc4_:DisplayObject = null;
+         var _loc5_:Rectangle = null;
+         var _loc6_:Number = NaN;
          try
          {
             _loc1_ = this.hudBg.graphics;
             _loc1_.clear();
+            if(this.ringArt != null)
+            {
+               this.ringArt.visible = false;
+            }
             _loc2_ = new Matrix();
             if(this.bubbleMode())
             {
                this.hudGloss.graphics.clear();
+               _loc4_ = this.ringPlate();
+               if(_loc4_ != null)
+               {
+                  _loc4_.scaleX = _loc4_.scaleY = 1;
+                  _loc5_ = _loc4_.getBounds(_loc4_);
+                  if(_loc5_.width > 0 && _loc5_.height > 0)
+                  {
+                     _loc6_ = PR * 2 / Math.max(_loc5_.width,_loc5_.height);
+                     _loc4_.scaleX = _loc4_.scaleY = _loc6_;
+                     _loc4_.x = -_loc5_.x * _loc6_;
+                     _loc4_.y = -_loc5_.y * _loc6_;
+                     _loc4_.transform.colorTransform = param1 ? PRESSED_CT : PLAIN_CT;
+                     _loc4_.visible = true;
+                     return;
+                  }
+               }
                _loc1_.beginFill(1973786);
                _loc1_.drawCircle(PR,PR,PR);
                _loc1_.endFill();

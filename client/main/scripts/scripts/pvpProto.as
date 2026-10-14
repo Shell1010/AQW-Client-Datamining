@@ -16,7 +16,7 @@ package
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2531")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2517")]
    public dynamic class pvpProto extends MovieClip
    {
 

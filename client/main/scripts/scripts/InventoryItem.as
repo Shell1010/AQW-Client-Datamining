@@ -16,7 +16,7 @@ package
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2203")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2192")]
    public dynamic class InventoryItem extends MovieClip
    {
 

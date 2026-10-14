@@ -6,7 +6,7 @@ package liteAssets.draw
    import flash.events.*;
    import flash.text.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol158")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol157")]
    public class packetlogger extends MovieClip
    {
 

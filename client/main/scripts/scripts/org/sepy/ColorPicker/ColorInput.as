@@ -4,7 +4,7 @@ package org.sepy.ColorPicker
    import flash.events.*;
    import flash.text.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2700")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2686")]
    public class ColorInput extends MovieClip
    {
 

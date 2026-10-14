@@ -4,7 +4,7 @@ package
    import flash.display.SimpleButton;
    import flash.text.TextField;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol1899")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1888")]
    public dynamic class LPFPanelBg2 extends MovieClip
    {
 

@@ -10,7 +10,7 @@ package fl.controls
    import flash.events.KeyboardEvent;
    import flash.ui.Keyboard;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2390")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2377")]
    public class NumericStepper extends UIComponent implements IFocusManagerComponent
    {
 

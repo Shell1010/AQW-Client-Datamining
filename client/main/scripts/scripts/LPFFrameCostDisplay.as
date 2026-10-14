@@ -4,7 +4,7 @@ package
    import flash.events.*;
    import flash.text.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol1986")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1975")]
    public class LPFFrameCostDisplay extends LPFFrame
    {
 
@@ -166,21 +166,11 @@ package
                   this.mcCoins.hit.width = this.mcCoins.ti.x + this.mcCoins.ti.textWidth + 2;
                }
                this.bg.visible = this.mcGold.visible || this.mcCoins.visible;
-               if(_loc2_)
+               if(_loc2_ && this.rootClass.ui.mcPopup.currentLabel != "MergeShop")
                {
                   this.drawToken();
                }
-               if(this.rootClass.ui.mcPopup.currentLabel == "MergeShop" && Boolean(this.hasSlider()))
-               {
-                  this.positionBy({
-                     "x":int(fParent.w / 2),
-                     "y":-102,
-                     "w":-1,
-                     "h":-1,
-                     "xPosRule":"centerOnX"
-                  });
-               }
-               else if(this.rootClass.ui.mcPopup.currentLabel == "MergeShop" && !this.hasSlider())
+               if(this.rootClass.ui.mcPopup.currentLabel == "MergeShop")
                {
                   this.positionBy(this.r);
                }

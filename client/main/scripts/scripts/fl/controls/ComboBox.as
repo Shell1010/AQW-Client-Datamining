@@ -19,7 +19,7 @@ package fl.controls
    import flash.text.TextFormat;
    import flash.ui.Keyboard;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2293")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2281")]
    public class ComboBox extends UIComponent implements IFocusManagerComponent
    {
 

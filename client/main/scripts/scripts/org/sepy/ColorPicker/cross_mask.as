@@ -2,7 +2,7 @@ package org.sepy.ColorPicker
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2688")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2674")]
    public dynamic class cross_mask extends MovieClip
    {
 

@@ -4,7 +4,7 @@ package
    import flash.events.Event;
    import flash.events.MouseEvent;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3512")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3498")]
    public class sBar extends MovieClip
    {
 

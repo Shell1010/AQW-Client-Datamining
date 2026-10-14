@@ -9,7 +9,7 @@ package
    import flash.text.TextField;
    import flash.ui.Keyboard;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2955")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2941")]
    public class QtySelectorMC extends Sprite
    {
 

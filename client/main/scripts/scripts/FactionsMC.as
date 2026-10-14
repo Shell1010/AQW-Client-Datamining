@@ -5,7 +5,7 @@ package
    import flash.text.*;
    import liteAssets.mobile.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2727")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2713")]
    public class FactionsMC extends MovieClip
    {
 

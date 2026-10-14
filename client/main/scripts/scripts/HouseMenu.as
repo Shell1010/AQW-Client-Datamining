@@ -6,7 +6,7 @@ package
    import flash.geom.Rectangle;
    import flash.text.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2664")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2650")]
    public class HouseMenu extends MovieClip
    {
 

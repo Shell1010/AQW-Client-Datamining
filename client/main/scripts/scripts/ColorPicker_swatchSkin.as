@@ -2,7 +2,7 @@ package
 {
    import flash.display.Sprite;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2357")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2344")]
    public dynamic class ColorPicker_swatchSkin extends Sprite
    {
 

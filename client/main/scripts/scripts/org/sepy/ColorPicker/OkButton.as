@@ -3,7 +3,7 @@ package org.sepy.ColorPicker
    import flash.display.*;
    import flash.events.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2677")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2663")]
    public class OkButton extends MovieClip
    {
 

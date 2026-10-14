@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol613")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol606")]
    public dynamic class simpleblackbutton2_488 extends MovieClip
    {
 

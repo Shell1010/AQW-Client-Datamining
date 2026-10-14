@@ -5,7 +5,7 @@ package
    import flash.filters.GlowFilter;
    import flash.text.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3371")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3357")]
    public class ModalMC extends MovieClip
    {
 

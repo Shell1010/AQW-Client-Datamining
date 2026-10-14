@@ -11,7 +11,7 @@ package liteAssets.draw
    import liteAssets.listOptionsItem.*;
    import liteAssets.mobile.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2231")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2219")]
    public class keybinds extends MovieClip
    {
 

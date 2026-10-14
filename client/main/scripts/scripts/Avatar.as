@@ -1113,66 +1113,69 @@ package
 
       public function removeItem(param1:Object) : void
       {
-         var _loc1_:* = undefined;
+         var _loc1_:int = 0;
          var _loc2_:int = 0;
-         var _loc3_:int = 0;
          if(param1.hasOwnProperty("bBank") && Boolean(param1.bBank) && !InvCat.isClass(param1) && !InvCat.isClass(this.getItemByID(param1.ItemID)))
          {
-            _loc1_ = this.getItemByCharID(param1.CharItemID);
-            if(_loc1_ != null)
+            if(int(param1.ItemID) <= 0)
             {
-               if(this.isItemInInventory(_loc1_.ItemID))
-               {
-                  this.bankFromInv(_loc1_.ItemID);
-               }
-               this.removeFromBank(param1);
+               param1.ItemID = this.rootClass.world.bankinfo.idByCharItemID(int(param1.CharItemID));
             }
+            if(int(param1.ItemID) <= 0)
+            {
+               return;
+            }
+            if(this.isItemInInventory(param1.ItemID))
+            {
+               this.bankFromInv(param1.ItemID);
+            }
+            this.removeFromBank(param1);
             return;
          }
          if(!param1.hasOwnProperty("iQty"))
          {
             param1.iQty = 1;
          }
-         var _loc4_:int = 0;
-         while(_loc4_ < this.items.length)
+         var _loc3_:int = 0;
+         while(_loc3_ < this.items.length)
          {
-            if(this.items[_loc4_].CharItemID == param1.CharItemID)
+            if(this.items[_loc3_].CharItemID == param1.CharItemID)
             {
-               _loc2_ = param1.hasOwnProperty("iQtyNow") ? int(param1.iQtyNow) : int(this.items[_loc4_].iQty - param1.iQty);
-               if(this.items[_loc4_].sES == "ar" || _loc2_ < 1)
+               _loc1_ = param1.hasOwnProperty("iQtyNow") ? int(param1.iQtyNow) : int(this.items[_loc3_].iQty - param1.iQty);
+               if(this.items[_loc3_].sES == "ar" || _loc1_ < 1)
                {
-                  this.items[_loc4_].iQty = 0;
-                  this.rootClass.resetInvTreeByItemID(this.items[_loc4_].ItemID);
-                  this.removeFromFiltered(this.items[_loc4_].ItemID);
-                  this.items.splice(_loc4_,1);
+                  this.items[_loc3_].iQty = 0;
+                  this.rootClass.resetInvTreeByItemID(this.items[_loc3_].ItemID);
+                  this.removeFromFiltered(this.items[_loc3_].ItemID);
+                  this.items.splice(_loc3_,1);
                }
                else
                {
-                  this.items[_loc4_].iQty = _loc2_;
+                  this.items[_loc3_].iQty = _loc1_;
+               }
+               return;
+            }
+            _loc3_++;
+         }
+         var _loc4_:int = 0;
+         while(_loc4_ < this.houseitems.length)
+         {
+            _loc2_ = param1.hasOwnProperty("iQtyNow") ? int(param1.iQtyNow) : int(this.houseitems[_loc4_].iQty - param1.iQty);
+            if(this.houseitems[_loc4_].CharItemID == param1.CharItemID)
+            {
+               if(_loc2_ > 0)
+               {
+                  this.houseitems[_loc4_].iQty = _loc2_;
+               }
+               else
+               {
+                  this.houseitems[_loc4_].iQty = 0;
+                  this.removeFromFiltered(this.houseitems[_loc4_].ItemID);
+                  this.houseitems.splice(_loc4_,1);
                }
                return;
             }
             _loc4_++;
-         }
-         var _loc5_:int = 0;
-         while(_loc5_ < this.houseitems.length)
-         {
-            _loc3_ = param1.hasOwnProperty("iQtyNow") ? int(param1.iQtyNow) : int(this.houseitems[_loc5_].iQty - param1.iQty);
-            if(this.houseitems[_loc5_].CharItemID == param1.CharItemID)
-            {
-               if(_loc3_ > 0)
-               {
-                  this.houseitems[_loc5_].iQty = _loc3_;
-               }
-               else
-               {
-                  this.houseitems[_loc5_].iQty = 0;
-                  this.removeFromFiltered(this.houseitems[_loc5_].ItemID);
-                  this.houseitems.splice(_loc5_,1);
-               }
-               return;
-            }
-            _loc5_++;
          }
       }
 
@@ -1246,104 +1249,76 @@ package
       public function addItem(param1:Object) : void
       {
          var _loc1_:Array = null;
-         var _loc2_:* = undefined;
          if(Boolean(param1.bBank) && !InvCat.isClass(param1) && !InvCat.isClass(this.getItemByID(param1.ItemID)))
          {
-            _loc2_ = this.getItemByCharID(param1.CharItemID);
-            if(_loc2_ != null)
+            if(this.isItemInInventory(param1.ItemID))
             {
-               if(this.isItemInInventory(_loc2_.ItemID))
-               {
-                  this.bankFromInv(_loc2_.ItemID);
-               }
-               this.addToBank(param1);
+               this.bankFromInv(param1.ItemID);
             }
+            this.addToBank(param1);
             return;
          }
-         var _loc3_:Boolean = param1.bHouse != null ? int(param1.bHouse) == 1 : false;
-         _loc1_ = _loc3_ || param1.sType == "House" || param1.sType == "Floor Item" || param1.sType == "Wall Item" ? this.houseitems : this.items;
-         var _loc4_:int = 0;
-         while(_loc4_ < _loc1_.length)
+         var _loc2_:Boolean = param1.bHouse != null ? int(param1.bHouse) == 1 : false;
+         _loc1_ = _loc2_ || param1.sType == "House" || param1.sType == "Floor Item" || param1.sType == "Wall Item" ? this.houseitems : this.items;
+         var _loc3_:int = 0;
+         while(_loc3_ < _loc1_.length)
          {
-            if(_loc1_[_loc4_].ItemID == param1.ItemID)
+            if(_loc1_[_loc3_].ItemID == param1.ItemID)
             {
                if(param1.hasOwnProperty("iQtyNow"))
                {
-                  _loc1_[_loc4_].iQty = int(param1.iQtyNow);
+                  _loc1_[_loc3_].iQty = int(param1.iQtyNow);
                }
                else
                {
-                  _loc1_[_loc4_].iQty += int(param1.iQty);
+                  _loc1_[_loc3_].iQty += int(param1.iQty);
                }
                return;
             }
-            _loc4_++;
+            _loc3_++;
          }
          param1.iQty = int(param1.iQty);
+         delete param1.iQtyNow;
          this.rootClass.world.invTree[param1.ItemID] = param1;
          _loc1_.push(param1);
       }
 
       public function addToBank(param1:*) : void
       {
-         var _loc1_:* = undefined;
-         var _loc2_:* = this.rootClass.world.bankinfo.bankItems;
-         if(_loc2_ == null || _loc2_.length == 0)
+         var _loc1_:* = param1.hasOwnProperty("iQtyNow") ? param1.iQtyNow : null;
+         if(this.rootClass.world.bankinfo.adjustQty(int(param1.ItemID),_loc1_,int(param1.iQty)) != -1)
          {
             return;
          }
-         for each(_loc1_ in _loc2_)
+         if(!this.rootClass.world.bankinfo.loadedFor(String(param1.sType)))
          {
-            if(_loc1_.ItemID == param1.ItemID)
-            {
-               if(param1.hasOwnProperty("iQtyNow"))
-               {
-                  _loc1_.iQty = int(param1.iQtyNow);
-               }
-               else
-               {
-                  _loc1_.iQty += int(param1.iQty);
-               }
-               this.rootClass.world.bankinfo.bankModified = true;
-               return;
-            }
+            return;
+         }
+         var _loc2_:Object = this.rootClass.copyObj(param1);
+         _loc2_.iQty = _loc1_ != null ? int(_loc1_) : int(param1.iQty);
+         delete _loc2_.iQtyNow;
+         if(_loc2_.iQty < 1)
+         {
+            return;
+         }
+         _loc2_.bBank = 1;
+         this.rootClass.world.bankinfo.addItemsToBank([_loc2_]);
+         if(int(_loc2_.bCoins) == 0)
+         {
+            ++this.iBankCount;
          }
       }
 
       public function removeFromBank(param1:*) : void
       {
-         var _loc1_:int = 0;
-         var _loc2_:* = this.rootClass.world.bankinfo.bankItems;
-         if(_loc2_ == null || _loc2_.length == 0)
+         var _loc1_:int = param1.hasOwnProperty("iQty") ? int(param1.iQty) : 1;
+         var _loc2_:int = int(this.rootClass.world.bankinfo.adjustQty(int(param1.ItemID),param1.hasOwnProperty("iQtyNow") ? param1.iQtyNow : null,-_loc1_));
+         if(_loc2_ != 0)
          {
             return;
          }
-         if(!param1.hasOwnProperty("iQty"))
-         {
-            param1.iQty = 1;
-         }
-         var _loc3_:int = 0;
-         while(_loc3_ < _loc2_.length)
-         {
-            if(_loc2_[_loc3_].CharItemID == param1.CharItemID)
-            {
-               _loc1_ = param1.hasOwnProperty("iQtyNow") ? int(param1.iQtyNow) : int(_loc2_[_loc3_].iQty - param1.iQty);
-               if(_loc2_[_loc3_].sES == "ar" || _loc1_ < 1)
-               {
-                  _loc2_[_loc3_].iQty = 0;
-                  this.rootClass.resetInvTreeByItemID(_loc2_[_loc3_].ItemID);
-                  this.removeFromFiltered(_loc2_[_loc3_].ItemID);
-                  this.rootClass.world.bankinfo.bankItems.splice(_loc3_,1);
-               }
-               else
-               {
-                  _loc2_[_loc3_].iQty = _loc1_;
-               }
-               this.rootClass.world.bankinfo.bankModified = true;
-               return;
-            }
-            _loc3_++;
-         }
+         this.rootClass.resetInvTreeByItemID(int(param1.ItemID));
+         this.removeFromFiltered(int(param1.ItemID));
       }
 
       public function varVal(param1:String) : *

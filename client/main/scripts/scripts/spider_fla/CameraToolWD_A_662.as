@@ -18,7 +18,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2448")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2434")]
    public dynamic class CameraToolWD_A_662 extends MovieClip
    {
 

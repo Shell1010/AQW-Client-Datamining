@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol191")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol183")]
    public dynamic class houseicon_1_top_468 extends MovieClip
    {
 

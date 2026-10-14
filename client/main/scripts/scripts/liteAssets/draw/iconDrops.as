@@ -5,7 +5,7 @@ package liteAssets.draw
    import flash.filters.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2773")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2759")]
    public class iconDrops extends MovieClip
    {
 

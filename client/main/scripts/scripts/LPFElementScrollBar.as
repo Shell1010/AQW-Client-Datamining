@@ -6,7 +6,7 @@ package
    import flash.text.*;
    import liteAssets.mobile.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol1925")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1914")]
    public class LPFElementScrollBar extends MovieClip
    {
 

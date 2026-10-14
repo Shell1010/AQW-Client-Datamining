@@ -3,7 +3,7 @@ package
    import flash.display.MovieClip;
    import flash.events.MouseEvent;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3387")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3373")]
    public class HealIconMC extends MovieClip
    {
 

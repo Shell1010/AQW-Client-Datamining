@@ -7,7 +7,7 @@ package
    import flash.ui.*;
    import liteAssets.mobile.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol1916")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1905")]
    public class LPFFrameQtySelector extends LPFFrame
    {
 

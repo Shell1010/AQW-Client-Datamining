@@ -144,25 +144,24 @@ package liteAssets.draw
 
       public function arrange() : void
       {
-         var _loc1_:int = 0;
-         var _loc2_:MovieClip = null;
-         var _loc3_:Rectangle = null;
-         var _loc4_:MovieClip = this.p.SP;
-         var _loc5_:Rectangle = (_loc4_.numChildren > 0 ? _loc4_.getChildAt(0) : _loc4_).getBounds(this.p);
-         this.joinY = Math.round(_loc5_.bottom) + 6;
-         var _loc6_:int = Math.round(_loc5_.x) - 3;
-         _loc1_ = Math.round(_loc5_.right) + 7;
+         var _loc1_:MovieClip = null;
+         var _loc2_:Rectangle = null;
+         var _loc3_:MovieClip = this.p.SP;
+         var _loc4_:Rectangle = (_loc3_.numChildren > 0 ? _loc3_.getChildAt(0) : _loc3_).getBounds(this.p);
+         this.joinY = Math.round(_loc4_.bottom) + 6;
+         var _loc5_:int = Math.round(_loc4_.x) - 3;
+         var _loc6_:int = Math.round(_loc4_.right) + 7;
          var _loc7_:Array = [];
          var _loc8_:Array = [];
          var _loc9_:int = -GAP;
-         for each(_loc2_ in this.list())
+         for each(_loc1_ in this.list())
          {
-            if(_loc2_.visible)
+            if(_loc1_.visible)
             {
-               _loc3_ = (_loc2_.numChildren > 0 ? _loc2_.getChildAt(0) : _loc2_).getBounds(this.icons);
-               _loc7_.push(_loc2_);
-               _loc8_.push(_loc3_);
-               _loc9_ += Math.round(_loc3_.width) + GAP;
+               _loc2_ = (_loc1_.numChildren > 0 ? _loc1_.getChildAt(0) : _loc1_).getBounds(this.icons);
+               _loc7_.push(_loc1_);
+               _loc8_.push(_loc2_);
+               _loc9_ += Math.round(_loc2_.width) + GAP;
             }
          }
          visible = _loc7_.length > 0;
@@ -172,12 +171,12 @@ package liteAssets.draw
             return;
          }
          var _loc10_:int = _loc9_ + PAD * 2;
-         this.L = Math.round((_loc6_ + _loc1_ - _loc10_) / 2);
+         this.L = Math.round((_loc5_ + _loc6_ - _loc10_) / 2);
          this.R = this.L + _loc10_;
-         this.aligned = this.R > _loc1_ - 6;
+         this.aligned = this.R > _loc6_ - 6;
          if(this.aligned)
          {
-            this.R = _loc1_;
+            this.R = _loc6_;
             this.L = this.R - _loc10_;
          }
          var _loc11_:int = this.L + PAD;
@@ -185,10 +184,10 @@ package liteAssets.draw
          var _loc13_:int = 0;
          while(_loc13_ < _loc7_.length)
          {
-            _loc3_ = _loc8_[_loc13_];
-            _loc7_[_loc13_].x += _loc11_ - _loc3_.x;
-            _loc7_[_loc13_].y += _loc12_ - _loc3_.y;
-            _loc11_ += Math.round(_loc3_.width) + GAP;
+            _loc2_ = _loc8_[_loc13_];
+            _loc7_[_loc13_].x += _loc11_ - _loc2_.x;
+            _loc7_[_loc13_].y += _loc12_ - _loc2_.y;
+            _loc11_ += Math.round(_loc2_.width) + GAP;
             _loc13_++;
          }
          this.fullBot = _loc12_ + 32;

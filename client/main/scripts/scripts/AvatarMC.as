@@ -17,7 +17,7 @@ package
    import flash.system.ApplicationDomain;
    import flash.utils.getTimer;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3324")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3310")]
    public class AvatarMC extends MovieClip
    {
 

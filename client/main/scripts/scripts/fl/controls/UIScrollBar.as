@@ -7,7 +7,7 @@ package fl.controls
    import flash.events.Event;
    import flash.events.TextEvent;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol150")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol148")]
    public class UIScrollBar extends ScrollBar
    {
 

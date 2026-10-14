@@ -98,7 +98,7 @@ package
          "k":"Weapon"
       },{
          "label":"Armor",
-         "icon":"iiclass",
+         "icon":"iwarmor",
          "k":"ar"
       },{
          "label":"Helms",
@@ -202,14 +202,13 @@ package
 
       private var keyStage:Stage;
 
-      private var chipKeys:Array = ["AC","Gold","Legend","Free","Rare"];
+      private var chipKeys:Array = ["AC","Gold","Legend","Free"];
 
       private var chipOn:Object = {
          "AC":false,
          "Gold":false,
          "Legend":false,
-         "Free":false,
-         "Rare":false
+         "Free":false
       };
 
       private var chipSprites:Array = [];
@@ -305,6 +304,8 @@ package
       private var allBankTf:Sprite;
 
       private var noneBankTf:Sprite;
+
+      private var multiBtn:Sprite;
 
       private var allInvTf:Sprite;
 
@@ -802,6 +803,7 @@ package
          this.tfSearch.addEventListener(KeyboardEvent.KEY_UP,this.onSearchKey,false,0,true);
          this.tfSearch.addEventListener(FocusEvent.FOCUS_IN,this.onSearchFocusIn,false,0,true);
          this.tfSearch.addEventListener(FocusEvent.FOCUS_OUT,this.onSearchFocusOut,false,0,true);
+         SearchAssist.attach(this.rootClass,this.searchBox,this.tfSearch,this.tfPlaceholder,SEARCH_W,SEARCH_H,855309);
          this.searchTimer = new Timer(150,1);
          this.searchTimer.addEventListener(TimerEvent.TIMER_COMPLETE,this.onSearchTimer);
       }
@@ -893,6 +895,14 @@ package
             this.chipLabels.push(_loc3_);
             _loc1_++;
          }
+         this.multiBtn = new Sprite();
+         this.multiBtn.buttonMode = true;
+         this.multiBtn.mouseChildren = false;
+         _loc3_ = LPFElementInvAQRow.makeTF(11,12303291);
+         _loc3_.text = "Multi-select";
+         this.multiBtn.addChild(_loc3_);
+         this.multiBtn.addEventListener(MouseEvent.CLICK,this.onMultiClick,false,0,true);
+         addChild(this.multiBtn);
          this.layoutChips();
       }
 
@@ -928,6 +938,23 @@ package
             _loc6_ += _loc4_ + 8;
             _loc1_++;
          }
+         _loc3_ = TextField(this.multiBtn.getChildAt(0));
+         _loc5_ = Boolean(this.multiOn());
+         _loc4_ = _loc3_.textWidth + 20;
+         this.multiBtn.x = _loc6_;
+         this.multiBtn.y = SEARCH_Y;
+         this.multiBtn.graphics.clear();
+         if(_loc5_)
+         {
+            rrect(this.multiBtn.graphics,0,0,_loc4_,SEARCH_H,6,4862488,13145646);
+         }
+         else
+         {
+            rrectRow(this.multiBtn.graphics,0,0,_loc4_,SEARCH_H,6,3815994);
+         }
+         _loc3_.textColor = _loc5_ ? 16777215 : 12303291;
+         _loc3_.x = Math.round((_loc4_ - _loc3_.width) / 2);
+         _loc3_.y = Math.round((SEARCH_H - _loc3_.height) / 2);
       }
 
       private function onChipClick(param1:MouseEvent) : void
@@ -962,9 +989,6 @@ package
                {
                   this.chipOn.Legend = false;
                }
-               break;
-            case "Rare":
-               this.chipOn.Rare = !this.chipOn.Rare;
          }
          this.layoutChips();
          this.rebuildViews(true);
@@ -988,10 +1012,6 @@ package
          else if(this.chipOn.Free)
          {
             _loc1_ &&= int(param1.bUpg) == 0;
-         }
-         if(this.chipOn.Rare)
-         {
-            _loc1_ &&= int(param1.iRty) == 30;
          }
          return _loc1_;
       }
@@ -1079,25 +1099,24 @@ package
          var _loc1_:Boolean = this.rarityFilter != -1;
          this.rarityDDLabel.text = this.currentRarityLabel();
          this.rarityDDLabel.textColor = _loc1_ ? 16777215 : 12303291;
-         var _loc2_:Sprite = this.chipSprites[this.chipSprites.length - 1];
-         var _loc3_:Number = _loc2_.x + _loc2_.width + 8;
-         var _loc4_:Number = Math.min(Math.max(this.rarityDDLabel.textWidth + 28,120),ROW_RIGHT - _loc3_);
-         var _loc5_:Number = ROW_RIGHT - _loc4_;
-         this.rarityDD.x = _loc5_;
+         var _loc2_:Number = this.multiBtn.x + this.multiBtn.width + 8;
+         var _loc3_:Number = Math.min(Math.max(this.rarityDDLabel.textWidth + 28,120),ROW_RIGHT - _loc2_);
+         var _loc4_:Number = ROW_RIGHT - _loc3_;
+         this.rarityDD.x = _loc4_;
          this.rarityDD.y = SEARCH_Y;
          this.rarityDD.graphics.clear();
          if(_loc1_)
          {
-            rrect(this.rarityDD.graphics,0,0,_loc4_,SEARCH_H,6,4862488,13145646);
+            rrect(this.rarityDD.graphics,0,0,_loc3_,SEARCH_H,6,4862488,13145646);
          }
          else
          {
-            rrectRow(this.rarityDD.graphics,0,0,_loc4_,SEARCH_H,6,3815994);
+            rrectRow(this.rarityDD.graphics,0,0,_loc3_,SEARCH_H,6,3815994);
          }
-         this.rarityDDLabel.x = Math.round((_loc4_ - this.rarityDDLabel.width) / 2);
+         this.rarityDDLabel.x = Math.round((_loc3_ - this.rarityDDLabel.width) / 2);
          this.rarityDDLabel.y = Math.round((SEARCH_H - this.rarityDDLabel.height) / 2);
-         this.rarityDDW = _loc4_;
-         this.rarityListPanel.x = _loc5_ + _loc4_ - Math.max(_loc4_,this.rarityPanelW);
+         this.rarityDDW = _loc3_;
+         this.rarityListPanel.x = _loc4_ + _loc3_ - Math.max(_loc3_,this.rarityPanelW);
          this.rarityListPanel.y = SEARCH_Y + SEARCH_H + 4;
       }
 
@@ -1683,7 +1702,8 @@ package
          var _loc1_:TextField = TextField(param1.getChildAt(0));
          var _loc2_:int = int(_loc1_.textWidth) + 14;
          param1.graphics.clear();
-         if(param2)
+         var _loc3_:Boolean = param2;
+         if(_loc3_)
          {
             rrect(param1.graphics,0,0,_loc2_,LINK_H,5,4862488,13145646);
          }
@@ -1691,7 +1711,7 @@ package
          {
             rrectRow(param1.graphics,0,0,_loc2_,LINK_H,5,3815994);
          }
-         _loc1_.textColor = param2 ? 16777215 : 12303291;
+         _loc1_.textColor = _loc3_ ? 16777215 : 12303291;
       }
 
       private function onHeaderLinkOver(param1:MouseEvent) : void
@@ -1713,7 +1733,7 @@ package
          addChild(this.headerBank);
          this.headerCenter = LPFElementInvAQRow.makeTF(12,16777215,true);
          this.headerCenter.text = "Preview";
-         this.headerCenter.x = Math.round(CENTER_X + CENTER_W / 2 - this.headerCenter.width / 2);
+         this.headerCenter.x = CENTER_X;
          this.headerCenter.y = HEADER_Y;
          addChild(this.headerCenter);
          this.headerInv = LPFElementInvAQRow.makeTF(12,16777215,true);
@@ -1746,6 +1766,30 @@ package
          this.noneInvTf.x = ROW_RIGHT - int(this.noneInvTf.width);
          this.allInvTf.y = HEADER_Y;
          this.allInvTf.x = this.noneInvTf.x - 6 - int(this.allInvTf.width);
+      }
+
+      private function multiOn() : Boolean
+      {
+         var _loc1_:Object = this.rootClass != null ? this.rootClass.litePreference.data.dOptions : null;
+         return _loc1_ != null && _loc1_.bankMulti == true;
+      }
+
+      private function onMultiClick(param1:MouseEvent) : void
+      {
+         var _loc1_:Object = this.rootClass.litePreference.data;
+         if(_loc1_.dOptions == null)
+         {
+            _loc1_.dOptions = {};
+         }
+         _loc1_.dOptions.bankMulti = !this.multiOn();
+         try
+         {
+            this.rootClass.litePreference.flush();
+         }
+         catch(err:Error)
+         {
+         }
+         this.layoutChips();
       }
 
       private function buildCenterControls() : void
@@ -2216,13 +2260,27 @@ package
 
       private function clearSide(param1:String) : void
       {
-         var _loc1_:Object = null;
-         var _loc2_:Array = null;
-         var _loc3_:Object = null;
          if(this.batchRunning)
          {
             return;
          }
+         this.dropSide(param1);
+         if(param1 == "bank")
+         {
+            this.bankList.refreshHighlight();
+         }
+         else
+         {
+            this.invList.refreshHighlight();
+         }
+         this.afterSelectionChange();
+      }
+
+      private function dropSide(param1:String) : void
+      {
+         var _loc1_:Object = null;
+         var _loc2_:Array = null;
+         var _loc3_:Object = null;
          var _loc4_:Dictionary = param1 == "bank" ? this.selBank : this.selInv;
          var _loc5_:Array = [];
          for each(_loc1_ in this.selectionOrder)
@@ -2252,15 +2310,6 @@ package
             this.selInvCount = 0;
             this.anchorInv = -1;
          }
-         if(param1 == "bank")
-         {
-            this.bankList.refreshHighlight();
-         }
-         else
-         {
-            this.invList.refreshHighlight();
-         }
-         this.afterSelectionChange();
       }
 
       private function selectAll(param1:String) : void
@@ -2311,26 +2360,36 @@ package
          var _loc1_:int = 0;
          var _loc2_:int = 0;
          var _loc3_:int = 0;
+         var _loc4_:Boolean = false;
          if(Boolean(this.batchRunning) || param2 == null)
          {
             return;
          }
-         var _loc4_:Dictionary = param1 == "bank" ? this.selBank : this.selInv;
-         var _loc5_:Array = param1 == "bank" ? this.bankView : this.invView;
-         var _loc6_:int = param1 == "bank" ? int(this.anchorBank) : int(this.anchorInv);
-         if(param4 && _loc6_ > -1 && _loc6_ < _loc5_.length && param3 > -1)
+         var _loc5_:Dictionary = param1 == "bank" ? this.selBank : this.selInv;
+         var _loc6_:Array = param1 == "bank" ? this.bankView : this.invView;
+         var _loc7_:int = param1 == "bank" ? int(this.anchorBank) : int(this.anchorInv);
+         if(param4 && _loc7_ > -1 && _loc7_ < _loc6_.length && param3 > -1)
          {
-            _loc1_ = _loc6_ < param3 ? _loc6_ : param3;
-            _loc2_ = _loc6_ < param3 ? param3 : _loc6_;
+            _loc1_ = _loc7_ < param3 ? _loc7_ : param3;
+            _loc2_ = _loc7_ < param3 ? param3 : _loc7_;
             _loc3_ = _loc1_;
             while(_loc3_ <= _loc2_)
             {
-               this.addToSelection(param1,_loc5_[_loc3_]);
+               this.addToSelection(param1,_loc6_[_loc3_]);
                _loc3_++;
             }
             this.moveToEndOfOrder(param2);
          }
-         else if(param2 in _loc4_)
+         else if(!this.multiOn())
+         {
+            _loc4_ = param2 in _loc5_ && (param1 == "bank" ? this.selBankCount : this.selInvCount) == 1;
+            this.dropSide(param1);
+            if(!_loc4_)
+            {
+               this.addToSelection(param1,param2);
+            }
+         }
+         else if(param2 in _loc5_)
          {
             this.removeFromSelection(param1,param2);
          }

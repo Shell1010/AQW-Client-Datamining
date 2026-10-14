@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3882")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3868")]
    public dynamic class ui_mcStatusBoxTarget_258 extends MovieClip
    {
 

@@ -6,7 +6,7 @@ package liteAssets.draw
    import flash.text.TextField;
    import flash.text.TextFormat;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2103")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2092")]
    public class statsPanel extends MovieClip
    {
 

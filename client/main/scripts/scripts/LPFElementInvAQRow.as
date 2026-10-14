@@ -53,6 +53,8 @@ package
 
       private static var lvlColW:Number = 0;
 
+      private static var lvlNumW:Number = 0;
+
       public var item:Object;
 
       public var rowW:int = 200;
@@ -68,6 +70,8 @@ package
       public var markCheck:Boolean = false;
 
       public var silhouette:Boolean = false;
+
+      public var lvlLabel:Boolean = true;
 
       private var rootClass:MovieClip;
 
@@ -87,7 +91,9 @@ package
 
       private var acIcon:DisplayObject;
 
-      private var acMask:Shape;
+      private var acClip:Sprite;
+
+      private var acRect:Rectangle;
 
       private var checkMC:DisplayObject;
 
@@ -116,6 +122,7 @@ package
          var ringCls:Class;
          var acCls:Class;
          var natH:Number = NaN;
+         this.acRect = new Rectangle();
          super();
          mouseChildren = false;
          buttonMode = true;
@@ -164,15 +171,12 @@ package
                {
                   this.acIcon.scaleX = this.acIcon.scaleY = LPFFrameInvAQ.ROW_H / natH;
                }
-               this.acIcon.visible = false;
                this.acIcon.alpha = 0.4;
-               addChild(this.acIcon);
-               this.acMask = new Shape();
-               this.acMask.graphics.beginFill(16711680);
-               this.acMask.graphics.drawRect(0,0,10,10);
-               this.acMask.graphics.endFill();
-               addChild(this.acMask);
-               this.acIcon.mask = this.acMask;
+               this.acClip = new Sprite();
+               this.acClip.mouseEnabled = this.acClip.mouseChildren = false;
+               this.acClip.visible = false;
+               this.acClip.addChild(this.acIcon);
+               addChild(this.acClip);
             }
          }
          this.tfLvlLabel = makeTF(11,8947848);
@@ -183,6 +187,7 @@ package
          {
             this.tfLvl.text = "999";
             lvlColW = this.tfLvlLabel.width + this.tfLvl.width + 2;
+            lvlNumW = this.tfLvl.width;
             this.tfLvl.text = "";
          }
          addChild(this.tfLvl);
@@ -262,10 +267,9 @@ package
 
       public static function centerAt(param1:DisplayObject, param2:Number, param3:Number) : void
       {
-         var _loc1_:Rectangle = null;
          param1.x = 0;
          param1.y = 0;
-         _loc1_ = param1.getBounds(param1.parent);
+         var _loc1_:Rectangle = param1.getBounds(param1.parent);
          param1.x = Math.round(param2 - _loc1_.x - _loc1_.width / 2);
          param1.y = Math.round(param3 - _loc1_.y - _loc1_.height / 2);
       }
@@ -714,15 +718,10 @@ package
          this.tfPrice.y = Math.round((LPFFrameInvAQ.ROW_H - this.tfPrice.height) / 2);
          if(this.acIcon != null)
          {
-            this.acIcon.visible = _loc1_;
-            this.acMask.visible = _loc1_;
+            this.acClip.visible = _loc1_;
             if(_loc1_)
             {
-               centerAt(this.acIcon,this.tfPrice.x + this.tfPrice.width / 2,LPFFrameInvAQ.ROW_H / 2);
-               this.acMask.x = this.acIcon.x;
-               this.acMask.y = 0;
-               this.acMask.width = this.acIcon.width;
-               this.acMask.height = LPFFrameInvAQ.ROW_H - 1;
+               this.placeAC(this.tfPrice.x + this.tfPrice.width / 2 - this.acIcon.width / 2,LPFFrameInvAQ.ROW_H);
             }
          }
       }
@@ -779,7 +778,7 @@ package
          var _loc14_:Boolean = _loc6_.EnhLvl != null && int(_loc6_.EnhLvl) > 0;
          var _loc15_:int = _loc14_ ? int(_loc6_.EnhLvl) : int(_loc6_.iLvl);
          var _loc16_:Boolean = _loc15_ > 0;
-         var _loc17_:Number = this.rowW - 8 - lvlColW;
+         var _loc17_:Number = this.rowW - 8 - (this.lvlLabel ? lvlColW : lvlNumW);
          if(_loc16_)
          {
             this.tfLvl.text = String(_loc15_);
@@ -789,7 +788,7 @@ package
             this.tfLvlLabel.x = this.tfLvl.x - this.tfLvlLabel.width + 1;
             this.tfLvlLabel.y = this.tfLvl.y + this.tfLvl.height - this.tfLvlLabel.height - 1;
             this.tfLvl.visible = true;
-            this.tfLvlLabel.visible = true;
+            this.tfLvlLabel.visible = this.lvlLabel;
          }
          else
          {
@@ -833,17 +832,22 @@ package
          this.tfName.y = Math.round((_loc7_ - this.tfName.height) / 2);
          if(this.acIcon != null && !_loc11_)
          {
-            this.acIcon.visible = _loc18_;
-            this.acMask.visible = _loc18_;
+            this.acClip.visible = _loc18_;
             if(_loc18_)
             {
-               centerAt(this.acIcon,_loc19_ + this.acIcon.width / 2,_loc7_ / 2);
-               this.acMask.x = _loc19_;
-               this.acMask.y = 0;
-               this.acMask.width = this.acIcon.width;
-               this.acMask.height = _loc7_ - 1;
+               this.placeAC(_loc19_,_loc7_);
             }
          }
+      }
+
+      private function placeAC(param1:Number, param2:int) : void
+      {
+         var _loc1_:int = Math.ceil(this.acIcon.width);
+         this.acClip.x = Math.round(param1);
+         this.acClip.y = 0;
+         centerAt(this.acIcon,_loc1_ / 2,param2 / 2);
+         this.acRect.setTo(0,0,_loc1_,param2 - 1);
+         this.acClip.scrollRect = this.acRect;
       }
    }
 }

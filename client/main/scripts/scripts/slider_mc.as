@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2681")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2667")]
    public dynamic class slider_mc extends MovieClip
    {
 

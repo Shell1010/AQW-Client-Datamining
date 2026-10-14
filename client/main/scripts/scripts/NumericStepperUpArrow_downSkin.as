@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2385")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2372")]
    public dynamic class NumericStepperUpArrow_downSkin extends MovieClip
    {
 

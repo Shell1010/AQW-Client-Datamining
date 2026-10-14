@@ -6,7 +6,7 @@ package liteAssets.draw
    import flash.geom.Rectangle;
    import flash.text.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2253")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2241")]
    public class dEntry extends MovieClip
    {
 

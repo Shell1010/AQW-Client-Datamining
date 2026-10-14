@@ -3,7 +3,7 @@ package
    import flash.display.MovieClip;
    import flash.geom.Point;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3290")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3276")]
    public class mcSkel extends MovieClip
    {
 

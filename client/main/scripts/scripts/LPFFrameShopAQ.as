@@ -28,7 +28,8 @@ package
 
       private static const FILTER_MAP:Object = {
          "Weapon":["Sword","Axe","Gauntlet","Dagger","HandGun","Rifle","Gun","Whip","Bow","Mace","Polearm","Staff","Wand"],
-         "ar":["Class","Armor"],
+         "cl":["Class"],
+         "ar":["Armor"],
          "he":["Helm"],
          "ba":["Cape"],
          "pe":["Pet"],
@@ -505,6 +506,7 @@ package
          this.tfSearch.addEventListener(KeyboardEvent.KEY_UP,this.onSearchKey,false,0,true);
          this.tfSearch.addEventListener(FocusEvent.FOCUS_IN,this.onSearchFocusIn,false,0,true);
          this.tfSearch.addEventListener(FocusEvent.FOCUS_OUT,this.onSearchFocusOut,false,0,true);
+         SearchAssist.attach(this.rootClass,this.searchBox,this.tfSearch,this.tfPlaceholder,_loc1_,24,855309);
          this.searchTimer = new Timer(150,1);
          this.searchTimer.addEventListener(TimerEvent.TIMER_COMPLETE,this.onSearchTimer);
       }
@@ -597,12 +599,13 @@ package
       {
          var _loc1_:int = 0;
          var _loc2_:Sprite = null;
+         var _loc3_:int = Math.min(33,int((this.listH - 30) / Math.max(1,this.filterDefs.length - 1)));
          _loc1_ = 0;
          while(_loc1_ < this.filterDefs.length)
          {
             _loc2_ = new Sprite();
             _loc2_.name = String(_loc1_);
-            _loc2_.y = _loc1_ * 33;
+            _loc2_.y = _loc1_ * _loc3_;
             _loc2_.buttonMode = true;
             _loc2_.mouseChildren = false;
             this.addSubIcon(_loc2_,this.filterDefs[_loc1_].icon);
@@ -1075,6 +1078,10 @@ package
 
       private function isHiddenLocked(param1:Object) : Boolean
       {
+         if(this.mode == "shopSell")
+         {
+            return FavStore.has(param1.ItemID);
+         }
          return this.mode == "shopBuy" && int(param1.bHide) == 1 && InvCat.isQuestLocked(param1,this.rootClass.world);
       }
 
@@ -1298,7 +1305,15 @@ package
 
       private function onFavChanged() : void
       {
-         if(!this.closed && this.rootClass != null)
+         if(Boolean(this.closed) || this.rootClass == null)
+         {
+            return;
+         }
+         if(this.mode == "shopSell")
+         {
+            this.rebuild();
+         }
+         else
          {
             this.refreshActiveRows();
          }

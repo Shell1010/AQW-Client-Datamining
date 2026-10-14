@@ -7,7 +7,7 @@ package
    import flash.text.*;
    import liteAssets.draw.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2499")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2485")]
    public class cMenuMC extends MovieClip
    {
 

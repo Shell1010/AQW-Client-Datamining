@@ -13,7 +13,7 @@ package
    import flash.utils.Timer;
    import flash.utils.getTimer;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3378")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3364")]
    public class MonsterMC extends MovieClip
    {
 

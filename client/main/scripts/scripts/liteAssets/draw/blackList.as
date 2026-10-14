@@ -9,7 +9,7 @@ package liteAssets.draw
    import flash.text.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol126")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol124")]
    public class blackList extends MovieClip
    {
 

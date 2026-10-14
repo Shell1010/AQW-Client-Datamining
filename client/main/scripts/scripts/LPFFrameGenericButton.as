@@ -4,7 +4,7 @@ package
    import flash.events.*;
    import flash.text.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol1976")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1965")]
    public class LPFFrameGenericButton extends LPFFrame
    {
 

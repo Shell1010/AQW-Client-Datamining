@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2512")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2498")]
    public dynamic class mcPVPPanel_maps_iList_item_icon_511 extends MovieClip
    {
 

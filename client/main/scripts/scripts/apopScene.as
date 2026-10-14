@@ -6,7 +6,7 @@ package
    import flash.text.TextField;
    import flash.text.TextFormat;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2945")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2931")]
    public class apopScene extends Sprite
    {
 

@@ -990,7 +990,8 @@ package
       {
          var _loc1_:Array = null;
          var _loc2_:Object = null;
-         var _loc3_:Object = null;
+         var _loc3_:String = null;
+         var _loc4_:Object = null;
          if(this.shopinfo != null && this.shopinfo.bHouse == 1)
          {
             _loc1_ = [{
@@ -1044,8 +1045,14 @@ package
             "filter":"Weapon",
             "mc":{}
          },{
-            "sTag":"Show only armor",
+            "sTag":"Show only classes",
             "icon":"iiclass",
+            "state":-1,
+            "filter":"cl",
+            "mc":{}
+         },{
+            "sTag":"Show only armor",
+            "icon":"iwarmor",
             "state":-1,
             "filter":"ar",
             "mc":{}
@@ -1102,11 +1109,12 @@ package
          }
          if(param1 != null)
          {
-            for each(_loc3_ in _loc1_)
+            _loc3_ = param1.sES == "ar" ? "cl" : param1.sES;
+            for each(_loc4_ in _loc1_)
             {
-               if(_loc3_.filter == param1.sES)
+               if(_loc4_.filter == _loc3_)
                {
-                  return [_loc3_];
+                  return [_loc4_];
                }
             }
             return [_loc1_[0]];

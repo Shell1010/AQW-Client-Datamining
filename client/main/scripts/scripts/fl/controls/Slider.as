@@ -13,7 +13,7 @@ package fl.controls
    import flash.events.MouseEvent;
    import flash.ui.Keyboard;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2352")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2339")]
    public class Slider extends UIComponent implements IFocusManagerComponent
    {
 

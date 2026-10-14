@@ -25,7 +25,7 @@ package Apop_fla
    import flash.utils.*;
    import flash.xml.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2989")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2975")]
    public dynamic class Apop_7 extends MovieClip
    {
 

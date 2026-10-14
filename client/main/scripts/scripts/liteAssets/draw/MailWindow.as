@@ -62,6 +62,8 @@ package liteAssets.draw
 
       private var listViewport:Sprite;
 
+      private var listRect:Rectangle = new Rectangle();
+
       private var listHolder:Sprite;
 
       private var rows:Array = [];
@@ -127,6 +129,8 @@ package liteAssets.draw
       private var cards:Array = [];
 
       private var cardView:Sprite;
+
+      private var cardHolder:Sprite;
 
       private var cardSbTrack:Sprite;
 
@@ -556,7 +560,6 @@ package liteAssets.draw
          this.listViewport = new Sprite();
          this.listViewport.x = LIST_X;
          this.listViewport.y = LIST_Y;
-         this.listViewport.opaqueBackground = 657930;
          addChild(this.listViewport);
          this.listHolder = new Sprite();
          this.listViewport.addChild(this.listHolder);
@@ -728,7 +731,7 @@ package liteAssets.draw
             this.listScrollY = 0;
          }
          this.listRowW = _loc7_;
-         this.listViewport.scrollRect = new Rectangle(0,this.listScrollY,_loc7_,LIST_H);
+         this.setListRect(_loc7_);
          this.renderRows(true);
          this.updateListScrollbar(_loc8_,_loc6_);
          this.maybeLoadMore();
@@ -961,14 +964,20 @@ package liteAssets.draw
 
       private function applyListScroll() : void
       {
-         var _loc1_:int = this.sbTrack.visible ? int(LIST_W - 10) : int(LIST_W - 2);
-         this.listViewport.scrollRect = new Rectangle(0,this.listScrollY,_loc1_,LIST_H);
-         var _loc2_:Array = this.hub.mails;
-         var _loc3_:int = _loc2_.length * ROW_H;
-         var _loc4_:int = _loc3_ - LIST_H;
-         this.sbThumb.y = _loc4_ > 0 ? int((LIST_H - this.listThumbH) * this.listScrollY / _loc4_) : 0;
+         this.listHolder.y = -this.listScrollY;
+         var _loc1_:Array = this.hub.mails;
+         var _loc2_:int = _loc1_.length * ROW_H;
+         var _loc3_:int = _loc2_ - LIST_H;
+         this.sbThumb.y = _loc3_ > 0 ? int((LIST_H - this.listThumbH) * this.listScrollY / _loc3_) : 0;
          this.renderRows(false);
          this.maybeLoadMore();
+      }
+
+      private function setListRect(param1:int) : void
+      {
+         this.listRect.setTo(0,0,param1,LIST_H);
+         this.listViewport.scrollRect = this.listRect;
+         this.listHolder.y = -this.listScrollY;
       }
 
       private function maybeLoadMore() : void
@@ -1008,7 +1017,7 @@ package liteAssets.draw
             if(param1.target == this.sbThumb)
             {
                this.dragMode = "list";
-               this.dragOff = this.sbTrack.mouseY - this.sbThumb.y;
+               this.dragOff = param1.localY;
                this.dragStage = stage;
                if(this.dragStage != null)
                {
@@ -1035,12 +1044,13 @@ package liteAssets.draw
          var _loc3_:int = 0;
          var _loc4_:Number = NaN;
          var _loc5_:Number = NaN;
-         var _loc6_:Number = NaN;
+         var _loc6_:int = 0;
          var _loc7_:Number = NaN;
          var _loc8_:Number = NaN;
          var _loc9_:Number = NaN;
          var _loc10_:Number = NaN;
          var _loc11_:Number = NaN;
+         var _loc12_:Number = NaN;
          try
          {
             if(this.dragMode == "list")
@@ -1053,7 +1063,7 @@ package liteAssets.draw
                {
                   return;
                }
-               _loc5_ = this.sbTrack.mouseY - this.dragOff;
+               _loc5_ = this.sbTrack.globalToLocal(new Point(param1.stageX,param1.stageY)).y - this.dragOff;
                if(_loc5_ < 0)
                {
                   _loc5_ = 0;
@@ -1062,50 +1072,54 @@ package liteAssets.draw
                {
                   _loc5_ = _loc4_;
                }
-               this.listScrollY = int(_loc5_ / _loc4_ * _loc3_);
+               _loc6_ = int(_loc5_ / _loc4_ * _loc3_);
+               if(_loc6_ == this.listScrollY)
+               {
+                  return;
+               }
+               this.listScrollY = _loc6_;
                this.applyListScroll();
             }
             else if(this.dragMode == "body")
             {
-               _loc6_ = this.bodyContentH - this.bodyVpH;
-               _loc7_ = this.bodyVpH - this.bodyThumbH;
-               if(_loc7_ <= 0 || _loc6_ <= 0)
+               _loc7_ = this.bodyContentH - this.bodyVpH;
+               _loc8_ = this.bodyVpH - this.bodyThumbH;
+               if(_loc8_ <= 0 || _loc7_ <= 0)
                {
                   return;
                }
-               _loc8_ = this.bodySbTrack.mouseY - this.dragOff;
-               if(_loc8_ < 0)
+               _loc9_ = this.bodySbTrack.mouseY - this.dragOff;
+               if(_loc9_ < 0)
                {
-                  _loc8_ = 0;
+                  _loc9_ = 0;
                }
-               else if(_loc8_ > _loc7_)
+               else if(_loc9_ > _loc8_)
                {
-                  _loc8_ = _loc7_;
+                  _loc9_ = _loc8_;
                }
-               this.bodyScrollY = int(_loc8_ / _loc7_ * _loc6_);
+               this.bodyScrollY = int(_loc9_ / _loc8_ * _loc7_);
                this.applyBodyScroll();
             }
             else if(this.dragMode == "cards")
             {
-               _loc9_ = this.cardContentH - this.cardViewH;
-               _loc10_ = this.cardViewH - this.cardThumbH;
-               if(_loc10_ <= 0 || _loc9_ <= 0 || this.cardSbTrack == null)
+               _loc10_ = this.cardContentH - this.cardViewH;
+               _loc11_ = this.cardViewH - this.cardThumbH;
+               if(_loc11_ <= 0 || _loc10_ <= 0 || this.cardSbTrack == null)
                {
                   return;
                }
-               _loc11_ = this.cardSbTrack.mouseY - this.dragOff;
-               if(_loc11_ < 0)
+               _loc12_ = this.cardSbTrack.mouseY - this.dragOff;
+               if(_loc12_ < 0)
                {
-                  _loc11_ = 0;
+                  _loc12_ = 0;
                }
-               else if(_loc11_ > _loc10_)
+               else if(_loc12_ > _loc11_)
                {
-                  _loc11_ = _loc10_;
+                  _loc12_ = _loc11_;
                }
-               this.cardScrollY = int(_loc11_ / _loc10_ * _loc9_);
+               this.cardScrollY = int(_loc12_ / _loc11_ * _loc10_);
                this.applyCardScroll();
             }
-            param1.updateAfterEvent();
          }
          catch(err:Error)
          {
@@ -1663,6 +1677,7 @@ package liteAssets.draw
                this.bodyScrollY = 0;
             }
             this.bodyViewport.scrollRect = new Rectangle(0,0,BODY_W,_loc1_);
+            this.bodyHolder.y = 0;
             return;
          }
          var _loc3_:Number = this.bodyContentH - _loc1_;
@@ -1674,7 +1689,8 @@ package liteAssets.draw
          {
             this.bodyScrollY = 0;
          }
-         this.bodyViewport.scrollRect = new Rectangle(0,this.bodyScrollY,BODY_W,_loc1_);
+         this.bodyViewport.scrollRect = new Rectangle(0,0,BODY_W,_loc1_);
+         this.bodyHolder.y = -this.bodyScrollY;
          this.bodySbTrack.x = 634;
          this.bodySbTrack.y = this.bodyViewport.y;
          var _loc4_:Graphics = this.bodySbTrack.graphics;
@@ -1703,7 +1719,7 @@ package liteAssets.draw
       private function applyBodyScroll() : void
       {
          var _loc1_:Number = NaN;
-         this.bodyViewport.scrollRect = new Rectangle(0,this.bodyScrollY,BODY_W,this.bodyVpH);
+         this.bodyHolder.y = -this.bodyScrollY;
          if(this.bodyThumbH > 0)
          {
             _loc1_ = this.bodyContentH - this.bodyVpH;
@@ -1794,6 +1810,7 @@ package liteAssets.draw
             this.cardTouch = null;
          }
          this.cardView = null;
+         this.cardHolder = null;
          if(this.trayClaimBtn != null)
          {
             this.trayClaimBtn.removeEventListener(MouseEvent.CLICK,this.onClaimClick);
@@ -1864,6 +1881,8 @@ package liteAssets.draw
          this.cardView = new Sprite();
          this.cardView.y = 22;
          this.tray.addChild(this.cardView);
+         this.cardHolder = new Sprite();
+         this.cardView.addChild(this.cardHolder);
          this.cardViewH = _loc3_ * 80;
          this.cardContentH = Math.ceil(_loc2_ / 5) * 80;
          if(this.cardContentH > this.cardViewH)
@@ -1997,7 +2016,7 @@ package liteAssets.draw
                _loc1_ = new MailCard(this.rootClass,this.trayM.att[_loc3_],_loc3_);
                _loc1_.x = CARD_X0 + _loc3_ % 5 * 72;
                _loc1_.y = int(_loc3_ / 5) * 80;
-               this.cardView.addChild(_loc1_);
+               this.cardHolder.addChild(_loc1_);
                this.cards[_loc3_] = _loc1_;
             }
             _loc3_++;
@@ -2050,7 +2069,11 @@ package liteAssets.draw
             return;
          }
          var _loc1_:Number = this.cardContentH - this.cardViewH;
-         this.cardView.scrollRect = new Rectangle(0,this.cardScrollY,368,this.cardViewH);
+         if(this.cardView.scrollRect == null)
+         {
+            this.cardView.scrollRect = new Rectangle(0,0,368,this.cardViewH);
+         }
+         this.cardHolder.y = -this.cardScrollY;
          this.cardSbThumb.y = _loc1_ > 0 ? int((this.cardViewH - this.cardThumbH) * this.cardScrollY / _loc1_) : 0;
          this.ensureCards();
       }

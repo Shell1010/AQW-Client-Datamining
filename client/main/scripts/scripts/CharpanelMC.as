@@ -4,7 +4,7 @@ package
    import flash.events.*;
    import flash.text.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2613")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2599")]
    public class CharpanelMC extends MovieClip
    {
 

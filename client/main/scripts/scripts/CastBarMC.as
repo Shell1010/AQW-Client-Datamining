@@ -4,7 +4,7 @@ package
    import flash.events.*;
    import flash.text.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2786")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2773")]
    public class CastBarMC extends MovieClip
    {
 

@@ -3,7 +3,7 @@ package
    import flash.display.*;
    import flash.text.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol1908")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1897")]
    public class LPFFrameSlotDisplay extends LPFFrame
    {
 

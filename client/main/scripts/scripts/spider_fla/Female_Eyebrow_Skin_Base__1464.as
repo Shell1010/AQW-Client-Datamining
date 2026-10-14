@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol931")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol923")]
    public dynamic class Female_Eyebrow_Skin_Base__1464 extends MovieClip
    {
 
