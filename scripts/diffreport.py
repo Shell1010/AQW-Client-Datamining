@@ -174,13 +174,13 @@ if __name__ == "__main__":
     oa, na = get(old, "sAssets", "clientvars.json"), get(new, "sAssets", "clientvars.json")
 
     highlights = []
-    if newp:   highlights.append(("📦 New packet commands", ", ".join(f"`{p}`" for p in sorted(newp))))
-    if gonep:  highlights.append(("🗑️ Removed packet commands", ", ".join(f"`{p}`" for p in sorted(gonep))))
-    if urls:   highlights.append(("🌐 New URLs", "\n".join(f"`{u}`" for u in sorted(urls))))
-    if vd:     highlights.append(("⚙️ clientvars", "\n".join(vd)))
-    if link_lines: highlights.append(("🧬 Linkage", "\n".join(link_lines)))
+    if newp:   highlights.append(("New packet commands", ", ".join(f"`{p}`" for p in sorted(newp))))
+    if gonep:  highlights.append(("Removed packet commands", ", ".join(f"`{p}`" for p in sorted(gonep))))
+    if urls:   highlights.append(("New URLs", "\n".join(f"`{u}`" for u in sorted(urls))))
+    if vd:     highlights.append(("clientvars", "\n".join(vd)))
+    if link_lines: highlights.append(("Linkage", "\n".join(link_lines)))
     strs = [s for s in sorted(newstr) if not s.startswith("http")]
-    if strs:   highlights.append(("🔤 New strings", "\n".join(f"`{s[:60]}`" for s in strs[:25])))
+    if strs:   highlights.append(("New strings", "\n".join(f"`{s[:60]}`" for s in strs[:25])))
 
     report = {"old": ov, "new": nv, "files": files, "assets": tuple(assets),
               "assets_change": (oa, na) if oa != na else None, "highlights": highlights}

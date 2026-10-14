@@ -78,7 +78,7 @@ def overview(r, diff_name):
 
     head = [f"# 🛰️ AQW Client Update\n`{old}` → `{new}`"]
     if r.get("assets_change"):
-        head.append(f"🎨 Assets `{r['assets_change'][0]}` → `{r['assets_change'][1]}`")
+        head.append(f"Assets `{r['assets_change'][0]}` → `{r['assets_change'][1]}`")
     run = None
     if os.environ.get("GITHUB_RUN_ID"):
         run = (f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}"
@@ -91,7 +91,7 @@ def overview(r, diff_name):
     kids = [section(head, acc) if acc else text("\n".join(head)), sep(big=True)]
     kids.append(text(
         f"**{len(files)}** files • **+{add}** / **−{rem}** methods • **{mod}** modified\n"
-        f"🎨 assets **+{aa}** / **−{ar}** unique blobs"))
+        f"assets **+{aa}** / **−{ar}** unique blobs"))
 
     idx = []
     for name, kind, rows in files[:12]:
