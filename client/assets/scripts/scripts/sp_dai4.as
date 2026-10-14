@@ -1,0 +1,26 @@
+package
+{
+   import flash.display.MovieClip;
+
+   [Embed(source="/_assets/assets.swf", symbol="symbol4171")]
+   public dynamic class sp_dai4 extends SpellW
+   {
+
+      public function sp_dai4()
+      {
+         super();
+         addFrameScript(0,this.frame1,15,this.frame16);
+      }
+
+      internal function frame1() : *
+      {
+         init();
+      }
+
+      internal function frame16() : *
+      {
+         MovieClip(parent).removeChild(this);
+         stop();
+      }
+   }
+}

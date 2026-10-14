@@ -1,1 +1,16 @@
-{"sFile": "Game4000r2.swf", "sTitle": "18th Upholder!", "sBG": "Generic2.swf", "sVersion": "R0048"}
+{
+ "assets": {
+  "etag": "\"fba8b8c6bd26dd1:0\"",
+  "sha": "54ab0ac2693fbdd0afa0491e122bdbc96d942c2e29bbce81d2f54d5e5243f8a0",
+  "url": "https://game.aq.com/game/gamefiles/interface/Assets/Assets_20260731.swf"
+ },
+ "main": {
+  "etag": "\"ec0b2a4e758dd1:0\"",
+  "sha": "411e5d24b5134f0e85be4552f62618153ca7f97ad05cb199355fd46f9e3d916f",
+  "url": "https://game.aq.com/game/gamefiles/Game4000r2.swf"
+ },
+ "sBG": "Generic2.swf",
+ "sFile": "Game4000r2.swf",
+ "sTitle": "18th Upholder!",
+ "sVersion": "R0048"
+}
