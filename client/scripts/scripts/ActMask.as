@@ -14,6 +14,8 @@ package
 
       public var e3:MovieClip;
 
+      public var ei:MovieClip;
+
       public function ActMask()
       {
          super();

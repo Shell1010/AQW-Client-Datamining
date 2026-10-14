@@ -76,7 +76,7 @@ def overview(r, diff_name):
         a, b, c = counts(rows); add += a; rem += b; mod += c
     aa, ar = r["assets"]
 
-    head = [f"# 🛰️ AQW Client Update\n`{old}` → `{new}`"]
+    head = [f"# AQW Client Update\n`{old}` → `{new}`"]
     if r.get("assets_change"):
         head.append(f"Assets `{r['assets_change'][0]}` → `{r['assets_change'][1]}`")
     run = None
