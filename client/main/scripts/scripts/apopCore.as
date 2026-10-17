@@ -7,7 +7,7 @@ package
    import flash.events.MouseEvent;
    import flash.text.TextField;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2920")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2917")]
    public class apopCore extends Sprite
    {
 

@@ -7,7 +7,7 @@ package
    import flash.text.TextField;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2878")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2875")]
    public class ServerList extends MovieClip
    {
 

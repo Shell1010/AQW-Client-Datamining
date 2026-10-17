@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3795")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3792")]
    public dynamic class game_1_CMP_Checkboxa10_217 extends MovieClip
    {
 

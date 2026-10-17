@@ -3,7 +3,7 @@ package
    import flash.display.MovieClip;
    import flash.text.TextField;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol880")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol881")]
    public dynamic class mcUListAItem extends MovieClip
    {
 

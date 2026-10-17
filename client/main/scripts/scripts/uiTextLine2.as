@@ -3,7 +3,7 @@ package
    import flash.display.MovieClip;
    import flash.text.TextField;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2734")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2731")]
    public dynamic class uiTextLine2 extends MovieClip
    {
 

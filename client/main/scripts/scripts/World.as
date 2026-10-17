@@ -893,6 +893,8 @@ package
 
       private var fpsTS:Number = 0;
 
+      private var crowdTicks:int = 0;
+
       private var fpsQualityCounter:int = 0;
 
       private var fpsArrayQuality:Array = [];
@@ -9469,6 +9471,11 @@ package
                   return;
                }
             }
+            if(Boolean(cAvt && cAvt.npcType == "player") && Boolean(!cAvt.isMyAvatar) && this.rootClass.crowdOn == true)
+            {
+               cAvt.pMC.clearSpFXQueue();
+               return;
+            }
             if(spFX.strl != null && spFX.strl != "" && spFX.avts != null)
             {
                targetMCs = [];
@@ -13174,6 +13181,11 @@ package
                this.ticklist.push(_loc2_);
                this.ticksum = this.ticksum + _loc2_ - _loc3_;
                _loc4_ = 1000 / (this.ticksum / this.ticklist.length);
+               if(++this.crowdTicks >= 48)
+               {
+                  this.crowdTicks = 0;
+                  this.rootClass.crowdSample(_loc4_);
+               }
                if(this.rootClass.ui.mcFPS.visible)
                {
                   this.rootClass.ui.mcFPS.txtFPS.text = _loc4_.toPrecision(4);

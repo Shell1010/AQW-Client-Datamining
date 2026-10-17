@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2739")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2736")]
    public dynamic class actBar_icon_bgcopy2_330 extends MovieClip
    {
 

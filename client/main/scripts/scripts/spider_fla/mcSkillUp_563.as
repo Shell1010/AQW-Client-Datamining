@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol4192")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol4189")]
    public dynamic class mcSkillUp_563 extends MovieClip
    {
 

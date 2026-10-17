@@ -2,7 +2,8 @@ package
 {
    import flash.display.*;
    import flash.geom.*;
-   import flash.text.*;
+   import flash.text.TextField;
+   import flash.text.TextFormat;
    import flash.utils.*;
    import liteAssets.draw.*;
 
@@ -148,8 +149,8 @@ package
          this.iconHolder.mouseEnabled = false;
          this.iconHolder.mouseChildren = false;
          addChild(this.iconHolder);
-         this.fmtName = new TextFormat("Arial",12,13421772,true);
-         this.fmtSuffix = new TextFormat("Arial",12,10066329,true);
+         this.fmtName = MailArt.fmt(12,13421772,true);
+         this.fmtSuffix = MailArt.fmt(12,10066329,true);
          this.tfName = makeTF(12,13421772,true);
          this.tfName.x = 38;
          addChild(this.tfName);
@@ -191,8 +192,8 @@ package
             this.tfLvl.text = "";
          }
          addChild(this.tfLvl);
-         this.fmtPriceWhite = new TextFormat("Arial",12,16777215,true);
-         this.fmtPriceGoldSuffix = new TextFormat("Arial",12,14725888,true);
+         this.fmtPriceWhite = MailArt.fmt(12,16777215,true);
+         this.fmtPriceGoldSuffix = MailArt.fmt(12,14725888,true);
          this.tfPrice = makeTF(12,16777215,true);
          this.tfPrice.visible = false;
          addChild(this.tfPrice);
@@ -241,15 +242,7 @@ package
 
       public static function makeTF(param1:int, param2:uint, param3:Boolean = false, param4:Boolean = false) : TextField
       {
-         var _loc1_:TextField = new TextField();
-         _loc1_.embedFonts = false;
-         _loc1_.selectable = false;
-         _loc1_.mouseEnabled = false;
-         _loc1_.multiline = false;
-         _loc1_.wordWrap = false;
-         _loc1_.autoSize = TextFieldAutoSize.LEFT;
-         _loc1_.defaultTextFormat = new TextFormat("Arial",param1,param2,param3,param4);
-         return _loc1_;
+         return MailArt.tf(param1,param2,param3,param4);
       }
 
       public static function setRuns(param1:TextField, param2:String, param3:TextFormat, param4:String, param5:TextFormat) : void
@@ -687,7 +680,9 @@ package
 
       private function applyName(param1:String, param2:String) : void
       {
+         this.tfName.embedFonts = MailArt.embedded();
          setRuns(this.tfName,param1,this.fmtName,param2,this.fmtSuffix);
+         MailArt.cover(this.tfName);
       }
 
       private function drawPrice(param1:Number) : void

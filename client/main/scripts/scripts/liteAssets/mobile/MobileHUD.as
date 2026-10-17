@@ -195,6 +195,7 @@ package liteAssets.mobile
 
       public function MobileHUD(param1:MovieClip)
       {
+         var k:Number;
          var game:MovieClip = param1;
          this.buttons = [];
          this.callbacks = [];
@@ -206,9 +207,10 @@ package liteAssets.mobile
          this.zoneKey = new Vector.<Number>(13,true);
          super();
          this.g = game;
-         this.tabW = Mobile.touchPx(7);
-         this.tabH = Math.max(56,Mobile.touchPx(12));
-         this.btnS = Mobile.touchPx();
+         k = Number(Mobile.uiScale);
+         this.tabW = Math.round(Mobile.touchPx(7) * k);
+         this.tabH = Math.round(Math.max(56,Mobile.touchPx(12)) * k);
+         this.btnS = Math.round(Mobile.touchPx() * k);
          this.gap = Math.max(4,Math.round(this.btnS * 4 / BASE));
          this.pad = this.gap;
          this.btnS = Math.min(this.btnS,Math.floor((STAGE_W - this.tabW - this.gap * 9) / 6));
@@ -806,7 +808,7 @@ package liteAssets.mobile
          }
          this.barCache = null;
          var _loc1_:Number = Number(Mobile.physPx(ZONE_MM));
-         _loc1_ = _loc1_ > 0 ? Math.max(ZONE_MIN,Math.min(ZONE_MAX,_loc1_)) : Number(ZONE_MIN);
+         _loc1_ = (_loc1_ > 0 ? Math.max(ZONE_MIN,Math.min(ZONE_MAX,_loc1_)) : ZONE_MIN) * Mobile.uiScale;
          var _loc2_:Number = this.joy.x + Joystick.PAD / 2;
          var _loc3_:Number = this.joy.y + Joystick.PAD / 2;
          var _loc4_:Rectangle = new Rectangle(Math.max(0,Math.min(STAGE_W - _loc1_,_loc2_ - _loc1_ / 2)),Math.max(0,Math.min(LIMIT_Y - _loc1_,_loc3_ - _loc1_ / 2)),_loc1_,_loc1_);

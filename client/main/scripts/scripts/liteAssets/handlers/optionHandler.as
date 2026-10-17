@@ -41,9 +41,9 @@ package liteAssets.handlers
       public static function cmd(param1:MovieClip, param2:String) : void
       {
          var mDrops:* = undefined;
+         var player:* = undefined;
          var csOn:Boolean = false;
          var posKey:String = null;
-         var player:* = undefined;
          var csPlayer:* = undefined;
          var csMon:* = undefined;
          var mons:* = undefined;
@@ -179,31 +179,7 @@ package liteAssets.handlers
             case "Static Player Art":
                r.litePreference.data.bCachePlayers = !r.litePreference.data.bCachePlayers;
                r.litePreference.flush();
-               for each(player in r.world.avatars)
-               {
-                  if(player.pMC)
-                  {
-                     if(!player.isMyAvatar)
-                     {
-                        try
-                        {
-                           if(r.litePreference.data.bCachePlayers)
-                           {
-                              player.pMC.rasterizeChar();
-                           }
-                           else
-                           {
-                              player.pMC.derasterizeChar();
-                              player.pMC.mcChar.gotoAndPlay("Idle");
-                           }
-                        }
-                        catch(exception:*)
-                        {
-                           continue;
-                        }
-                     }
-                  }
-               }
+               r.applyPlayerCache();
                break;
             case "Character Select Screen":
                r.litePreference.data.bCharSelect = !r.litePreference.data.bCharSelect;

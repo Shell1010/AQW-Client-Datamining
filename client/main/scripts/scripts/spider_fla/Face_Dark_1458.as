@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol904")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol905")]
    public dynamic class Face_Dark_1458 extends MovieClip
    {
 

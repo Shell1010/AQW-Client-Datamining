@@ -22,6 +22,8 @@ package liteAssets.draw
 
       private static var faces:Array;
 
+      private static var symFace:Object;
+
       public static const GOLD:uint = 14725888;
 
       public static const TRIM:uint = 13145646;
@@ -138,6 +140,37 @@ package liteAssets.draw
          }
          var _loc1_:Font = faces[(param3 ? 1 : 0) | (param4 ? 2 : 0)];
          return new TextFormat(_loc1_.fontName,param1,param2,_loc1_.fontStyle == FontStyle.BOLD || _loc1_.fontStyle == FontStyle.BOLD_ITALIC,_loc1_.fontStyle == FontStyle.ITALIC || _loc1_.fontStyle == FontStyle.BOLD_ITALIC);
+      }
+
+      public static function sym(param1:Object = null, param2:Object = null) : TextFormat
+      {
+         var f:Font;
+         var c:Class = null;
+         var size:Object = param1;
+         var color:Object = param2;
+         if(symFace == null)
+         {
+            try
+            {
+               c = getDefinitionByName("UIFontSym") as Class;
+               Font.registerFont(c);
+               symFace = new c() as Font;
+            }
+            catch(e:Error)
+            {
+               symFace = null;
+            }
+            if(symFace == null)
+            {
+               symFace = false;
+            }
+         }
+         f = symFace as Font;
+         if(f == null || !embedded())
+         {
+            return new TextFormat("Arial",size,color,false,false);
+         }
+         return new TextFormat(f.fontName,size,color,f.fontStyle == FontStyle.BOLD || f.fontStyle == FontStyle.BOLD_ITALIC,f.fontStyle == FontStyle.ITALIC || f.fontStyle == FontStyle.BOLD_ITALIC);
       }
 
       public static function cover(param1:TextField) : void
@@ -424,44 +457,45 @@ package liteAssets.draw
 
       private static function drawButton(param1:Sprite, param2:Object) : void
       {
-         var _loc1_:uint = 0;
+         var _loc1_:int = 0;
          var _loc2_:uint = 0;
-         var _loc3_:Graphics = param1.graphics;
-         _loc3_.clear();
-         var _loc4_:int = int(param2.w);
-         var _loc5_:int = int(param2.h);
+         var _loc3_:uint = 0;
+         var _loc4_:Graphics = param1.graphics;
+         _loc4_.clear();
+         var _loc5_:int = int(param2.w);
+         _loc1_ = int(param2.h);
          var _loc6_:Matrix = new Matrix();
-         _loc6_.createGradientBox(_loc4_,_loc5_,Math.PI / 2,0,0);
+         _loc6_.createGradientBox(_loc5_,_loc1_,Math.PI / 2,0,0);
          var _loc7_:TextField = TextField(param2.tf);
          if(!param2.enabled)
          {
-            _loc3_.lineStyle(1,6710886,1,true);
-            _loc3_.beginGradientFill(GradientType.LINEAR,[5592405,3355443],[1,1],[0,255],_loc6_);
-            _loc3_.drawRoundRect(0,0,_loc4_,_loc5_,12,12);
-            _loc3_.endFill();
+            _loc4_.lineStyle(1,6710886,1,true);
+            _loc4_.beginGradientFill(GradientType.LINEAR,[5592405,3355443],[1,1],[0,255],_loc6_);
+            _loc4_.drawRoundRect(0,0,_loc5_,_loc1_,12,12);
+            _loc4_.endFill();
             _loc7_.textColor = 10066329;
          }
          else if(param2.style == "green")
          {
-            _loc1_ = param2.hover ? 6081385 : 4830038;
-            _loc2_ = param2.hover ? 2593846 : 2062892;
-            _loc3_.lineStyle(1,TRIM,1,true);
-            _loc3_.beginGradientFill(GradientType.LINEAR,[_loc1_,_loc2_],[1,1],[0,255],_loc6_);
-            _loc3_.drawRoundRect(0,0,_loc4_,_loc5_,12,12);
-            _loc3_.endFill();
+            _loc2_ = param2.hover ? 6081385 : 4830038;
+            _loc3_ = param2.hover ? 2593846 : 2062892;
+            _loc4_.lineStyle(1,TRIM,1,true);
+            _loc4_.beginGradientFill(GradientType.LINEAR,[_loc2_,_loc3_],[1,1],[0,255],_loc6_);
+            _loc4_.drawRoundRect(0,0,_loc5_,_loc1_,12,12);
+            _loc4_.endFill();
             _loc7_.textColor = 16777215;
          }
          else
          {
-            _loc3_.lineStyle(1,9071162,1,true);
-            _loc3_.beginFill(param2.hover ? 4863524 : 3811866);
-            _loc3_.drawRect(0,0,_loc4_,_loc5_);
-            _loc3_.endFill();
+            _loc4_.lineStyle(1,9071162,1,true);
+            _loc4_.beginFill(param2.hover ? 4863524 : 3811866);
+            _loc4_.drawRect(0,0,_loc5_,_loc1_);
+            _loc4_.endFill();
             _loc7_.textColor = 14731680;
          }
          param1.buttonMode = Boolean(param2.enabled);
-         _loc7_.x = Math.round((_loc4_ - _loc7_.textWidth) / 2);
-         _loc7_.y = Math.round((_loc5_ - _loc7_.textHeight) / 2) - 1;
+         _loc7_.x = Math.round((_loc5_ - _loc7_.textWidth) / 2);
+         _loc7_.y = Math.round((_loc1_ - _loc7_.textHeight) / 2) - 1;
       }
 
       private static function onButtonOver(param1:MouseEvent) : void

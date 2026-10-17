@@ -2,7 +2,7 @@ package T_AvatarMon_fla_fla
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3285")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3282")]
    public dynamic class sounds_94 extends MovieClip
    {
 

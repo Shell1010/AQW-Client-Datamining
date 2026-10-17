@@ -7,7 +7,7 @@ package
    import flash.text.TextField;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol1078")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1079")]
    public class ConnDetailMC extends MovieClip
    {
 

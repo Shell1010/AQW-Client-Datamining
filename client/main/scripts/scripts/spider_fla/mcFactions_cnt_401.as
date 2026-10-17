@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2712")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2709")]
    public dynamic class mcFactions_cnt_401 extends MovieClip
    {
 

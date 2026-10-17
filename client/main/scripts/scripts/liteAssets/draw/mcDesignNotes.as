@@ -6,7 +6,7 @@ package liteAssets.draw
    import flash.net.*;
    import flash.text.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol1023")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1024")]
    public class mcDesignNotes extends MovieClip
    {
 

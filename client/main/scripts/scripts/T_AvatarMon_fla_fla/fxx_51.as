@@ -2,7 +2,7 @@ package T_AvatarMon_fla_fla
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3129")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3126")]
    public dynamic class fxx_51 extends MovieClip
    {
 

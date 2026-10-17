@@ -5,7 +5,7 @@ package liteAssets.draw
    import flash.text.TextField;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol145")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol146")]
    public class battleAnalyzer extends MovieClip
    {
 

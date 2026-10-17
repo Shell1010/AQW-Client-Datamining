@@ -16,7 +16,7 @@ package
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol1820")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1821")]
    public dynamic class MCACWindow extends MovieClip
    {
 

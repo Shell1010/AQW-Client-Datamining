@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol406")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol407")]
    public dynamic class PrideM_mcCape_1669 extends MovieClip
    {
 

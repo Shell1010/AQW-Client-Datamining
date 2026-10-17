@@ -22,6 +22,8 @@ package liteAssets.mobile
 
       private static var pxPerMm:Number = 0;
 
+      private static const SIZES:Array = [1,0.9,0.8,0.7,0.6,0.5,1.2,1.1];
+
       public function Mobile()
       {
          super();
@@ -230,6 +232,47 @@ package liteAssets.mobile
             LongPress.stop();
             ActBarTouch.stop();
          }
+      }
+
+      public static function get uiScale() : Number
+      {
+         var _loc1_:Number = 1;
+         try
+         {
+            _loc1_ = Number(game.litePreference.data.nMobileUI);
+         }
+         catch(e:Error)
+         {
+         }
+         return _loc1_ >= 0.5 && _loc1_ <= 1.2 ? _loc1_ : 1;
+      }
+
+      public static function sizeLabel() : String
+      {
+         return "Mobile UI Size: " + Math.round(uiScale * 100) + "%";
+      }
+
+      public static function cycleSize() : String
+      {
+         var _loc1_:Number = Number(SIZES[(SIZES.indexOf(uiScale) + 1) % SIZES.length]);
+         if(game != null && game.litePreference != null)
+         {
+            game.litePreference.data.nMobileUI = _loc1_;
+            try
+            {
+               game.litePreference.flush();
+            }
+            catch(e:Error)
+            {
+            }
+         }
+         if(hud != null)
+         {
+            hud.destroy();
+            hud = null;
+         }
+         syncHud();
+         return sizeLabel();
       }
 
       private static function compute() : Boolean

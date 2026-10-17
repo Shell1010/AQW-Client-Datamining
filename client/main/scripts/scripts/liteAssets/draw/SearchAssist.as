@@ -195,7 +195,7 @@ package liteAssets.draw
             return;
          }
          var _loc1_:DisplayObject = param1.target as DisplayObject;
-         if(_loc1_ != null && Boolean(this.box.contains(_loc1_)))
+         if(_loc1_ != null && (Boolean(this.box.contains(_loc1_)) || this.game != null && !this.game.contains(_loc1_)))
          {
             return;
          }

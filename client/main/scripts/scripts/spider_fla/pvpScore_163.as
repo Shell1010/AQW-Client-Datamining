@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3713")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3710")]
    public dynamic class pvpScore_163 extends MovieClip
    {
 

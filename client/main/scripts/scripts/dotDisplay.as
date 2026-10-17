@@ -25,7 +25,7 @@ package
    import flash.utils.*;
    import flash.xml.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3491")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3488")]
    public dynamic class dotDisplay extends MovieClip
    {
 

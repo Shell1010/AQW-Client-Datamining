@@ -6,7 +6,7 @@ package
    import flash.geom.Rectangle;
    import flash.text.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol1010")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1011")]
    public class DFrameMC extends MovieClip
    {
 

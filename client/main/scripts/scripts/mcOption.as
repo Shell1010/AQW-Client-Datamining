@@ -11,7 +11,7 @@ package
    import liteAssets.listOptionsItem.*;
    import liteAssets.mobile.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol868")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol869")]
    public class mcOption extends MovieClip
    {
 
@@ -20,6 +20,7 @@ package
       private static const SECTION_OF:Object = {
          "Keybinds":"Controls",
          "Mobile Controls":"Controls",
+         "Mobile UI Size":"Controls",
          "Gamepad Controls":"Controls",
          "Hide UI":"Interface",
          "Reset UI Positions":"Interface",
@@ -54,6 +55,7 @@ package
          "Item Drops Block List":"Drops",
          "Hide Ground Items":"Drops",
          "Max FPS":"Graphics & Performance",
+         "Crowd Mode":"Graphics & Performance",
          "Disable Monster Animations":"Graphics & Performance",
          "Disable Self Animations":"Graphics & Performance",
          "Disable Skill Animations":"Graphics & Performance",
@@ -983,6 +985,10 @@ package
 
       private function sortKey(param1:String) : String
       {
+         if(param1.indexOf("Mobile UI Size") == 0)
+         {
+            return "Mobile ControlsuFFFE";
+         }
          return param1 == "Gamepad Controls" ? "Mobile ControlsuFFFF" : param1;
       }
 

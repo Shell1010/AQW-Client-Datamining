@@ -4,7 +4,7 @@ package
    import flash.events.*;
    import flash.geom.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol587")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol588")]
    public class ItemList extends MovieClip
    {
 

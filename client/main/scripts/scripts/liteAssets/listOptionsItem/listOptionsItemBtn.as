@@ -117,6 +117,18 @@ package liteAssets.listOptionsItem
             this.rootClass.ui.ToolTip.close();
             return;
          }
+         if(this.txtName.text.indexOf("Mobile UI Size") == 0)
+         {
+            this.txtName.text = Mobile.cycleSize();
+            this.rootClass.ui.ToolTip.close();
+            return;
+         }
+         if(this.txtName.text.indexOf("Crowd Mode") == 0)
+         {
+            this.txtName.text = this.rootClass.cycleCrowd();
+            this.rootClass.ui.ToolTip.close();
+            return;
+         }
          if(this.txtName.text.indexOf("Max FPS") == 0)
          {
             this.txtName.text = this.rootClass.cycleMaxFPS();

@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol928")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol929")]
    public dynamic class Female_Nose_1466 extends MovieClip
    {
 

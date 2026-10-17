@@ -325,6 +325,7 @@ package
          this.mcCannedChat = this.initCannedChat(this.xmlCannedOptions.children());
          t.addEventListener(TimerEvent.TIMER,this.closeCannedChatTimer);
          this.r.ui.addChild(this.mcCannedChat);
+         LongPress.skip(this.mcCannedChat);
          this.mcCannedChat.addEventListener(MouseEvent.MOUSE_OVER,this.onCannedChatOver);
          this.mcCannedChat.addEventListener(MouseEvent.MOUSE_OUT,this.onCannedChatOut);
          this.mcCannedChat.y = 495 + -this.mcCannedChat.numChildren * 23;
@@ -1349,6 +1350,7 @@ package
                _loc2_.mcMoreOptions = this.initCannedChat(_loc1_.children());
                _loc2_.addChild(_loc2_.mcMoreOptions);
                _loc2_.mcMoreOptions.visible = false;
+               _loc2_.addEventListener(MouseEvent.CLICK,this.onMoreClick);
                _loc3_ = _loc2_.txtChat.text;
                if(_loc3_ == "During the battle" || _loc3_ == "*I\'m going to...")
                {
@@ -1402,6 +1404,14 @@ package
             {
                _loc1_.mcMoreOptions.y -= _loc3_.y - 500;
             }
+         }
+      }
+
+      private function onMoreClick(param1:MouseEvent) : *
+      {
+         if(!param1.currentTarget.mcMoreOptions.contains(DisplayObject(param1.target)))
+         {
+            this.onRollOver(param1);
          }
       }
 

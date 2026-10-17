@@ -4,7 +4,7 @@ package org.sepy.ColorPicker
    import flash.events.*;
    import flash.geom.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2679")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2676")]
    public class AdvColorPanel extends MovieClip
    {
 

@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3391")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3388")]
    public dynamic class LevelUpDisplay extends MovieClip
    {
 

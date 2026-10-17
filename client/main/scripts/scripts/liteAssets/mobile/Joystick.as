@@ -258,44 +258,21 @@ package liteAssets.mobile
 
       private function forwardTap(param1:Stage, param2:Number, param3:Number) : void
       {
-         var _loc1_:DisplayObject = null;
-         var _loc2_:InteractiveObject = null;
-         var _loc3_:DisplayObject = null;
-         var _loc4_:Point = null;
-         var _loc5_:Point = new Point(param2,param3);
-         var _loc6_:Array = param1.getObjectsUnderPoint(_loc5_);
-         var _loc7_:DisplayObjectContainer = parent;
-         var _loc8_:* = int(_loc6_.length - 1);
-         while(_loc8_ >= 0)
+         var _loc1_:InteractiveObject = TapPick.at(param1,param2,param3,parent);
+         if(_loc1_ == null || _loc1_ == param1)
          {
-            _loc1_ = _loc6_[_loc8_];
-            if(!(_loc7_ != null && _loc7_.contains(_loc1_)))
-            {
-               _loc2_ = null;
-               _loc3_ = _loc1_;
-               while(_loc3_ != null && _loc3_ != param1)
-               {
-                  if(_loc3_ is InteractiveObject && Boolean(InteractiveObject(_loc3_).mouseEnabled))
-                  {
-                     if(_loc2_ == null)
-                     {
-                        _loc2_ = InteractiveObject(_loc3_);
-                     }
-                  }
-                  if(_loc3_ is DisplayObjectContainer && !DisplayObjectContainer(_loc3_).mouseChildren && _loc3_ is InteractiveObject && Boolean(InteractiveObject(_loc3_).mouseEnabled))
-                  {
-                     _loc2_ = InteractiveObject(_loc3_);
-                  }
-                  _loc3_ = _loc3_.parent;
-               }
-               if(_loc2_ != null)
-               {
-                  _loc4_ = _loc2_.globalToLocal(_loc5_);
-                  _loc2_.dispatchEvent(new MouseEvent(MouseEvent.CLICK,true,false,_loc4_.x,_loc4_.y));
-                  return;
-               }
-            }
-            _loc8_--;
+            return;
+         }
+         var _loc2_:Point = _loc1_.globalToLocal(new Point(param2,param3));
+         _loc1_.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DOWN,true,false,_loc2_.x,_loc2_.y,null,false,false,false,true));
+         if(_loc1_.stage == null)
+         {
+            return;
+         }
+         _loc1_.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_UP,true,false,_loc2_.x,_loc2_.y));
+         if(_loc1_.stage != null)
+         {
+            _loc1_.dispatchEvent(new MouseEvent(MouseEvent.CLICK,true,false,_loc2_.x,_loc2_.y));
          }
       }
    }

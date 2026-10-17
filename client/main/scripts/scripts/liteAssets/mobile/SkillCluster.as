@@ -188,21 +188,22 @@ package liteAssets.mobile
          var _loc14_:TextField = null;
          super();
          mouseEnabled = false;
-         this.skS = Math.max(SK_S,Mobile.touchPx(9));
-         this.aaS = Math.max(AA_S,Mobile.touchPx(11));
+         var _loc15_:Number = Number(Mobile.uiScale);
+         this.skS = Math.round(Math.max(SK_S,Mobile.touchPx(9)) * _loc15_);
+         this.aaS = Math.round(Math.max(AA_S,Mobile.touchPx(11)) * _loc15_);
          this.gap = Math.round(GAP * Math.max(this.skS / SK_S,this.aaS / AA_S));
-         var _loc15_:int = int(this.aaS);
-         var _loc16_:int = int(this.skS);
+         var _loc16_:int = int(this.aaS);
+         var _loc17_:int = int(this.skS);
          this.frame = new Shape();
          this.frame.visible = false;
          addChild(this.frame);
          this.ring = new Sprite();
          this.ring.mouseEnabled = false;
          addChild(this.ring);
-         var _loc17_:int = 0;
-         while(_loc17_ < 6)
+         var _loc18_:int = 0;
+         while(_loc18_ < 6)
          {
-            _loc1_ = _loc17_ == 0 ? _loc15_ : _loc16_;
+            _loc1_ = _loc18_ == 0 ? _loc16_ : _loc17_;
             _loc2_ = Math.round(_loc1_ * REF_H / REF_W);
             _loc3_ = -(_loc1_ >> 1);
             _loc4_ = -(_loc2_ >> 1);
@@ -234,7 +235,7 @@ package liteAssets.mobile
             _loc14_.filters = CD_GLOW;
             _loc14_.visible = false;
             _loc9_.addChild(_loc14_);
-            _loc9_.addChild(this.badge(String(_loc17_ + 1),_loc3_,_loc4_ + _loc2_));
+            _loc9_.addChild(this.badge(String(_loc18_ + 1),_loc3_,_loc4_ + _loc2_));
             _loc7_.addChild(_loc9_);
             _loc7_.mouseChildren = false;
             _loc7_.alpha = IDLE_ALPHA;
@@ -253,7 +254,7 @@ package liteAssets.mobile
             this.lastTick.push(-REFRESH_TICKS);
             this.lastDeg.push(-1);
             this.lastSec.push(0);
-            _loc17_++;
+            _loc18_++;
          }
          this.dashS = Math.round(this.skS * DASH_K);
          this.dashBtn = new Sprite();
@@ -264,13 +265,13 @@ package liteAssets.mobile
          this.dashGlyph = new Shape();
          this.dashGlyph.filters = GLYPH_GLOW;
          this.dashBtn.addChild(this.dashGlyph);
-         var _loc18_:Sprite = new Sprite();
-         _loc18_.graphics.beginFill(0,0);
-         _loc18_.graphics.drawCircle(0,0,(this.dashS >> 1) + this.gap);
-         _loc18_.graphics.endFill();
-         _loc18_.mouseEnabled = false;
-         this.dashBtn.addChild(_loc18_);
-         this.dashBtn.hitArea = _loc18_;
+         var _loc19_:Sprite = new Sprite();
+         _loc19_.graphics.beginFill(0,0);
+         _loc19_.graphics.drawCircle(0,0,(this.dashS >> 1) + this.gap);
+         _loc19_.graphics.endFill();
+         _loc19_.mouseEnabled = false;
+         this.dashBtn.addChild(_loc19_);
+         this.dashBtn.hitArea = _loc19_;
          this.drawDash(false);
          this.dashBtn.addEventListener(MouseEvent.MOUSE_DOWN,this.onDashDown,false,0,true);
          if(Multitouch.supportsTouchEvents)

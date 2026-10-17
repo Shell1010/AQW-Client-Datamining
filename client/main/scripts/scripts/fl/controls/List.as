@@ -14,7 +14,7 @@ package fl.controls
    import flash.ui.Keyboard;
    import flash.utils.Dictionary;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol105")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol106")]
    public class List extends SelectableList implements IFocusManagerComponent
    {
 

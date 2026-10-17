@@ -2,7 +2,7 @@ package T_AvatarMon_fla_fla
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3029")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3026")]
    public dynamic class mcCape_10 extends MovieClip
    {
 

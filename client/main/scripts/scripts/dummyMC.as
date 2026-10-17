@@ -25,7 +25,7 @@ package
    import flash.utils.*;
    import flash.xml.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3485")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3482")]
    public dynamic class dummyMC extends MovieClip
    {
 

@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3800")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3797")]
    public dynamic class cnt_deathcounter_version2_188 extends MovieClip
    {
 

@@ -35,9 +35,19 @@ package liteAssets.mobile
 
       private static var sy:Number = 0;
 
+      private static var skipped:Dictionary = new Dictionary(true);
+
       public function LongPress()
       {
          super();
+      }
+
+      public static function skip(param1:DisplayObject) : void
+      {
+         if(param1 != null)
+         {
+            skipped[param1] = true;
+         }
       }
 
       public static function start(param1:MovieClip) : void
@@ -80,7 +90,7 @@ package liteAssets.mobile
          var _loc2_:DisplayObject = param1;
          while(_loc2_ != null)
          {
-            if(_loc2_.name == WALK_AREA || _loc2_ is MobileHUD)
+            if(_loc2_.name == WALK_AREA || _loc2_ is MobileHUD || Boolean(skipped[_loc2_]))
             {
                return false;
             }

@@ -16,7 +16,7 @@ package
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol1009")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1010")]
    public dynamic class DFrameMCcnt extends MovieClip
    {
 

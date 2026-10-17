@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2827")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2824")]
    public dynamic class MCServerItem_stroke_132 extends MovieClip
    {
 

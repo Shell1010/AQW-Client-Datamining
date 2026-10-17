@@ -28,6 +28,8 @@ package
 
       private var mcHeader:Sprite;
 
+      private var descFmt:TextFormat;
+
       private var procTip:MovieClip;
 
       private var procTipID:int = 0;
@@ -38,8 +40,14 @@ package
       {
          super();
          this.mcStats.sproto.visible = false;
-         this.tDesc.embedFonts = false;
-         this.tDesc.defaultTextFormat = new TextFormat("Arial",12,14540253,null,null,null,null,null,null,null,null,null,2);
+         this.tDesc.embedFonts = MailArt.embedded();
+         if(this.tDesc.embedFonts)
+         {
+            this.tDesc.antiAliasType = AntiAliasType.ADVANCED;
+         }
+         this.descFmt = MailArt.fmt(12,14540253);
+         this.descFmt.leading = 2;
+         this.tDesc.defaultTextFormat = this.descFmt;
          this.tDesc.autoSize = TextFieldAutoSize.LEFT;
          this.mcHeader = new Sprite();
          addChild(this.mcHeader);
@@ -302,7 +310,7 @@ package
                   {
                      _loc7_ += ", " + this.rootClass.getDisplayEnhTraitName(this.iEnh);
                   }
-                  _loc8_ = Boolean(this.iSel.ProcID) && !this.iEnh.hasOwnProperty("DIS") && Boolean(this.rootClass.onDevServer()) && this.rootClass.procInfo[String(this.iSel.ProcID)] != null;
+                  _loc8_ = Boolean(this.iSel.ProcID) && !this.iEnh.hasOwnProperty("DIS") && this.rootClass.procInfo[String(this.iSel.ProcID)] != null;
                   _loc9_ = this.buildHeaderLine("Enhancement: ",_loc7_,getEnhNameColor(this.iEnh),0,_loc8_ ? int(_loc29_ - 34) : _loc29_);
                   if(_loc8_)
                   {
@@ -423,28 +431,42 @@ package
             {
                this.tDesc.y = _loc28_ + 2;
             }
-            this.tDesc.htmlText = _loc27_;
+            this.setHtml(this.tDesc,_loc27_);
             this.showStats();
          }
          else
          {
             if(MovieClip(getLayout()).iSel != null && !this.rootClass.doIHaveEnhancements())
             {
-               this.tDesc.htmlText = "<font size=\'12\' color=\'#FF0000\'>You need an Enhancement!</font><br>";
-               this.tDesc.htmlText += "<font size=\'12\' color=\'#FFFFFF\'>No enhancments for this type of item were found in your backpack. Enhancements are used to power up your item. You can buy at shops or find them on monsters.</font>";
+               this.setHtml(this.tDesc,"<font size=\'12\' color=\'#FF0000\'>You need an Enhancement!</font><br>" + "<font size=\'12\' color=\'#FFFFFF\'>No enhancments for this type of item were found in your backpack. Enhancements are used to power up your item. You can buy at shops or find them on monsters.</font>");
             }
             else
             {
-               this.tDesc.htmlText = "No item selected.";
+               this.setHtml(this.tDesc,"No item selected.");
             }
             this.showStats();
          }
       }
 
+      private function setHtml(param1:TextField, param2:String) : void
+      {
+         param1.embedFonts = MailArt.embedded();
+         if(param1 == this.tDesc)
+         {
+            param1.defaultTextFormat = this.descFmt;
+         }
+         param1.htmlText = MailArt.embedHtml(param2);
+         MailArt.cover(param1);
+      }
+
       private function buildHeaderLine(param1:String, param2:String, param3:String, param4:int, param5:int) : TextField
       {
          var _loc1_:TextField = new TextField();
-         _loc1_.embedFonts = false;
+         _loc1_.embedFonts = MailArt.embedded();
+         if(_loc1_.embedFonts)
+         {
+            _loc1_.antiAliasType = AntiAliasType.ADVANCED;
+         }
          _loc1_.selectable = false;
          _loc1_.multiline = false;
          _loc1_.wordWrap = false;
@@ -453,11 +475,11 @@ package
          _loc1_.x = 0;
          _loc1_.y = param4;
          var _loc2_:* = 13;
-         _loc1_.htmlText = "<font face=\'Arial\' size=\'" + _loc2_ + "\' color=\'#BBBBBB\'><b>" + param1 + "</b></font><font face=\'Arial\' size=\'" + _loc2_ + "\' color=\'" + param3 + "\'><b>" + param2 + "</b></font>";
+         this.setHtml(_loc1_,"<font face=\'Arial\' size=\'" + _loc2_ + "\' color=\'#BBBBBB\'><b>" + param1 + "</b></font><font face=\'Arial\' size=\'" + _loc2_ + "\' color=\'" + param3 + "\'><b>" + param2 + "</b></font>");
          while(_loc1_.textWidth > param5 && _loc2_ > 10)
          {
             _loc2_--;
-            _loc1_.htmlText = "<font face=\'Arial\' size=\'" + _loc2_ + "\' color=\'#BBBBBB\'><b>" + param1 + "</b></font><font face=\'Arial\' size=\'" + _loc2_ + "\' color=\'" + param3 + "\'><b>" + param2 + "</b></font>";
+            this.setHtml(_loc1_,"<font face=\'Arial\' size=\'" + _loc2_ + "\' color=\'#BBBBBB\'><b>" + param1 + "</b></font><font face=\'Arial\' size=\'" + _loc2_ + "\' color=\'" + param3 + "\'><b>" + param2 + "</b></font>");
          }
          if(_loc1_.textWidth > param5)
          {
@@ -621,38 +643,55 @@ package
                   _loc27_ = 14;
                   _loc5_ = new TextField();
                   _loc5_.autoSize = TextFieldAutoSize.LEFT;
-                  _loc5_.embedFonts = false;
+                  _loc5_.embedFonts = MailArt.embedded();
+                  if(_loc5_.embedFonts)
+                  {
+                     _loc5_.antiAliasType = AntiAliasType.ADVANCED;
+                  }
                   _loc5_.selectable = false;
                   _loc5_.mouseEnabled = false;
-                  _loc5_.defaultTextFormat = new TextFormat("Arial",_loc24_,10066329,true);
+                  _loc5_.defaultTextFormat = MailArt.fmt(_loc24_,10066329,true);
                   _loc5_.text = _loc17_.toUpperCase();
                   _loc5_.x = 0;
                   _loc5_.y = 3;
                   _loc4_.addChild(_loc5_);
                   _loc6_ = new TextField();
                   _loc6_.autoSize = TextFieldAutoSize.LEFT;
-                  _loc6_.embedFonts = false;
+                  _loc6_.embedFonts = MailArt.embedded();
+                  if(_loc6_.embedFonts)
+                  {
+                     _loc6_.antiAliasType = AntiAliasType.ADVANCED;
+                  }
                   _loc6_.selectable = false;
                   _loc6_.mouseEnabled = false;
                   _loc6_.y = 0;
-                  _loc6_.defaultTextFormat = new TextFormat("Arial",_loc27_,_loc23_,true);
+                  _loc6_.defaultTextFormat = MailArt.fmt(_loc27_,_loc23_,true);
                   _loc6_.text = String(_loc15_);
                   if(_loc12_)
                   {
                      _loc7_ = new TextField();
                      _loc7_.autoSize = TextFieldAutoSize.LEFT;
-                     _loc7_.embedFonts = false;
+                     _loc7_.embedFonts = MailArt.embedded();
+                     if(_loc7_.embedFonts)
+                     {
+                        _loc7_.antiAliasType = AntiAliasType.ADVANCED;
+                     }
                      _loc7_.selectable = false;
                      _loc7_.mouseEnabled = false;
-                     _loc7_.defaultTextFormat = new TextFormat("Arial",_loc25_,11184810);
+                     _loc7_.defaultTextFormat = MailArt.fmt(_loc25_,11184810);
                      _loc7_.text = String(_loc16_);
                      _loc8_ = new TextField();
                      _loc8_.autoSize = TextFieldAutoSize.LEFT;
-                     _loc8_.embedFonts = false;
+                     _loc8_.embedFonts = MailArt.embedded();
+                     if(_loc8_.embedFonts)
+                     {
+                        _loc8_.antiAliasType = AntiAliasType.ADVANCED;
+                     }
                      _loc8_.selectable = false;
                      _loc8_.mouseEnabled = false;
-                     _loc8_.defaultTextFormat = new TextFormat("Arial",_loc26_,7829367);
+                     _loc8_.defaultTextFormat = MailArt.fmt(_loc26_,7829367);
                      _loc8_.text = " → ";
+                     MailArt.cover(_loc8_);
                      _loc7_.x = _loc5_.x + _loc5_.textWidth + 3;
                      _loc7_.y = _loc6_.y + (_loc6_.height - _loc7_.height);
                      _loc8_.x = _loc7_.x + _loc7_.textWidth;
@@ -677,10 +716,12 @@ package
                         {
                            _loc27_--;
                         }
-                        _loc5_.setTextFormat(new TextFormat("Arial",_loc24_,10066329,true));
-                        _loc7_.setTextFormat(new TextFormat("Arial",_loc25_,11184810));
-                        _loc8_.setTextFormat(new TextFormat("Arial",_loc26_,7829367));
-                        _loc6_.setTextFormat(new TextFormat("Arial",_loc27_,_loc23_,true));
+                        _loc5_.setTextFormat(MailArt.fmt(_loc24_,10066329,true));
+                        _loc7_.setTextFormat(MailArt.fmt(_loc25_,11184810));
+                        _loc8_.embedFonts = MailArt.embedded();
+                        _loc8_.setTextFormat(MailArt.fmt(_loc26_,7829367));
+                        MailArt.cover(_loc8_);
+                        _loc6_.setTextFormat(MailArt.fmt(_loc27_,_loc23_,true));
                         _loc7_.x = _loc5_.x + _loc5_.textWidth + 3;
                         _loc7_.y = _loc6_.y + (_loc6_.height - _loc7_.height);
                         _loc8_.x = _loc7_.x + _loc7_.textWidth;
@@ -708,10 +749,14 @@ package
                _loc22_ = _loc20_ - _loc21_;
                _loc9_ = new TextField();
                _loc9_.autoSize = TextFieldAutoSize.LEFT;
-               _loc9_.embedFonts = false;
+               _loc9_.embedFonts = MailArt.embedded();
+               if(_loc9_.embedFonts)
+               {
+                  _loc9_.antiAliasType = AntiAliasType.ADVANCED;
+               }
                _loc9_.selectable = false;
                _loc9_.mouseEnabled = false;
-               _loc9_.defaultTextFormat = new TextFormat("Arial",12,_loc22_ > 0 ? 8190976 : (_loc22_ < 0 ? 16733525 : 16777215),true);
+               _loc9_.defaultTextFormat = MailArt.fmt(12,_loc22_ > 0 ? 8190976 : (_loc22_ < 0 ? 16733525 : 16777215),true);
                _loc9_.text = "Total change: " + (_loc22_ >= 0 ? "+" : "") + _loc22_;
                _loc9_.x = 0;
                _loc9_.y = 2 * _loc19_;

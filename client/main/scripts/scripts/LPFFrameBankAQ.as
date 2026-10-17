@@ -754,11 +754,11 @@ package
 
       private function buildFormats() : void
       {
-         this.fmtWhiteB12 = new TextFormat("Arial",12,16777215,true,false);
-         this.fmtGoldB12 = new TextFormat("Arial",12,14725888,true,false);
-         this.fmtSlotNum = new TextFormat("Arial",12,16777215,true);
-         this.fmtSlotRed = new TextFormat("Arial",12,16729156,true);
-         this.fmtSlotLabel = new TextFormat("Arial",12,10066329,false);
+         this.fmtWhiteB12 = MailArt.fmt(12,16777215,true,false);
+         this.fmtGoldB12 = MailArt.fmt(12,14725888,true,false);
+         this.fmtSlotNum = MailArt.fmt(12,16777215,true);
+         this.fmtSlotRed = MailArt.fmt(12,16729156,true);
+         this.fmtSlotLabel = MailArt.fmt(12,10066329,false);
       }
 
       private function buildSearch() : void
@@ -775,7 +775,11 @@ package
          _loc1_.moveTo(_loc2_ + 3.5,_loc3_ + 3.5);
          _loc1_.lineTo(_loc2_ + 6.5,_loc3_ + 6.5);
          this.tfSearch = new TextField();
-         this.tfSearch.embedFonts = false;
+         this.tfSearch.embedFonts = MailArt.embedded();
+         if(this.tfSearch.embedFonts)
+         {
+            this.tfSearch.antiAliasType = AntiAliasType.ADVANCED;
+         }
          this.tfSearch.type = TextFieldType.INPUT;
          this.tfSearch.selectable = true;
          this.tfSearch.mouseEnabled = true;
@@ -783,7 +787,7 @@ package
          this.tfSearch.wordWrap = false;
          this.tfSearch.maxChars = 60;
          this.tfSearch.restrict = null;
-         this.tfSearch.defaultTextFormat = new TextFormat("Arial",12,16777215);
+         this.tfSearch.defaultTextFormat = MailArt.fmt(12,16777215);
          this.tfSearch.text = "Wg";
          var _loc4_:Number = this.tfSearch.textHeight + 4;
          this.tfSearch.text = "";
@@ -823,6 +827,7 @@ package
          {
             return;
          }
+         MailArt.cover(this.tfSearch);
          this.updatePlaceholder();
          this.searchTimer.reset();
          this.searchTimer.start();
@@ -1853,6 +1858,7 @@ package
          this.withdrawLabel.text = this.selBankCount > 0 ? "Withdraw " + this.selBankCount + " →" : "Withdraw →";
          this.depositLabel.text = this.selInvCount > 0 ? "← Deposit " + this.selInvCount : "← Deposit";
          this.swapLabel.text = "⇄ Swap";
+         this.swapLabel.setTextFormat(MailArt.sym(),0,1);
          this.drawCenterButton(this.depositBtn,this.depositLabel,_loc2_,HALF_BTN_W,BTN_H);
          this.drawCenterButton(this.withdrawBtn,this.withdrawLabel,_loc1_,HALF_BTN_W,BTN_H);
          this.drawCenterButton(this.swapBtn,this.swapLabel,_loc3_,BTN_W,BTN_H);
@@ -3382,8 +3388,10 @@ package
 import flash.display.*;
 import flash.events.*;
 import flash.geom.*;
-import flash.text.*;
+import flash.text.TextField;
+import flash.text.TextFormat;
 import flash.utils.*;
+import liteAssets.draw.*;
 import liteAssets.mobile.*;
 
 class BankAQList extends Sprite
@@ -3925,11 +3933,11 @@ class BankTabRow extends Sprite
 
    private var enabled:Array = [];
 
-   private var fmtName:TextFormat = new TextFormat("Arial",11,12303291,false);
+   private var fmtName:TextFormat = MailArt.fmt(11,12303291,false);
 
-   private var fmtSel:TextFormat = new TextFormat("Arial",11,16777215,true);
+   private var fmtSel:TextFormat = MailArt.fmt(11,16777215,true);
 
-   private var fmtCount:TextFormat = new TextFormat("Arial",11,14725888,true);
+   private var fmtCount:TextFormat = MailArt.fmt(11,14725888,true);
 
    private var mtx:Matrix = new Matrix();
 

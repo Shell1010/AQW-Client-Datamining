@@ -455,13 +455,13 @@ package
 
       private function buildFormats() : void
       {
-         this.fmtTabName = new TextFormat("Arial",11,12303291,false);
-         this.fmtTabNameSel = new TextFormat("Arial",11,16777215,true);
-         this.fmtWhiteB12 = new TextFormat("Arial",12,16777215,true,false);
-         this.fmtGoldB12 = new TextFormat("Arial",12,14725888,true,false);
-         this.fmtSlotNum = new TextFormat("Arial",12,16777215,true);
-         this.fmtSlotRed = new TextFormat("Arial",12,16729156,true);
-         this.fmtSlotLabel = new TextFormat("Arial",12,10066329,false);
+         this.fmtTabName = MailArt.fmt(11,12303291,false);
+         this.fmtTabNameSel = MailArt.fmt(11,16777215,true);
+         this.fmtWhiteB12 = MailArt.fmt(12,16777215,true,false);
+         this.fmtGoldB12 = MailArt.fmt(12,14725888,true,false);
+         this.fmtSlotNum = MailArt.fmt(12,16777215,true);
+         this.fmtSlotRed = MailArt.fmt(12,16729156,true);
+         this.fmtSlotLabel = MailArt.fmt(12,10066329,false);
       }
 
       private function buildSearch() : void
@@ -479,7 +479,11 @@ package
          _loc2_.moveTo(_loc3_ + 3.5,_loc4_ + 3.5);
          _loc2_.lineTo(_loc3_ + 6.5,_loc4_ + 6.5);
          this.tfSearch = new TextField();
-         this.tfSearch.embedFonts = false;
+         this.tfSearch.embedFonts = MailArt.embedded();
+         if(this.tfSearch.embedFonts)
+         {
+            this.tfSearch.antiAliasType = AntiAliasType.ADVANCED;
+         }
          this.tfSearch.type = TextFieldType.INPUT;
          this.tfSearch.selectable = true;
          this.tfSearch.mouseEnabled = true;
@@ -487,7 +491,7 @@ package
          this.tfSearch.wordWrap = false;
          this.tfSearch.maxChars = 40;
          this.tfSearch.restrict = null;
-         this.tfSearch.defaultTextFormat = new TextFormat("Arial",12,16777215);
+         this.tfSearch.defaultTextFormat = MailArt.fmt(12,16777215);
          this.tfSearch.text = "Wg";
          var _loc5_:Number = this.tfSearch.textHeight + 4;
          this.tfSearch.text = "";
@@ -1539,6 +1543,7 @@ package
          {
             return;
          }
+         MailArt.cover(this.tfSearch);
          this.updatePlaceholder();
          this.searchTimer.reset();
          this.searchTimer.start();

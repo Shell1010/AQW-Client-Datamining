@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2831")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2828")]
    public dynamic class MCServerItem extends MovieClip
    {
 

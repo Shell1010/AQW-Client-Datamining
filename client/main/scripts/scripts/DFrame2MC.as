@@ -7,7 +7,7 @@ package
    import flash.text.*;
    import liteAssets.draw.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol999")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol1000")]
    public class DFrame2MC extends MovieClip
    {
 

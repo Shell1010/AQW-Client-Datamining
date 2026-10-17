@@ -6,7 +6,7 @@ package
    import flash.text.*;
    import liteAssets.mobile.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2727")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2724")]
    public class QTrackerMC extends MovieClip
    {
 

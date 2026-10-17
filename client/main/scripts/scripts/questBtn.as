@@ -8,7 +8,7 @@ package
    import flash.geom.ColorTransform;
    import flash.text.TextField;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2955")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2952")]
    public class questBtn extends Sprite
    {
 

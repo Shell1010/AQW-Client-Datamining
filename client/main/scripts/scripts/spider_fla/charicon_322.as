@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3959")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3956")]
    public dynamic class charicon_322 extends MovieClip
    {
 

@@ -16,7 +16,7 @@ package
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol529")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol530")]
    public dynamic class MCUpgradeWindow extends MovieClip
    {
 

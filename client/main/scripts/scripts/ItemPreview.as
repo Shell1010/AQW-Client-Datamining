@@ -4,7 +4,7 @@ package
    import flash.events.*;
    import flash.filters.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol735")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol736")]
    public class ItemPreview extends MovieClip
    {
 

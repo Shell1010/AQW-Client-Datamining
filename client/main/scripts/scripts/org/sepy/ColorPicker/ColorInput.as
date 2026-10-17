@@ -3,8 +3,9 @@ package org.sepy.ColorPicker
    import flash.display.*;
    import flash.events.*;
    import flash.text.*;
+   import liteAssets.draw.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2686")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2683")]
    public class ColorInput extends MovieClip
    {
 
@@ -14,11 +15,8 @@ package org.sepy.ColorPicker
 
       public function ColorInput()
       {
-         var _loc1_:TextFormat = null;
          super();
-         _loc1_ = new TextFormat();
-         _loc1_.font = "_sans";
-         _loc1_.size = 10;
+         var _loc1_:TextFormat = MailArt.fmt(10,0);
          this.input = new TextField();
          this.input.name = "input";
          this.input.width = 57;
@@ -27,6 +25,11 @@ package org.sepy.ColorPicker
          this.input.x = 2;
          this.input.y = 1;
          this.input.type = "input";
+         this.input.embedFonts = MailArt.embedded();
+         if(this.input.embedFonts)
+         {
+            this.input.antiAliasType = AntiAliasType.ADVANCED;
+         }
          this.input.maxChars = 7;
          this.input.defaultTextFormat = _loc1_;
          this.input.addEventListener(Event.CHANGE,this.onInput,false,0,true);

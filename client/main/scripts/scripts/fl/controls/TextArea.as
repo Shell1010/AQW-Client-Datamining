@@ -19,7 +19,7 @@ package fl.controls
    import flash.text.TextLineMetrics;
    import flash.ui.Keyboard;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol151")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol152")]
    public class TextArea extends UIComponent implements IFocusManagerComponent
    {
 

@@ -17,7 +17,7 @@ package
    import flash.system.ApplicationDomain;
    import flash.utils.getTimer;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3310")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3307")]
    public class AvatarMC extends MovieClip
    {
 
@@ -1135,7 +1135,7 @@ package
          {
             return;
          }
-         if(!this.world.rootClass.litePreference.data.bCachePlayers)
+         if(!this.world.rootClass.cacheOthers())
          {
             return;
          }
@@ -1158,7 +1158,7 @@ package
 
       private function rasterTick(param1:Event) : void
       {
-         if(this.stage == null || this.pAV == null || this.pAV.isMyAvatar || this.mcChar == null || this.world == null || this.isRasterized || !this.world.rootClass.litePreference.data.bCachePlayers)
+         if(this.stage == null || this.pAV == null || this.pAV.isMyAvatar || this.mcChar == null || this.world == null || this.isRasterized || !this.world.rootClass.cacheOthers())
          {
             this.rasterArmed = false;
             this.removeEventListener(Event.ENTER_FRAME,this.rasterTick);
@@ -1178,7 +1178,7 @@ package
          catch(eSC:Error)
          {
          }
-         this.mcChar.gotoAndStop("Idle");
+         this.mcChar.gotoAndStop(this.restLabel());
          this.world.rootClass.rasterize(this.mcChar);
          try
          {
@@ -1220,6 +1220,56 @@ package
          }
          catch(eDS:Error)
          {
+         }
+      }
+
+      private function restLabel() : String
+      {
+         return this.pAV != null && this.pAV.dataLeaf != null && this.pAV.dataLeaf.intState == 0 ? "Dead" : "Idle";
+      }
+
+      private function frozen() : Boolean
+      {
+         try
+         {
+            return this.pAV != null && !this.pAV.isMyAvatar && !this.pAV.isCharPage && !this.pAV.isCameraTool && this.world != null && this.world.rootClass.crowdOn == true;
+         }
+         catch(e:Error)
+         {
+         }
+         return false;
+      }
+
+      public function crowdSync() : void
+      {
+         if(this.pAV == null || this.pAV.isMyAvatar || this.mcChar == null || this.world == null)
+         {
+            return;
+         }
+         if(this.world.rootClass.cacheOthers())
+         {
+            if(!this.isRasterized)
+            {
+               this.rasterizeChar();
+            }
+            else if(this.frozen())
+            {
+               this.animQueue.length = 0;
+               this.removeEventListener(Event.ENTER_FRAME,this.checkQueue);
+               this.mcChar.gotoAndStop(this.restLabel());
+            }
+         }
+         else if(this.isRasterized)
+         {
+            this.derasterizeChar();
+            if(this.restLabel() == "Dead")
+            {
+               this.mcChar.gotoAndStop("Dead");
+            }
+            else
+            {
+               this.mcChar.gotoAndPlay(this.mcChar.onMove ? "Walk" : "Idle");
+            }
          }
       }
 
@@ -2157,6 +2207,10 @@ package
             return;
          }
          var _loc13_:MovieClip = MovieClip(stage.getChildAt(0)).world as MovieClip;
+         if(this.frozen())
+         {
+            return;
+         }
          if(Boolean(this.pAV.isMyAvatar) && Boolean(_loc13_.rootClass.litePreference.data.bDisSelfMAnim) && param1 != "Walk")
          {
             return;
@@ -2328,6 +2382,12 @@ package
       {
          var _loc1_:* = undefined;
          var _loc2_:* = undefined;
+         if(this.frozen())
+         {
+            this.animQueue.length = 0;
+            this.removeEventListener(Event.ENTER_FRAME,this.checkQueue);
+            return false;
+         }
          if(this.animQueue.length == 0)
          {
             this.queueStallTicks = 0;
@@ -2526,7 +2586,7 @@ package
                if(!this.mcChar.onMove)
                {
                   this.mcChar.onMove = true;
-                  if(this.mcChar.currentLabel != "Walk")
+                  if(this.mcChar.currentLabel != "Walk" && !this.frozen())
                   {
                      this.mcChar.gotoAndPlay("Walk");
                   }
@@ -2813,7 +2873,10 @@ package
             }
          }
          this.mcChar.onMove = false;
-         this.mcChar.gotoAndPlay("Idle");
+         if(!this.frozen())
+         {
+            this.mcChar.gotoAndPlay("Idle");
+         }
          this.px = 0;
          this.py = 0;
       }
@@ -3131,8 +3194,8 @@ package
          {
             _loc1_.turn(_loc2_ ? "right" : "left");
          }
-         var _loc3_:Number = this.steerSpd * 22 * param1;
-         _loc1_.walkTo(this.x + this.steerVX * _loc3_ - 20,this.y + this.steerVY * _loc3_ + 5,Math.max(1,this.steerSpd - 3));
+         var _loc3_:Point = this.steerAhead(param1);
+         _loc1_.walkTo(_loc3_.x - 20,_loc3_.y + 5,Math.max(1,this.steerSpd - 3));
       }
 
       public function checkPadLabels() : *
@@ -3205,7 +3268,7 @@ package
          var s:String = null;
          var wItem:Object = null;
          var sType:* = undefined;
-         if(this.mcChar == null)
+         if(this.mcChar == null || this.frozen())
          {
             return;
          }

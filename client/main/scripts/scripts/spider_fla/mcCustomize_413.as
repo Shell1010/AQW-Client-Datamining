@@ -18,7 +18,7 @@ package spider_fla
    import liteAssets.draw.*;
    import org.sepy.ColorPicker.ColorPicker2;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol4059")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol4056")]
    public dynamic class mcCustomize_413 extends MovieClip
    {
 

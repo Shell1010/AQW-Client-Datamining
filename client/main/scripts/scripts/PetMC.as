@@ -5,7 +5,7 @@ package
    import flash.geom.ColorTransform;
    import flash.utils.Timer;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3336")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3333")]
    public class PetMC extends MovieClip
    {
 
@@ -78,15 +78,30 @@ package
 
       public function walkTo(param1:*, param2:*, param3:*) : void
       {
+         if(isNaN(param1) || isNaN(param2))
+         {
+            return;
+         }
+         if(param3 < 1)
+         {
+            param3 = 1;
+         }
          this.xDep = this.x;
          this.yDep = this.y;
          this.xTar = param1;
          this.yTar = param2;
          this.nDuration = Math.round(Math.sqrt(Math.pow(this.xTar - this.x,2) + Math.pow(this.yTar - this.y,2)) / param3);
+         this.nXStep = 0;
+         this.nYStep = 0;
+         if(this.nDuration <= 0)
+         {
+            this.x = param1;
+            this.y = param2;
+            this.stopWalking();
+            return;
+         }
          if(this.nDuration)
          {
-            this.nXStep = 0;
-            this.nYStep = 0;
             if(!this.mcChar.onMove)
             {
                this.mcChar.onMove = true;
@@ -100,6 +115,11 @@ package
       {
          var _loc1_:* = undefined;
          var _loc2_:* = undefined;
+         if(this.nDuration <= 0 || this.mcChar == null)
+         {
+            this.stopWalking();
+            return;
+         }
          if(this.nXStep <= this.nDuration || Boolean(this.nYStep <= this.nDuration) && Boolean(this.mcChar.onMove))
          {
             _loc1_ = this.x;
@@ -127,11 +147,11 @@ package
 
       public function stopWalking() : void
       {
+         this.removeEventListener(Event.ENTER_FRAME,this.onEnterFrameWalk);
          if(this.mcChar != null && Boolean(this.mcChar.onMove))
          {
             this.mcChar.onMove = false;
             this.mcChar.gotoAndPlay("Idle");
-            this.removeEventListener(Event.ENTER_FRAME,this.onEnterFrameWalk);
          }
       }
 

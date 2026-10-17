@@ -6,7 +6,7 @@ package org.sepy.ColorPicker
    import flash.geom.*;
    import flash.text.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2697")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2694")]
    public class ColorPicker2 extends MovieClip
    {
 

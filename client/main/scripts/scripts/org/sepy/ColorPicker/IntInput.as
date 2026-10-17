@@ -3,8 +3,9 @@ package org.sepy.ColorPicker
    import flash.display.*;
    import flash.events.*;
    import flash.text.*;
+   import liteAssets.draw.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2665")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2662")]
    public class IntInput extends MovieClip
    {
 
@@ -22,17 +23,19 @@ package org.sepy.ColorPicker
 
       public function IntInput(param1:String, param2:String)
       {
-         var _loc1_:TextFormat = null;
          super();
-         _loc1_ = new TextFormat();
-         _loc1_.font = "_sans";
-         _loc1_.size = 10;
+         var _loc1_:TextFormat = MailArt.fmt(10,0);
          this.tlabel = new TextField();
          this.tlabel.width = 31;
          this.tlabel.height = 16;
          this.addChildAt(this.tlabel,1);
          this.tlabel.x = 2;
          this.tlabel.y = 1;
+         this.tlabel.embedFonts = MailArt.embedded();
+         if(this.tlabel.embedFonts)
+         {
+            this.tlabel.antiAliasType = AntiAliasType.ADVANCED;
+         }
          this.tlabel.defaultTextFormat = _loc1_;
          this.tlabel.text = param1;
          this.input = new TextField();
@@ -43,6 +46,11 @@ package org.sepy.ColorPicker
          this.input.x = 22;
          this.input.y = 1;
          this.input.type = param2;
+         this.input.embedFonts = MailArt.embedded();
+         if(this.input.embedFonts)
+         {
+            this.input.antiAliasType = AntiAliasType.ADVANCED;
+         }
          this.input.maxChars = 3;
          this.input.restrict = "[0-9]";
          this.input.defaultTextFormat = _loc1_;

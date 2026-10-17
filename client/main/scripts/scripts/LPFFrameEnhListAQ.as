@@ -84,9 +84,9 @@ package
 
       private var overlays:Dictionary = new Dictionary();
 
-      private var deltaFmt:TextFormat = new TextFormat("Arial",11,GREY,true);
+      private var deltaFmt:TextFormat = MailArt.fmt(11,GREY,true);
 
-      private var starFmt:TextFormat = new TextFormat("Arial",11,GOLD,true);
+      private var starFmt:TextFormat = MailArt.sym(11,GOLD);
 
       private var searchBox:Sprite;
 
@@ -298,8 +298,7 @@ package
 
       private function buildSearch() : void
       {
-         var _loc1_:int = 0;
-         _loc1_ = w;
+         var _loc1_:int = w;
          this.searchBox = new Sprite();
          this.searchBox.x = 0;
          this.searchBox.y = 0;
@@ -312,7 +311,11 @@ package
          _loc2_.moveTo(_loc3_ + 3.5,_loc4_ + 3.5);
          _loc2_.lineTo(_loc3_ + 6.5,_loc4_ + 6.5);
          this.tfSearch = new TextField();
-         this.tfSearch.embedFonts = false;
+         this.tfSearch.embedFonts = MailArt.embedded();
+         if(this.tfSearch.embedFonts)
+         {
+            this.tfSearch.antiAliasType = AntiAliasType.ADVANCED;
+         }
          this.tfSearch.type = TextFieldType.INPUT;
          this.tfSearch.selectable = true;
          this.tfSearch.mouseEnabled = true;
@@ -320,7 +323,7 @@ package
          this.tfSearch.wordWrap = false;
          this.tfSearch.maxChars = 40;
          this.tfSearch.restrict = null;
-         this.tfSearch.defaultTextFormat = new TextFormat("Arial",11,16777215);
+         this.tfSearch.defaultTextFormat = MailArt.fmt(11,16777215);
          this.tfSearch.text = "Wg";
          var _loc5_:Number = this.tfSearch.textHeight + 4;
          this.tfSearch.text = "";
@@ -943,6 +946,7 @@ package
          {
             return;
          }
+         MailArt.cover(this.tfSearch);
          this.updatePlaceholder();
          this.searchTimer.reset();
          this.searchTimer.start();

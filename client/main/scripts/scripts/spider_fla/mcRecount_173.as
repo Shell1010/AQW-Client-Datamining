@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3730")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3727")]
    public dynamic class mcRecount_173 extends MovieClip
    {
 

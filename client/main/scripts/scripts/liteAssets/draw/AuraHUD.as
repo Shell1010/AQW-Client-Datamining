@@ -349,8 +349,6 @@ class AuraCell extends Sprite
 
    private static const STACK_GLOW:Array = [new GlowFilter(0,5,0,0,5,5)];
 
-   private static const FMT_STK:TextFormat = new TextFormat("Arial",12,16777215,true,null,null,null,null,"right");
-
    public var nam:String;
 
    public var h:Object;
@@ -381,6 +379,7 @@ class AuraCell extends Sprite
 
    public function AuraCell(param1:MovieClip, param2:String)
    {
+      var fmtStk:TextFormat;
       var c:Class = null;
       var r:MovieClip = param1;
       var auraName:String = param2;
@@ -414,7 +413,14 @@ class AuraCell extends Sprite
       }
       addChild(this.base);
       this.tStk = new TextField();
-      this.tStk.defaultTextFormat = FMT_STK;
+      fmtStk = MailArt.fmt(12,16777215,true);
+      fmtStk.align = "right";
+      this.tStk.embedFonts = MailArt.embedded();
+      if(this.tStk.embedFonts)
+      {
+         this.tStk.antiAliasType = AntiAliasType.ADVANCED;
+      }
+      this.tStk.defaultTextFormat = fmtStk;
       this.tStk.selectable = false;
       this.tStk.mouseEnabled = false;
       this.tStk.filters = STACK_GLOW;

@@ -81,12 +81,18 @@ package liteAssets.draw
             if(param4.caption != null)
             {
                this.cap = new TextField();
-               this.cap.defaultTextFormat = new TextFormat("Arial",9,15255671,true);
+               this.cap.embedFonts = MailArt.embedded();
+               if(this.cap.embedFonts)
+               {
+                  this.cap.antiAliasType = AntiAliasType.ADVANCED;
+               }
+               this.cap.defaultTextFormat = MailArt.fmt(9,15255671,true);
                this.cap.autoSize = TextFieldAutoSize.LEFT;
                this.cap.selectable = false;
                this.cap.mouseEnabled = false;
                this.cap.filters = [new GlowFilter(0,1,3,3,6,1)];
                this.cap.text = String(param4.caption);
+               MailArt.cover(this.cap);
                this.bd.addChild(this.cap);
             }
             this.t.addEventListener(MouseEvent.ROLL_OVER,this.onOver,false,0,true);

@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol98")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol99")]
    public dynamic class ScrollArrowDown_upSkin extends MovieClip
    {
 

@@ -4,7 +4,7 @@ package
    import flash.display.SimpleButton;
    import flash.text.TextField;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol973")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol974")]
    public dynamic class EnhShop extends MovieClip
    {
 

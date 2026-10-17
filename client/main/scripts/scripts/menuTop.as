@@ -3,7 +3,7 @@ package
    import flash.display.MovieClip;
    import flash.text.TextField;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol176")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol177")]
    public dynamic class menuTop extends MovieClip
    {
 

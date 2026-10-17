@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol60")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol61")]
    public dynamic class CellRenderer_upSkin extends MovieClip
    {
 

@@ -3,7 +3,7 @@ package
    import flash.display.MovieClip;
    import flash.text.TextField;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3440")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3437")]
    public dynamic class PartyPanel extends MovieClip
    {
 

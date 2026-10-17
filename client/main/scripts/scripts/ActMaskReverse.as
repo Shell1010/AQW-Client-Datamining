@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3361")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3358")]
    public dynamic class ActMaskReverse extends MovieClip
    {
 

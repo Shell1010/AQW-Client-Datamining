@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3413")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3410")]
    public dynamic class critDisplay extends MovieClip
    {
 

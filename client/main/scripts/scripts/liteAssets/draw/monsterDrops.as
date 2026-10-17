@@ -176,12 +176,20 @@ package liteAssets.draw
 
       private function makeTF(param1:int, param2:uint, param3:Boolean, param4:String) : TextFormat
       {
-         var _loc1_:TextFormat = new TextFormat();
-         _loc1_.font = "Arial";
-         _loc1_.size = param1;
-         _loc1_.color = param2;
-         _loc1_.bold = param3;
+         var _loc1_:TextFormat = MailArt.fmt(param1,param2,param3);
          _loc1_.align = param4;
+         return _loc1_;
+      }
+
+      private function newTF(param1:int, param2:uint, param3:Boolean, param4:String) : TextField
+      {
+         var _loc1_:TextField = new TextField();
+         _loc1_.embedFonts = MailArt.embedded();
+         if(_loc1_.embedFonts)
+         {
+            _loc1_.antiAliasType = AntiAliasType.ADVANCED;
+         }
+         _loc1_.defaultTextFormat = this.makeTF(param1,param2,param3,param4);
          return _loc1_;
       }
 
@@ -207,8 +215,7 @@ package liteAssets.draw
       private function buildChrome() : void
       {
          this.drawFrame(PANEL_W);
-         this.titleTF = new TextField();
-         this.titleTF.defaultTextFormat = this.makeTF(14,16777215,true,"left");
+         this.titleTF = this.newTF(14,16777215,true,"left");
          this.titleTF.selectable = false;
          this.titleTF.mouseEnabled = false;
          this.titleTF.x = 10;
@@ -216,6 +223,7 @@ package liteAssets.draw
          this.titleTF.width = PANEL_W - 44;
          this.titleTF.height = 20;
          this.titleTF.text = this.monName + " - Drops";
+         MailArt.cover(this.titleTF);
          this.dragBar = new Sprite();
          this.dragBar.graphics.beginFill(0,0);
          this.dragBar.graphics.drawRect(0,0,PANEL_W - 30,28);
@@ -226,8 +234,7 @@ package liteAssets.draw
          this.closeBtn.graphics.beginFill(0,0.5);
          this.closeBtn.graphics.drawRect(0,0,18,18);
          this.closeBtn.graphics.endFill();
-         this.closeTF = new TextField();
-         this.closeTF.defaultTextFormat = this.makeTF(14,16777215,true,"center");
+         this.closeTF = this.newTF(14,16777215,true,"center");
          this.closeTF.selectable = false;
          this.closeTF.mouseEnabled = false;
          this.closeTF.width = 18;
@@ -268,8 +275,7 @@ package liteAssets.draw
          this.scrollBar.addChild(this.thumb);
          this.scrollBar.visible = false;
          addChild(this.scrollBar);
-         this.statusTF = new TextField();
-         this.statusTF.defaultTextFormat = this.makeTF(12,14540253,false,"center");
+         this.statusTF = this.newTF(12,14540253,false,"center");
          this.statusTF.selectable = false;
          this.statusTF.mouseEnabled = false;
          this.statusTF.width = VIEW_W;
@@ -308,6 +314,7 @@ package liteAssets.draw
          }
          this.itemCount = _loc3_.length;
          this.titleTF.text = this.monName + " - Drops (" + this.itemCount + ")";
+         MailArt.cover(this.titleTF);
          if(this.itemCount == 0)
          {
             this.statusTF.text = "This monster has no drops.";
@@ -474,8 +481,7 @@ package liteAssets.draw
          }
          nameX = 30;
          colW = VIEW_W - nameX - RATE_W - 4;
-         nameTF = new TextField();
-         nameTF.defaultTextFormat = this.makeTF(12,item.bUpg == 1 ? 16566089 : 16777215,false,"left");
+         nameTF = this.newTF(12,item.bUpg == 1 ? 16566089 : 16777215,false,"left");
          nameTF.selectable = false;
          nameTF.mouseEnabled = false;
          nameTF.x = nameX;
@@ -483,12 +489,12 @@ package liteAssets.draw
          nameTF.width = colW;
          nameTF.height = 16;
          nameTF.text = item.sName != null ? item.sName : "?";
+         MailArt.cover(nameTF);
          row.addChild(nameTF);
          showRate = item.iRate != null;
          if(showRate)
          {
-            rateTF = new TextField();
-            rateTF.defaultTextFormat = this.makeTF(12,16763904,true,"right");
+            rateTF = this.newTF(12,16763904,true,"right");
             rateTF.selectable = false;
             rateTF.mouseEnabled = false;
             rateTF.x = VIEW_W - RATE_W;
@@ -499,16 +505,15 @@ package liteAssets.draw
             eaSfx = rDiv > 1 ? " ea" : "";
             if(item.iRateBoosted != null)
             {
-               rateTF.htmlText = "<font color=\'#FFCC00\'>(" + this.formatRate(item.iRate,rDiv) + " </font><font color=\'#66FF00\'>+" + this.formatRate(item.iRateBoosted,rDiv) + ")</font>" + eaSfx;
+               rateTF.htmlText = MailArt.embedHtml("<font color=\'#FFCC00\'>(" + this.formatRate(item.iRate,rDiv) + " </font><font color=\'#66FF00\'>+" + this.formatRate(item.iRateBoosted,rDiv) + ")</font>" + eaSfx);
             }
             else
             {
-               rateTF.htmlText = "<font color=\'#FFCC00\'>" + this.formatRate(item.iRate,rDiv) + "</font>" + eaSfx;
+               rateTF.htmlText = MailArt.embedHtml("<font color=\'#FFCC00\'>" + this.formatRate(item.iRate,rDiv) + "</font>" + eaSfx);
             }
             row.addChild(rateTF);
          }
-         rarityTF = new TextField();
-         rarityTF.defaultTextFormat = this.makeTF(10,10465992,false,"left");
+         rarityTF = this.newTF(10,10465992,false,"left");
          rarityTF.selectable = false;
          rarityTF.mouseEnabled = false;
          rarityTF.x = nameX;
@@ -519,8 +524,7 @@ package liteAssets.draw
          row.addChild(rarityTF);
          if(int(item.iStk) > 1)
          {
-            qtyTF = new TextField();
-            qtyTF.defaultTextFormat = this.makeTF(showRate ? 10 : 12,14729312,false,"right");
+            qtyTF = this.newTF(showRate ? 10 : 12,14729312,false,"right");
             qtyTF.selectable = false;
             qtyTF.mouseEnabled = false;
             qtyTF.x = VIEW_W - RATE_W;
@@ -534,8 +538,7 @@ package liteAssets.draw
          questHtml = this.buildInfoHtml(item);
          if(questHtml != null)
          {
-            questTF = new TextField();
-            questTF.defaultTextFormat = this.makeTF(10,16777215,false,"left");
+            questTF = this.newTF(10,16777215,false,"left");
             questTF.selectable = false;
             questTF.mouseEnabled = false;
             questTF.multiline = true;
@@ -544,7 +547,8 @@ package liteAssets.draw
             questTF.x = 8;
             questTF.y = BASE_ROW_H;
             questTF.autoSize = TextFieldAutoSize.LEFT;
-            questTF.htmlText = questHtml;
+            questTF.htmlText = MailArt.embedHtml(questHtml);
+            MailArt.cover(questTF);
             row.addChild(questTF);
             rowH = BASE_ROW_H + questTF.height + 4;
          }
@@ -902,13 +906,13 @@ package liteAssets.draw
          }
          this.layoutPreviewButtons(_loc1_);
          this.previewHeaderTF.text = param1.sName != null ? param1.sName : "?";
+         MailArt.cover(this.previewHeaderTF);
          this.loadPreview(param1);
       }
 
       private function buildPreviewPane() : void
       {
-         this.previewHeaderTF = new TextField();
-         this.previewHeaderTF.defaultTextFormat = this.makeTF(13,16777215,true,"left");
+         this.previewHeaderTF = this.newTF(13,16777215,true,"left");
          this.previewHeaderTF.selectable = false;
          this.previewHeaderTF.mouseEnabled = false;
          this.previewHeaderTF.x = PANEL_W + 12;
@@ -920,8 +924,7 @@ package liteAssets.draw
          this.prevCloseBtn.graphics.beginFill(0,0.5);
          this.prevCloseBtn.graphics.drawRect(0,0,18,18);
          this.prevCloseBtn.graphics.endFill();
-         this.prevCloseTF = new TextField();
-         this.prevCloseTF.defaultTextFormat = this.makeTF(14,16777215,true,"center");
+         this.prevCloseTF = this.newTF(14,16777215,true,"center");
          this.prevCloseTF.selectable = false;
          this.prevCloseTF.mouseEnabled = false;
          this.prevCloseTF.width = 18;
@@ -952,8 +955,7 @@ package liteAssets.draw
          this.tryBtn = new Sprite();
          this.tryBtn.buttonMode = true;
          this.tryBtn.mouseChildren = false;
-         this.tryTF = new TextField();
-         this.tryTF.defaultTextFormat = this.makeTF(12,16777215,true,"center");
+         this.tryTF = this.newTF(12,16777215,true,"center");
          this.tryTF.selectable = false;
          this.tryTF.mouseEnabled = false;
          this.tryTF.y = 4;
@@ -967,8 +969,7 @@ package liteAssets.draw
          this.wikiBtn = new Sprite();
          this.wikiBtn.buttonMode = true;
          this.wikiBtn.mouseChildren = false;
-         this.wikiTF = new TextField();
-         this.wikiTF.defaultTextFormat = this.makeTF(12,16777215,true,"center");
+         this.wikiTF = this.newTF(12,16777215,true,"center");
          this.wikiTF.selectable = false;
          this.wikiTF.mouseEnabled = false;
          this.wikiTF.y = 4;

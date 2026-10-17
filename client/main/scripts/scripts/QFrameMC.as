@@ -9,7 +9,7 @@ package
    import liteAssets.draw.*;
    import liteAssets.mobile.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol732")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol733")]
    public class QFrameMC extends MovieClip
    {
 

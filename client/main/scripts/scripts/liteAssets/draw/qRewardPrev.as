@@ -9,7 +9,7 @@ package liteAssets.draw
    import flash.text.*;
    import types.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol731")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol732")]
    public class qRewardPrev extends MovieClip
    {
 

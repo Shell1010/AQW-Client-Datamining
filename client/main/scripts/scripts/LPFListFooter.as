@@ -3,8 +3,10 @@ package
    import flash.display.*;
    import flash.events.*;
    import flash.geom.*;
-   import flash.text.*;
+   import flash.text.TextField;
+   import flash.text.TextFormat;
    import flash.utils.*;
+   import liteAssets.draw.*;
 
    public class LPFListFooter extends Sprite
    {
@@ -51,13 +53,13 @@ package
 
       private var btnPlus:Sprite;
 
-      private var fmtWhite:TextFormat = new TextFormat("Arial",12,16777215,true);
+      private var fmtWhite:TextFormat = MailArt.fmt(12,16777215,true);
 
-      private var fmtGold:TextFormat = new TextFormat("Arial",12,14725888,true);
+      private var fmtGold:TextFormat = MailArt.fmt(12,14725888,true);
 
-      private var fmtRed:TextFormat = new TextFormat("Arial",12,16729156,true);
+      private var fmtRed:TextFormat = MailArt.fmt(12,16729156,true);
 
-      private var fmtLabel:TextFormat = new TextFormat("Arial",12,10066329,false);
+      private var fmtLabel:TextFormat = MailArt.fmt(12,10066329,false);
 
       private var lastCR:Rectangle;
 

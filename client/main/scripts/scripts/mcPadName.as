@@ -16,7 +16,7 @@ package
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol745")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol746")]
    public dynamic class mcPadName extends MovieClip
    {
 

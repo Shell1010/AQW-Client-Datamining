@@ -17,7 +17,7 @@ package spider_fla
    import flash.utils.*;
    import liteAssets.draw.iconDrops;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3854")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3851")]
    public dynamic class ui_mcStatusBox_222 extends MovieClip
    {
 

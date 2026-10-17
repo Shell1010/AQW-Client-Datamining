@@ -16,7 +16,7 @@ package fl.controls
    import flash.text.TextLineMetrics;
    import flash.ui.Keyboard;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol110")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol111")]
    public class TextInput extends UIComponent implements IFocusManagerComponent
    {
 

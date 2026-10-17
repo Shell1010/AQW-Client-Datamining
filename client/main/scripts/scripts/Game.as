@@ -34,7 +34,7 @@ package
 
       public static var strToken:String;
 
-      public static var vParam:String = "5.2";
+      public static var vParam:String = "5.21";
 
       public static var ISWEB:Boolean = true;
 
@@ -430,6 +430,14 @@ package
 
       private var authoredFPS:Number = 0;
 
+      public var crowdOn:Boolean = false;
+
+      private var crowdLow:int = 0;
+
+      private var crowdN0:int = 0;
+
+      private var crowdCell:String = "";
+
       public var cameraToolMC:cameraTool;
 
       private var csFontName:String = null;
@@ -817,12 +825,14 @@ package
          };
          onUserLeaveRoomHandler = function(param1:SFSEvent):*
          {
-            var _loc1_:int = int(param1.params.userId);
+            var _loc1_:int = 0;
+            var _loc2_:* = undefined;
+            _loc1_ = int(param1.params.userId);
             if(world == null || world.avatars == null)
             {
                return;
             }
-            var _loc2_:* = world.avatars[_loc1_];
+            _loc2_ = world.avatars[_loc1_];
             if(_loc2_ != null)
             {
                if(world.myAvatar != null && _loc2_ == world.myAvatar.target)
@@ -11297,6 +11307,137 @@ package
          return this.maxFPSLabel();
       }
 
+      public function crowdLabel() : String
+      {
+         var _loc1_:String = null;
+         _loc1_ = String(this.litePreference.data.sCrowd);
+         return "Crowd Mode: " + (_loc1_ == "on" ? "On" : (_loc1_ == "auto" ? "Auto" : "Off"));
+      }
+
+      public function cycleCrowd() : String
+      {
+         var _loc1_:String = null;
+         _loc1_ = String(this.litePreference.data.sCrowd);
+         this.litePreference.data.sCrowd = _loc1_ == "auto" ? "on" : (_loc1_ == "on" ? "off" : "auto");
+         this.litePreference.flush();
+         this.crowdLow = 0;
+         this.setCrowd(this.litePreference.data.sCrowd == "on");
+         return this.crowdLabel();
+      }
+
+      public function cacheOthers() : Boolean
+      {
+         return this.crowdOn || this.litePreference.data.bCachePlayers == true;
+      }
+
+      public function applyPlayerCache() : void
+      {
+         var _loc1_:* = undefined;
+         if(this.world == null || this.world.avatars == null)
+         {
+            return;
+         }
+         for each(var _loc2_ in this.world.avatars)
+         {
+            _loc1_ = _loc2_;
+            _loc2_;
+            if(!(Boolean(_loc1_ == null) || Boolean(_loc1_.isMyAvatar) || _loc1_.pMC == null))
+            {
+               try
+               {
+                  _loc1_.pMC.crowdSync();
+               }
+               catch(e:Error)
+               {
+               }
+            }
+         }
+      }
+
+      private function setCrowd(param1:Boolean) : void
+      {
+         if(param1 == this.crowdOn)
+         {
+            return;
+         }
+         this.crowdOn = param1;
+         if(param1)
+         {
+            this.crowdCell = this.crowdKey();
+            this.crowdN0 = this.crowdCount();
+         }
+         this.applyPlayerCache();
+      }
+
+      private function crowdKey() : String
+      {
+         return this.world == null ? "" : this.world.strMapName + "|" + this.world.strFrame;
+      }
+
+      private function crowdCount() : int
+      {
+         var _loc1_:* = 0;
+         var _loc2_:* = undefined;
+         _loc1_ = 0;
+         if(this.world == null || this.world.avatars == null)
+         {
+            return 0;
+         }
+         for each(var _loc3_ in this.world.avatars)
+         {
+            _loc2_ = _loc3_;
+            _loc3_;
+            if(_loc2_ != null && !_loc2_.isMyAvatar && _loc2_.dataLeaf != null && _loc2_.dataLeaf.strFrame == this.world.strFrame)
+            {
+               _loc1_++;
+            }
+         }
+         return _loc1_;
+      }
+
+      public function crowdSample(param1:Number) : void
+      {
+         var _loc1_:String = null;
+         var _loc2_:int = 0;
+         _loc1_ = String(this.litePreference.data.sCrowd);
+         if(_loc1_ == "on")
+         {
+            this.setCrowd(true);
+            return;
+         }
+         if(_loc1_ != "auto")
+         {
+            this.setCrowd(false);
+            return;
+         }
+         if(this.world == null || this.world.myAvatar == null || stage == null)
+         {
+            return;
+         }
+         _loc2_ = int(this.crowdCount());
+         if(this.crowdOn)
+         {
+            if(this.crowdKey() != this.crowdCell || _loc2_ * 3 < this.crowdN0 * 2)
+            {
+               this.crowdLow = 0;
+               this.setCrowd(false);
+            }
+            return;
+         }
+         if(_loc2_ > 0 && param1 < stage.frameRate * 0.8)
+         {
+            if(++this.crowdLow >= 2)
+            {
+               this.crowdLow = 0;
+               this.setCrowd(true);
+            }
+         }
+         else
+         {
+            this.crowdLow = 0;
+         }
+      }
+
       public function applyMaxFPS() : void
       {
          var _loc1_:int = 0;
@@ -11363,6 +11504,10 @@ package
                "sDesc":"Hides the mobile controls\' pull tab and its Joy, Skills, Move, Reset, Mouse and Hide buttons.\nWhatever you left turned on (joystick, skills, mouse) stays on screen. Uncheck this to bring the tab back and change them."
             }]
          },{
+            "strName":Mobile.sizeLabel(),
+            "btn":true,
+            "sDesc":"Click to cycle the size of the on-screen mobile controls: the bottom bar, skill buttons and joystick area.\nPick a smaller size if they cover too much of a small phone screen."
+         },{
             "strName":"Gamepad Controls",
             "extra":"btn",
             "sDesc":"Choose which controller button does what."
@@ -11378,6 +11523,10 @@ package
             "strName":"Static Player Art",
             "bEnabled":this.litePreference.data.bCachePlayers,
             "sDesc":"Freezes other players and their ground items as static art for the benefit of performance.\nPlayers freeze shortly after they finish loading, keeping their colors. You will not see their animations or equipment changes while this is enabled. Pets stay animated.\nToggling this on or off applies instantly."
+         },{
+            "strName":this.crowdLabel(),
+            "extra":"btn",
+            "sDesc":"Freezes other players\' animations (poses, gear and skill effects) to keep the game smooth in busy areas. Your own animations always play.\nClick to cycle Off, Auto and On. Auto turns it on when your frame rate drops and back off when you change areas or the crowd thins out."
          },{
             "strName":"Char Page",
             "special":1,
@@ -12768,13 +12917,6 @@ package
             _loc1_ = 4;
          }
          return _loc1_;
-      }
-
-      public function onDevServer() : Boolean
-      {
-         var _loc1_:String = null;
-         _loc1_ = this.objServerInfo != null && this.objServerInfo.sName != null ? String(this.objServerInfo.sName) : "";
-         return _loc1_.indexOf("Dev") >= 0 || _loc1_.indexOf("ServerTest") >= 0;
       }
 
       public function mergeProcs(param1:Object) : void

@@ -5,7 +5,7 @@ package
    import flash.media.SoundTransform;
    import flash.text.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol2995")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol2992")]
    public class Apop extends MovieClip
    {
 

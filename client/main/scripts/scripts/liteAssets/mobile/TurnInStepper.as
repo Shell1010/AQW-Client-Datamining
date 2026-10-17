@@ -5,6 +5,7 @@ package liteAssets.mobile
    import flash.geom.Rectangle;
    import flash.text.*;
    import flash.utils.*;
+   import liteAssets.draw.*;
 
    public class TurnInStepper extends Sprite
    {
@@ -164,9 +165,13 @@ package liteAssets.mobile
          _loc1_.mouseEnabled = false;
          addChild(_loc1_);
          var _loc2_:TextField = new TextField();
-         var _loc3_:TextFormat = new TextFormat("Arial",Mobile.active ? Math.max(16,Math.round(this.h * 0.36)) : 16,16777215,true);
+         var _loc3_:TextFormat = MailArt.fmt(Mobile.active ? int(Math.max(16,Math.round(this.h * 0.36))) : 16,16777215,true);
          _loc3_.align = TextFormatAlign.CENTER;
-         _loc2_.embedFonts = false;
+         _loc2_.embedFonts = MailArt.embedded();
+         if(_loc2_.embedFonts)
+         {
+            _loc2_.antiAliasType = AntiAliasType.ADVANCED;
+         }
          _loc2_.defaultTextFormat = _loc3_;
          _loc2_.type = TextFieldType.INPUT;
          _loc2_.restrict = "0-9";
