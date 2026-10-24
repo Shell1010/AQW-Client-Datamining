@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol8212")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol8379")]
    public dynamic class isp3 extends MovieClip
    {
 

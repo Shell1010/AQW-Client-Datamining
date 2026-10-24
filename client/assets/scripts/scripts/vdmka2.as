@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol8639")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol8806")]
    public dynamic class vdmka2 extends MovieClip
    {
 

@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol10087")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol10293")]
    public dynamic class Drakkara2 extends MovieClip
    {
 

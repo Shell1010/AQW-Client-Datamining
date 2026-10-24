@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol7145")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol7313")]
    public dynamic class ef_skelerun extends SpellW
    {
 

@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol9057")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol9224")]
    public dynamic class PallyChA3 extends MovieClip
    {
 

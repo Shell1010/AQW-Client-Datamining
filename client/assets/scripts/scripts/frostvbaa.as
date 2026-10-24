@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol9838")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol10044")]
    public dynamic class frostvbaa extends MovieClip
    {
 

@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol9785")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol9991")]
    public dynamic class Gunoa2 extends MovieClip
    {
 

@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol9798")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol10004")]
    public dynamic class gt4 extends MovieClip
    {
 

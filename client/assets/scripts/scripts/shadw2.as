@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol8880")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol9047")]
    public dynamic class shadw2 extends MovieClip
    {
 

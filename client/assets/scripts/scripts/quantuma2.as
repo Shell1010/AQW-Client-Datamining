@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol8951")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol9118")]
    public dynamic class quantuma2 extends MovieClip
    {
 

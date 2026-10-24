@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol7626")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol7793")]
    public dynamic class ef_ga extends SpellW
    {
 

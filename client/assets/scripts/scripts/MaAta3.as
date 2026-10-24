@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol9233")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol9400")]
    public dynamic class MaAta3 extends MovieClip
    {
 

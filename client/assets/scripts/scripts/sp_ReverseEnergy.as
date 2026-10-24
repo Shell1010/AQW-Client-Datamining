@@ -1,6 +1,6 @@
 package
 {
-   [Embed(source="/_assets/assets.swf", symbol="symbol6578")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol6746")]
    public dynamic class sp_ReverseEnergy extends SpellW
    {
 

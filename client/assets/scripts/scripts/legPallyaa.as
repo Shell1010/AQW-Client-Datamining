@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol9436")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol9603")]
    public dynamic class legPallyaa extends MovieClip
    {
 

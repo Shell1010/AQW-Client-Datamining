@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol8331")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol8498")]
    public dynamic class iicrystal extends MovieClip
    {
 

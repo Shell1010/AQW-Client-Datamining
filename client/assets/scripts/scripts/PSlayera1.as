@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol9655")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol9861")]
    public dynamic class PSlayera1 extends MovieClip
    {
 

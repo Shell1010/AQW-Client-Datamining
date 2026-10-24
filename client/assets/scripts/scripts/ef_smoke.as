@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol7115")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol7283")]
    public dynamic class ef_smoke extends SpellW
    {
 

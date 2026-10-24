@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol10305")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol10511")]
    public dynamic class Chavengea4 extends MovieClip
    {
 

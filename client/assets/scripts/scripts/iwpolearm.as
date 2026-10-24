@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol8274")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol8441")]
    public dynamic class iwpolearm extends MovieClip
    {
 

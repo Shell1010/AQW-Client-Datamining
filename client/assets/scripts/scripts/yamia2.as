@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol8503")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol8670")]
    public dynamic class yamia2 extends MovieClip
    {
 

@@ -2,7 +2,7 @@ package
 {
    import flash.display.Sprite;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol8416")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol8583")]
    public dynamic class iArrow extends Sprite
    {
 

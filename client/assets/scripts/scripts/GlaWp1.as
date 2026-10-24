@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol8844")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol9011")]
    public dynamic class GlaWp1 extends MovieClip
    {
 

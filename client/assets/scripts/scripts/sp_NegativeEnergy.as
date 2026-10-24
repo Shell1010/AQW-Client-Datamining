@@ -1,6 +1,6 @@
 package
 {
-   [Embed(source="/_assets/assets.swf", symbol="symbol6593")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol6761")]
    public dynamic class sp_NegativeEnergy extends SpellW
    {
 

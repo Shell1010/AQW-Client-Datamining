@@ -1208,7 +1208,7 @@ package
             }
             _loc1_ = MovieClip(param1.currentTarget);
             this.setCT(_loc1_.bg,65280);
-            _loc1_.removeEventListener(MouseEvent.CLICK,this.btnAbandon);
+            _loc1_.removeEventListener(MouseEvent.CLICK,this.btnComplete);
             _loc1_.removeEventListener(MouseEvent.MOUSE_OVER,this.bMouseOver);
             _loc1_.removeEventListener(MouseEvent.MOUSE_OUT,this.bMouseOut);
             _loc2_ = this.qStep != null ? this.qStep.value : 1;

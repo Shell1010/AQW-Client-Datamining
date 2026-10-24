@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol8538")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol8705")]
    public dynamic class Voidha3 extends MovieClip
    {
 

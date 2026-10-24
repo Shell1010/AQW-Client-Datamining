@@ -1,6 +1,6 @@
 package
 {
-   [Embed(source="/_assets/assets.swf", symbol="symbol7872")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol8039")]
    public dynamic class DC_a4 extends SpellW
    {
 

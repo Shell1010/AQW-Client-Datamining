@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol10194")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol10400")]
    public dynamic class uchronoIC extends MovieClip
    {
 

@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol10321")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol10527")]
    public dynamic class chass4 extends MovieClip
    {
 

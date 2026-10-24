@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol8267")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol8434")]
    public dynamic class iwwand extends MovieClip
    {
 

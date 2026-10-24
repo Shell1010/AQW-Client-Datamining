@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol9854")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol10060")]
    public dynamic class frostMonka4 extends MovieClip
    {
 

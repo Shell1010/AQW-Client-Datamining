@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol9817")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol10023")]
    public dynamic class glaber3 extends MovieClip
    {
 

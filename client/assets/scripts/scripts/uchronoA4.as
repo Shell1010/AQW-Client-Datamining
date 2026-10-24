@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol10281")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol10487")]
    public dynamic class uchronoA4 extends MovieClip
    {
 

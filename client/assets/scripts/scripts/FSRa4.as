@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol9828")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol10034")]
    public dynamic class FSRa4 extends MovieClip
    {
 

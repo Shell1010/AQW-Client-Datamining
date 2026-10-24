@@ -10,6 +10,10 @@ package liteAssets.mobile
 
       private static var skipB:DisplayObject;
 
+      private static var deepPick:Boolean;
+
+      private static var btnOnly:Boolean;
+
       private static const PROP:Shape = new Shape();
 
       private static const HIT_BMD:BitmapData = new BitmapData(1,1,true,0);
@@ -27,7 +31,7 @@ package liteAssets.mobile
          super();
       }
 
-      public static function at(param1:Stage, param2:Number, param3:Number, param4:DisplayObject = null, param5:DisplayObject = null) : InteractiveObject
+      public static function at(param1:Stage, param2:Number, param3:Number, param4:DisplayObject = null, param5:DisplayObject = null, param6:Boolean = false) : InteractiveObject
       {
          var r:DisplayObject;
          var st:Stage = param1;
@@ -35,6 +39,7 @@ package liteAssets.mobile
          var y:Number = param3;
          var a:DisplayObject = param4;
          var b:DisplayObject = param5;
+         var deep:Boolean = param6;
          if(st == null)
          {
             return null;
@@ -43,6 +48,7 @@ package liteAssets.mobile
          hot.y = y;
          skipA = a;
          skipB = b;
+         deepPick = deep;
          r = null;
          try
          {
@@ -54,6 +60,7 @@ package liteAssets.mobile
          }
          skipA = null;
          skipB = null;
+         btnOnly = false;
          return r != null && r != PROP ? InteractiveObject(r) : st;
       }
 
@@ -118,42 +125,68 @@ package liteAssets.mobile
 
       private static function hit(param1:DisplayObject) : DisplayObject
       {
-         var _loc1_:SimpleButton = null;
-         var _loc2_:InteractiveObject = null;
+         var _loc1_:DisplayObject = null;
+         var _loc2_:SimpleButton = null;
+         var _loc3_:InteractiveObject = null;
          if(param1 == null || !param1.visible || param1 == skipA || param1 == skipB)
          {
             return null;
          }
-         var _loc3_:DisplayObject = param1.mask;
-         if(_loc3_ != null && !_loc3_.hitTestPoint(hot.x,hot.y,true))
+         var _loc4_:DisplayObject = param1.mask;
+         if(_loc4_ != null && !_loc4_.hitTestPoint(hot.x,hot.y,true))
          {
             return null;
          }
-         var _loc4_:DisplayObjectContainer = param1 as DisplayObjectContainer;
-         if(_loc4_ == null)
+         var _loc5_:DisplayObjectContainer = param1 as DisplayObjectContainer;
+         if(_loc5_ == null)
          {
-            _loc1_ = param1 as SimpleButton;
-            if(_loc1_ != null ? !hitButton(_loc1_) : !param1.hitTestPoint(hot.x,hot.y,true))
+            _loc2_ = param1 as SimpleButton;
+            if(_loc2_ != null ? !hitButton(_loc2_) : Boolean(btnOnly) || !param1.hitTestPoint(hot.x,hot.y,true))
             {
                return null;
             }
-            _loc2_ = param1 as InteractiveObject;
-            return _loc2_ != null && _loc2_.mouseEnabled ? _loc2_ : PROP;
+            _loc3_ = param1 as InteractiveObject;
+            return _loc3_ != null && _loc3_.mouseEnabled ? _loc3_ : PROP;
          }
-         if(!_loc4_.hitTestPoint(hot.x,hot.y,false) && _loc4_.width > 0 && _loc4_.height > 0)
+         if(btnOnly)
          {
-            return null;
+            if(_loc5_.scrollRect != null && !_loc5_.hitTestPoint(hot.x,hot.y,false))
+            {
+               return null;
+            }
+            _loc1_ = kids(_loc5_);
+            if(_loc1_ == null)
+            {
+               return null;
+            }
          }
-         var _loc5_:DisplayObject = kids(_loc4_);
-         if(_loc5_ == null)
+         else if(!_loc5_.hitTestPoint(hot.x,hot.y,false) && _loc5_.width > 0 && _loc5_.height > 0)
          {
-            return _loc4_.mouseEnabled && Boolean(own(_loc4_)) ? _loc4_ : null;
+            if(!deepPick || _loc5_.scrollRect != null)
+            {
+               return null;
+            }
+            btnOnly = true;
+            _loc1_ = kids(_loc5_);
+            btnOnly = false;
+            if(_loc1_ == null)
+            {
+               return null;
+            }
          }
-         if(_loc5_ == PROP || !_loc4_.mouseChildren)
+         else
          {
-            return _loc4_.mouseEnabled ? _loc4_ : PROP;
+            _loc1_ = kids(_loc5_);
+            if(_loc1_ == null)
+            {
+               return _loc5_.mouseEnabled && Boolean(own(_loc5_)) ? _loc5_ : null;
+            }
          }
-         return _loc5_;
+         if(_loc1_ == PROP || !_loc5_.mouseChildren)
+         {
+            return _loc5_.mouseEnabled ? _loc5_ : PROP;
+         }
+         return _loc1_;
       }
 
       private static function hitButton(param1:SimpleButton) : Boolean

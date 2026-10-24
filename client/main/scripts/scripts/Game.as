@@ -34,7 +34,7 @@ package
 
       public static var strToken:String;
 
-      public static var vParam:String = "5.21";
+      public static var vParam:String = "5.3";
 
       public static var ISWEB:Boolean = true;
 
@@ -2009,6 +2009,10 @@ package
                      }
                      break;
                   case "moveToArea":
+                     if(world.objResponse["loadWarVars"] == null)
+                     {
+                        world.sendWarVarsRequest();
+                     }
                      if(world.ldr_House.hasEventListener(Event.COMPLETE))
                      {
                         world.ldr_House.close();
@@ -9205,6 +9209,7 @@ package
       {
          Game.root = this;
          this.registerErrorSuppression();
+         MinigameSkip.init(this);
          this.stage.showDefaultContextMenu = false;
          stage.stageFocusRect = false;
          this.mcConnDetail = new ConnDetailMC(this);
@@ -14393,6 +14398,7 @@ package
             }
          }
          trace("[Load] loadExternalSWF: " + param1 + " base: " + serverFilePath);
+         MinigameSkip.noteExt(param1);
          this.ldrMC.loadFile(this.mcExtSWF,param1,"Game Files",true);
          this.hideInterface();
          this.world.visible = false;

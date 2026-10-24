@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol8659")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol8826")]
    public dynamic class vamplorda2 extends MovieClip
    {
 

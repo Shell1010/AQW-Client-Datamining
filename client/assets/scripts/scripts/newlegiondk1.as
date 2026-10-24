@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol9129")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol9296")]
    public dynamic class newlegiondk1 extends MovieClip
    {
 

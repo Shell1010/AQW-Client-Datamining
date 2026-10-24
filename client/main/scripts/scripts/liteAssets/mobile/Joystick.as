@@ -26,7 +26,7 @@ package liteAssets.mobile
 
       private static const TAP_DIST_SQ:int = 100;
 
-      private static const TAP_MS:int = 250;
+      private static const TAP_MS:int = 400;
 
       private var hit:Sprite;
 
@@ -233,6 +233,7 @@ package liteAssets.mobile
          }
          else
          {
+            this.moved = true;
             this.layout(_loc4_ / _loc6_ * RIM,_loc5_ / _loc6_ * RIM);
             MoveInput.setStick(_loc4_ / _loc6_,_loc5_ / _loc6_);
          }
@@ -258,7 +259,7 @@ package liteAssets.mobile
 
       private function forwardTap(param1:Stage, param2:Number, param3:Number) : void
       {
-         var _loc1_:InteractiveObject = TapPick.at(param1,param2,param3,parent);
+         var _loc1_:InteractiveObject = TapPick.at(param1,param2,param3,parent,null,true);
          if(_loc1_ == null || _loc1_ == param1)
          {
             return;

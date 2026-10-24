@@ -1,13 +1,13 @@
 {
  "assets": {
-  "etag": "\"fba8b8c6bd26dd1:0\"",
-  "sha": "54ab0ac2693fbdd0afa0491e122bdbc96d942c2e29bbce81d2f54d5e5243f8a0",
-  "url": "https://game.aq.com/game/gamefiles/interface/Assets/Assets_20260731.swf"
+  "etag": "\"115928f4563dd1:0\"",
+  "sha": "5325b4871fb47c7ac5a465ba902c756d33f7bdf7f1ee697217ce3dc3b764fcd2",
+  "url": "https://game.aq.com/game/gamefiles/interface/Assets/Assets_20261016.swf"
  },
  "main": {
-  "etag": "\"fb788531d55ddd1:0\"",
-  "sha": "5ce209902419c504e8cdc21dee35f40b53bf1c2097faecbeb8fa1e24b0b16b28",
-  "url": "https://game.aq.com/game/gamefiles/Game4000r5.swf"
+  "etag": "\"eacde4563dd1:0\"",
+  "sha": "d8c8d2a9ab2cc69c7a918ce269307f8a480afb80d5db35a11deb442a636be4ca",
+  "url": "https://game.aq.com/game/gamefiles/Game4000r6.swf"
  },
  "sBG": "Generic2.swf",
  "sFile": "Game4000r2.swf",

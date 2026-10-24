@@ -1,6 +1,6 @@
 package types
 {
-   public class ResponseData
+   public dynamic class ResponseData
    {
 
       public var messageType:String;

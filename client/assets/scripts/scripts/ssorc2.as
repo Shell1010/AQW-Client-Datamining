@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol8717")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol8884")]
    public dynamic class ssorc2 extends MovieClip
    {
 

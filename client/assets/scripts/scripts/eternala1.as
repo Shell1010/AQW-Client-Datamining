@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol9900")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol10106")]
    public dynamic class eternala1 extends MovieClip
    {
 

@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol10340")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol10546")]
    public dynamic class Berskaa extends MovieClip
    {
 

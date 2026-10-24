@@ -674,7 +674,7 @@ package liteAssets.mobile
             this.setHold(false);
             return;
          }
-         var _loc1_:InteractiveObject = this.refresh();
+         var _loc1_:InteractiveObject = this.refresh(true);
          if(this.isWalk(_loc1_))
          {
             this.walk();
@@ -699,7 +699,7 @@ package liteAssets.mobile
 
       private function secondary() : void
       {
-         var _loc1_:InteractiveObject = this.dest(this.refresh());
+         var _loc1_:InteractiveObject = this.dest(this.refresh(true));
          this.fire(_loc1_,MouseEvent.RIGHT_MOUSE_DOWN);
          this.fire(_loc1_,MouseEvent.RIGHT_MOUSE_UP);
          if(_loc1_.stage != null)
@@ -720,7 +720,7 @@ package liteAssets.mobile
          {
             return;
          }
-         var _loc3_:InteractiveObject = this.refresh();
+         var _loc3_:InteractiveObject = this.refresh(true);
          if(param1)
          {
             this.held = true;
@@ -849,10 +849,10 @@ package liteAssets.mobile
          --this.busy;
       }
 
-      private function refresh() : InteractiveObject
+      private function refresh(param1:Boolean = false) : InteractiveObject
       {
          this.pickT = getTimer();
-         var _loc1_:InteractiveObject = this.pick();
+         var _loc1_:InteractiveObject = this.pick(param1);
          this.moveT = _loc1_;
          this.setHover(_loc1_ == this.st ? null : _loc1_);
          return _loc1_;
@@ -970,9 +970,9 @@ package liteAssets.mobile
          this.sbSet = null;
       }
 
-      private function pick() : InteractiveObject
+      private function pick(param1:Boolean) : InteractiveObject
       {
-         return TapPick.at(this.st,this.hot.x,this.hot.y,this,this.skipObj);
+         return TapPick.at(this.st,this.hot.x,this.hot.y,this,this.skipObj,param1);
       }
 
       private function hookTip(param1:Boolean) : void

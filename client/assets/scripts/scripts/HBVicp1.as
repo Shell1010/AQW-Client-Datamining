@@ -25,7 +25,7 @@ package
    import flash.utils.*;
    import flash.xml.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol9680")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol9886")]
    public dynamic class HBVicp1 extends MovieClip
    {
 

@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol8894")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol9061")]
    public dynamic class ssgaa extends MovieClip
    {
 

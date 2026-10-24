@@ -1,6 +1,6 @@
 package
 {
-   [Embed(source="/_assets/assets.swf", symbol="symbol8006")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol8173")]
    public dynamic class barber_a1 extends SpellW
    {
 
