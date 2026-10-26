@@ -1,8 +1,9 @@
 name: datamine
 on:
-  schedule: [{ cron: "*/15 * * * *" }] 
+  schedule: [{ cron: "*/15 * * * *" }]
   workflow_dispatch:
 permissions: { contents: write }
+concurrency: { group: datamine, cancel-in-progress: false }
 jobs:
   mine:
     runs-on: ubuntu-latest
@@ -16,20 +17,33 @@ jobs:
       - name: Fetch pinned FFDec
         run: |
           mkdir ffdec && cd ffdec
-          curl -L -o ffdec.zip "https://github.com/jindrapetrik/jpexs-decompiler/releases/download/version26.3.0/ffdec_26.3.0.zip" && unzip ffdec.zip
+          curl -L -o ffdec.zip "https://github.com/jindrapetrik/jpexs-decompiler/releases/download/version26.3.0/ffdec_26.3.0.zip" && unzip -q ffdec.zip
+          ls
+      - name: Snapshot previous tree
+        run: |
+          rm -rf prev
+          cp -r client prev 2>/dev/null || mkdir prev
+      - name: Mine
+        run: python scripts/datamine.py
         env:
-          FFDEC_URL: ${{ vars.FFDEC_URL }}
-      - run: python scripts/datamine.py
-        env:
-            MODULES: main,assets  
+          MODULES: main,assets
+      - name: Detect changes
+        id: changes
+        run: |
+          git add -A client state.json
+          if git diff --cached --quiet; then echo "changed=false" >> "$GITHUB_OUTPUT"
+          else echo "changed=true" >> "$GITHUB_OUTPUT"; fi
       - name: Report to Discord
+        if: steps.changes.outputs.changed == 'true'
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        run: python scripts/diffreport.py --old prev --new client  
+        run: python scripts/diffreport.py --old prev --new client
       - name: Commit
+        if: steps.changes.outputs.changed == 'true'
         run: |
           git config user.name "datamine-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add -A client state.json
           VER=$(jq -r '.sVersion + " " + .sFile' client/gameversion.json)
-          git diff --cached --quiet || (git commit -m "AQW client $VER" && git push)
+          git commit -m "AQW client $VER"
+          git pull --rebase
+          git push
