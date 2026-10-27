@@ -25,7 +25,7 @@ package
    import flash.utils.*;
    import flash.xml.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol8352")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol8348")]
    public dynamic class firestormmapMC extends MovieClip
    {
 

@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol8447")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol8443")]
    public dynamic class iwdagger extends MovieClip
    {
 

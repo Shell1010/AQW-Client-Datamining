@@ -1,6 +1,6 @@
 package
 {
-   [Embed(source="/_assets/assets.swf", symbol="symbol4742")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol4741")]
    public dynamic class sp_card_pally extends SpellW
    {
 

@@ -225,12 +225,14 @@ package liteAssets.mobile
             HoldRun.start(game);
             LongPress.start(game);
             ActBarTouch.start(game);
+            MapTargets.start(game);
          }
          else
          {
             HoldRun.stop();
             LongPress.stop();
             ActBarTouch.stop();
+            MapTargets.stop();
          }
       }
 

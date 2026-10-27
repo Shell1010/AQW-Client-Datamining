@@ -25,7 +25,7 @@ package
    import flash.utils.*;
    import flash.xml.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol5443")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol5440")]
    public dynamic class sp_abys2aa extends SpellW
    {
 

@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol9562")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol9558")]
    public dynamic class Lich25a4 extends MovieClip
    {
 

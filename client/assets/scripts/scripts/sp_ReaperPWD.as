@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol5996")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol5991")]
    public dynamic class sp_ReaperPWD extends SpellW
    {
 

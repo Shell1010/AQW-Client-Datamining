@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol4717")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol4716")]
    public dynamic class sp_CardClash extends SpellW
    {
 

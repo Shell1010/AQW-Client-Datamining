@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol8432")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol8428")]
    public dynamic class Elixir extends MovieClip
    {
 

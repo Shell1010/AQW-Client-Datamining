@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol10502")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol10499")]
    public dynamic class cchronoA2 extends MovieClip
    {
 

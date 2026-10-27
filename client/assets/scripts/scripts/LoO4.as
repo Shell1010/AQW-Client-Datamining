@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol9493")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol9489")]
    public dynamic class LoO4 extends MovieClip
    {
 

@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol4252")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol4251")]
    public dynamic class sp_corruptcha3 extends SpellW
    {
 

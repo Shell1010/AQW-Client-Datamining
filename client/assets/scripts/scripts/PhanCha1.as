@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol9189")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol9185")]
    public dynamic class PhanCha1 extends MovieClip
    {
 

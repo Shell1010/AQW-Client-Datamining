@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol9109")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol9105")]
    public dynamic class quantumpassive extends MovieClip
    {
 

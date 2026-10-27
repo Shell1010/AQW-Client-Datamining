@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol9281")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol9277")]
    public dynamic class NotAModa1 extends MovieClip
    {
 

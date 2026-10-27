@@ -1,6 +1,6 @@
 package
 {
-   [Embed(source="/_assets/assets.swf", symbol="symbol5754")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol5751")]
    public dynamic class sp_sofSura1 extends SpellW
    {
 

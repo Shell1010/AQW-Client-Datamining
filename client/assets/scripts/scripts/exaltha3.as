@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol10088")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol10085")]
    public dynamic class exaltha3 extends MovieClip
    {
 

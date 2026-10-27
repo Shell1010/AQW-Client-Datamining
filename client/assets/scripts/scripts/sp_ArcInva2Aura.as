@@ -1,6 +1,6 @@
 package
 {
-   [Embed(source="/_assets/assets.swf", symbol="symbol5253")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol5251")]
    public dynamic class sp_ArcInva2Aura extends SpellW
    {
 

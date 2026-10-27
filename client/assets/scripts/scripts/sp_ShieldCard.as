@@ -1,6 +1,6 @@
 package
 {
-   [Embed(source="/_assets/assets.swf", symbol="symbol7096")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol7092")]
    public dynamic class sp_ShieldCard extends SpellW
    {
 

@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol9757")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol9753")]
    public dynamic class inver3 extends MovieClip
    {
 

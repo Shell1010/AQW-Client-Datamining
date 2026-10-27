@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol10804")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol10801")]
    public dynamic class ArchMagea4 extends MovieClip
    {
 

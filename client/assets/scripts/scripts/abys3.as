@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol10887")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol10884")]
    public dynamic class abys3 extends MovieClip
    {
 

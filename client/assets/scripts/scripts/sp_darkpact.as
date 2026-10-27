@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol4165")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol4164")]
    public dynamic class sp_darkpact extends SpellW
    {
 

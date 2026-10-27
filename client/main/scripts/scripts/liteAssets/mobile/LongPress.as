@@ -105,9 +105,17 @@ package liteAssets.mobile
 
       private static function onDown(param1:MouseEvent) : void
       {
-         if(Boolean(down) || !Mobile.active)
+         if(!Mobile.active)
          {
             return;
+         }
+         if(down)
+         {
+            if(fired)
+            {
+               hover(target,false);
+            }
+            endTrack();
          }
          var _loc1_:DisplayObject = param1.target as DisplayObject;
          if(_loc1_ == null || !inUi(_loc1_))
@@ -126,9 +134,25 @@ package liteAssets.mobile
          }
          timer.reset();
          timer.start();
+         stage.addEventListener(MouseEvent.MOUSE_DOWN,onDownDone,false,int.MIN_VALUE,true);
+         stage.addEventListener(Event.ENTER_FRAME,onDownDone,false,0,true);
+         stage.addEventListener(Event.DEACTIVATE,onDeactivate,false,0,true);
+      }
+
+      private static function onDownDone(param1:Event) : void
+      {
+         if(stage == null)
+         {
+            return;
+         }
+         stage.removeEventListener(MouseEvent.MOUSE_DOWN,onDownDone);
+         stage.removeEventListener(Event.ENTER_FRAME,onDownDone);
+         if(!down)
+         {
+            return;
+         }
          stage.addEventListener(MouseEvent.MOUSE_MOVE,onMove,false,0,true);
          stage.addEventListener(MouseEvent.MOUSE_UP,onUp,false,0,true);
-         stage.addEventListener(Event.DEACTIVATE,onDeactivate,false,0,true);
       }
 
       private static function onMove(param1:MouseEvent) : void
@@ -322,6 +346,8 @@ package liteAssets.mobile
          {
             return;
          }
+         stage.removeEventListener(MouseEvent.MOUSE_DOWN,onDownDone);
+         stage.removeEventListener(Event.ENTER_FRAME,onDownDone);
          stage.removeEventListener(MouseEvent.MOUSE_MOVE,onMove);
          stage.removeEventListener(MouseEvent.MOUSE_UP,onUp);
          stage.removeEventListener(Event.DEACTIVATE,onDeactivate);

@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol9726")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol9722")]
    public dynamic class Katha4 extends MovieClip
    {
 

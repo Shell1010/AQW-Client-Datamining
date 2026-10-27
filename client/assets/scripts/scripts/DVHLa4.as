@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol8749")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol8745")]
    public dynamic class DVHLa4 extends MovieClip
    {
 

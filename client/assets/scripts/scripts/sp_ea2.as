@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3814")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3813")]
    public dynamic class sp_ea2 extends SpellW
    {
 

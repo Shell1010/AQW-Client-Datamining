@@ -25,7 +25,7 @@ package
    import flash.utils.*;
    import flash.xml.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol4270")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol4269")]
    public dynamic class sp_conf extends SpellW
    {
 

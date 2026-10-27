@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol6072")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol6067")]
    public dynamic class sp_PhanCha4 extends SpellW
    {
 

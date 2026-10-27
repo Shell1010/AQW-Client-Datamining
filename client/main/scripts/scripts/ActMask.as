@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3410")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3414")]
    public dynamic class ActMask extends MovieClip
    {
 

@@ -1,6 +1,6 @@
 package
 {
-   [Embed(source="/_assets/assets.swf", symbol="symbol5006")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol5005")]
    public dynamic class sp_bite extends SpellW
    {
 

@@ -1,6 +1,6 @@
 package
 {
-   [Embed(source="/_assets/assets.swf", symbol="symbol7350")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol7346")]
    public dynamic class ef_siphon extends SpellW
    {
 

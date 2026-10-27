@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol9700")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol9696")]
    public dynamic class KingEchoa2 extends MovieClip
    {
 

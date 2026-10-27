@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol10327")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol10324")]
    public dynamic class DMNp extends MovieClip
    {
 

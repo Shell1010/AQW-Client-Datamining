@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol10610")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol10607")]
    public dynamic class ArcInva2 extends MovieClip
    {
 

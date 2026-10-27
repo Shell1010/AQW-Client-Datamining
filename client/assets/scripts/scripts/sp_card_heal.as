@@ -1,6 +1,6 @@
 package
 {
-   [Embed(source="/_assets/assets.swf", symbol="symbol4765")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol4764")]
    public dynamic class sp_card_heal extends SpellW
    {
 

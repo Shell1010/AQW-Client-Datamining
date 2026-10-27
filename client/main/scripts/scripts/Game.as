@@ -34,7 +34,7 @@ package
 
       public static var strToken:String;
 
-      public static var vParam:String = "5.3";
+      public static var vParam:String = "5.31";
 
       public static var ISWEB:Boolean = true;
 
@@ -469,6 +469,7 @@ package
       public function Game()
       {
          var isWarned:*;
+         var closeExternalOnDisconnect:*;
          var closeBankBatch:*;
          var onMultiConnectionHandler:*;
          var onMultiConnectionLostHandler:*;
@@ -640,6 +641,24 @@ package
             }
             return false;
          };
+         closeExternalOnDisconnect = function():void
+         {
+            try
+            {
+               if(world != null && world.cHandle != null)
+               {
+                  world.cHandle.cancel();
+               }
+               if(mcExtSWF != null && mcExtSWF.numChildren > 0)
+               {
+                  clearExternamSWF();
+               }
+            }
+            catch(eExt:Error)
+            {
+               trace("[Net] ERR closeExternalOnDisconnect: " + eExt.message);
+            }
+         };
          onConnectionLostHandler = function(param1:SFSEvent):*
          {
             var e:SFSEvent = param1;
@@ -649,6 +668,7 @@ package
             FavStore.reset();
             if(!serialCmdMode)
             {
+               closeExternalOnDisconnect();
                if(world != null)
                {
                   cleanupInterfaces();
@@ -734,6 +754,7 @@ package
             FavStore.reset();
             if(!serialCmdMode)
             {
+               closeExternalOnDisconnect();
                if(world != null)
                {
                   cleanupInterfaces();
@@ -1133,7 +1154,6 @@ package
             var friend:* = undefined;
             var fct:Function = null;
             var item:* = undefined;
-            var sMeta:String = null;
             var dID:* = undefined;
             var dItem:* = undefined;
             var iData:* = undefined;
@@ -3303,17 +3323,6 @@ package
                      tLeaf = world.getUoLeafById(resObj.uid);
                      if(avt != null)
                      {
-                        if(avt.isMyAvatar)
-                        {
-                           sMeta = world.myAvatar.getItemByEquipSlot(resObj.strES) ? world.myAvatar.getItemByEquipSlot(resObj.strES).sMeta : "";
-                           if(Boolean(sMeta) && sMeta.length > 0)
-                           {
-                              if(world.myAvatar.invLoaded)
-                              {
-                                 avt.calculateIntoBoosts();
-                              }
-                           }
-                        }
                         if(avt.pMC != null && avt.objData != null)
                         {
                            avt.objData.eqp[resObj.strES] = {};
@@ -3333,6 +3342,10 @@ package
                            }
                            avt.loadMovieAtES(resObj.strES,resObj.sFile,resObj.sLink);
                         }
+                        if(avt.isMyAvatar && avt.invLoaded)
+                        {
+                           avt.calculateIntoBoosts();
+                        }
                         if(avt.isMyAvatar && avt.getItemByID(resObj.ItemID) != null)
                         {
                            avt.equipItem(resObj.ItemID);
@@ -3344,13 +3357,6 @@ package
                            {
                               ui.mcPopup.mcTempInventory.mcItemList.refreshList();
                               ui.mcPopup.mcTempInventory.refreshDetail();
-                           }
-                           if("sMeta" in resObj && String(resObj.sMeta).length > 0)
-                           {
-                              if(world.myAvatar.invLoaded)
-                              {
-                                 avt.calculateIntoBoosts();
-                              }
                            }
                         }
                      }
@@ -3367,6 +3373,14 @@ package
                         if(avt.isMyAvatar)
                         {
                            avt.unequipItem(resObj.ItemID);
+                           if(avt.objData != null && avt.objData.eqp[resObj.strES] != null)
+                           {
+                              delete avt.objData.eqp[resObj.strES].sMeta;
+                           }
+                           if(avt.invLoaded)
+                           {
+                              avt.calculateIntoBoosts();
+                           }
                            if(ui.mcPopup.currentLabel == "Inventory")
                            {
                               MovieClip(ui.mcPopup.getChildByName("mcInventory")).update({"eventType":"refreshItems"});
@@ -3375,14 +3389,6 @@ package
                            {
                               ui.mcPopup.mcTempInventory.mcItemList.refreshList();
                               ui.mcPopup.mcTempInventory.refreshDetail();
-                           }
-                           sMeta = world.myAvatar.getItemByID(resObj.ItemID) ? world.myAvatar.getItemByID(resObj.ItemID).sMeta : "";
-                           if(Boolean(sMeta) && sMeta.length > 0)
-                           {
-                              if(world.myAvatar.invLoaded)
-                              {
-                                 avt.calculateIntoBoosts();
-                              }
                            }
                         }
                      }
@@ -3697,13 +3703,16 @@ package
                         {
                            dropID = itemArr[dropindex].split(":")[0];
                            dropQty = int(itemArr[dropindex].split(":")[1]);
-                           if(world.invTree[dropID].bTemp == 0)
+                           if(world.invTree[dropID] != null)
                            {
-                              world.myAvatar.removeItemByID(dropID,dropQty);
-                           }
-                           else
-                           {
-                              world.myAvatar.removeTempItem(dropID,dropQty);
+                              if(world.invTree[dropID].bTemp == 0)
+                              {
+                                 world.myAvatar.removeItemByID(dropID,dropQty);
+                              }
+                              else
+                              {
+                                 world.myAvatar.removeTempItem(dropID,dropQty);
+                              }
                            }
                            dropindex++;
                         }
@@ -4950,10 +4959,27 @@ package
                      }
                      break;
                   case "alchOnStart":
-                     world.map.alchemyGame.onStart(resObj);
+                     try
+                     {
+                        world.map.alchemyGame.onStart(resObj);
+                     }
+                     catch(e:Error)
+                     {
+                        trace("[Resp] ERR alchOnStart: " + e.message);
+                     }
                      break;
                   case "alchComplete":
-                     world.map.alchemyGame.checkComplete(resObj);
+                     try
+                     {
+                        world.map.alchemyGame.checkComplete(resObj);
+                     }
+                     catch(e:Error)
+                     {
+                        trace("[Resp] ERR alchComplete: " + e.message);
+                     }
+                     break;
+                  case "alchStart":
+                  case "alchDone":
                      break;
                   case "spellOnStart":
                      world.map.mcGame.spellOnStart(resObj);

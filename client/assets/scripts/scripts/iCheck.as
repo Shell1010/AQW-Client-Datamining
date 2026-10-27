@@ -2,7 +2,7 @@ package
 {
    import flash.display.Sprite;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol8540")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol8536")]
    public dynamic class iCheck extends Sprite
    {
 

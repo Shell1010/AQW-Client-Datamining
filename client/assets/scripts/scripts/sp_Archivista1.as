@@ -2,7 +2,7 @@ package
 {
    import flash.display.MovieClip;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol5360")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol5357")]
    public dynamic class sp_Archivista1 extends MovieClip
    {
 

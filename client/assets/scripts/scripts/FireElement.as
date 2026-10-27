@@ -1,6 +1,6 @@
 package
 {
-   [Embed(source="/_assets/assets.swf", symbol="symbol3549")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3548")]
    public dynamic class FireElement extends SpellW
    {
 
