@@ -17,9 +17,9 @@ package liteAssets.mobile
 
       private static var keyNames:Object;
 
-      private static const SECTIONS:Array = [["Combat",["Auto Attack","Skill 1","Skill 2","Skill 3","Skill 4","Skill 5","Target Random Monster","Cancel Target","Rest","Dash","Jump"]],["Movement",["Move Up","Move Left","Move Down","Move Right"]],["Interface",["Inventory","Bank","Quest Log","Character Panel","Outfits","Friends List","Friendships UI","Area List","Options","Stats Overview","Player HP Bar","Hide UI","Battle Analyzer","Battle Analyzer Toggle"]],["Drops",["Custom Drops UI","Decline All Drops"]],["World & Camera",["Camera Tool","World Camera","World Camera\'s Hide","Travel Menu\'s Travel","Hide Monsters","Hide Players"]],["Developer",["@ Debugger - Cell Menu","@ Debugger - Packet Logger"]]];
+      public static const SECTIONS:Array = [["Combat",["Auto Attack","Skill 1","Skill 2","Skill 3","Skill 4","Skill 5","Target Random Monster","Cancel Target","Rest","Dash","Jump"]],["Movement",["Move Up","Move Left","Move Down","Move Right"]],["Interface",["Inventory","Bank","Quest Log","Character Panel","Outfits","Friends List","Friendships UI","Area List","Options","Stats Overview","Player HP Bar","Hide UI","Battle Analyzer","Battle Analyzer Toggle"]],["Drops",["Custom Drops UI","Decline All Drops"]],["World & Camera",["Camera Tool","World Camera","World Camera\'s Hide","Travel Menu\'s Travel","Hide Monsters","Hide Players"]],["Developer",["@ Debugger - Cell Menu","@ Debugger - Packet Logger"]]];
 
-      private static const DESC:Object = {
+      public static const DESC:Object = {
          "Camera Tool":"Launches Camera Tool",
          "World Camera":"Launches World Camera",
          "Target Random Monster":"Targets a random monster in your room if available",
@@ -101,33 +101,33 @@ package liteAssets.mobile
          "COMMAND":"Cmd"
       };
 
-      private static const W:int = 640;
+      protected static const W:int = 640;
 
-      private static const H:int = 440;
+      protected static const H:int = 440;
 
-      private static const OUT:int = 16;
+      protected static const OUT:int = 16;
 
-      private static const SEARCH_Y:int = 42;
+      protected static const SEARCH_Y:int = 42;
 
-      private static const SEARCH_H:int = 26;
+      protected static const SEARCH_H:int = 26;
 
-      private static const WELL_Y:int = 76;
+      protected static const WELL_Y:int = 76;
 
-      private static const PAD:int = 10;
+      protected static const PAD:int = 10;
 
-      private static const COL_GAP:int = 22;
+      protected static const COL_GAP:int = 22;
 
-      private static const ROW_H:int = 34;
+      protected static const ROW_H:int = 34;
 
-      private static const PILL_W:int = 104;
+      protected static const PILL_W:int = 104;
 
-      private static const PILL_H:int = 24;
+      protected static const PILL_H:int = 24;
 
-      private static const BAR_W:int = 8;
+      protected static const BAR_W:int = 8;
 
-      private static const BTN_W:int = 112;
+      protected static const BTN_W:int = 112;
 
-      private static const BTN_H:int = 32;
+      protected static const BTN_H:int = 32;
 
       private static const OPEN_MS:int = 120;
 
@@ -135,7 +135,7 @@ package liteAssets.mobile
 
       private static const IDLE_NOTE:String = "Click a key to change it. Backspace clears it.";
 
-      private var game:MovieClip;
+      protected var game:MovieClip;
 
       private var bg:MovieClip;
 
@@ -143,9 +143,9 @@ package liteAssets.mobile
 
       private var pivot:Sprite = new Sprite();
 
-      private var win:Sprite = new Sprite();
+      protected var win:Sprite = new Sprite();
 
-      private var content:Sprite = new Sprite();
+      protected var content:Sprite = new Sprite();
 
       private var viewMask:Shape = new Shape();
 
@@ -153,13 +153,13 @@ package liteAssets.mobile
 
       private var thumb:Sprite = new Sprite();
 
-      private var search:TextField;
+      protected var search:TextField;
 
       private var placeholder:TextField;
 
-      private var note:TextField;
+      protected var note:TextField;
 
-      private var resetBtn:VolumeButton;
+      protected var resetBtn:VolumeButton;
 
       private var doneBtn:VolumeButton;
 
@@ -167,13 +167,13 @@ package liteAssets.mobile
 
       private var pills:Object = {};
 
-      private var m:Boolean = Mobile.active;
+      protected var m:Boolean = Mobile.active;
 
-      private var rowH:int = 34;
+      protected var rowH:int = 34;
 
-      private var pillH:int = 24;
+      protected var pillH:int = 24;
 
-      private var btnH:int = 32;
+      protected var btnH:int = 32;
 
       private var wellH:int;
 
@@ -283,7 +283,7 @@ package liteAssets.mobile
          return _loc3_.join(" ");
       }
 
-      private static function textShadow() : DropShadowFilter
+      protected static function textShadow() : DropShadowFilter
       {
          return new DropShadowFilter(1,45,0,0.6,2,2,1,1);
       }
@@ -332,6 +332,51 @@ package liteAssets.mobile
          GamePad.suspended = GamepadPanel.isOpen;
       }
 
+      protected function titleText() : String
+      {
+         return "Keybinds";
+      }
+
+      protected function searchHint() : String
+      {
+         return "Search keybinds";
+      }
+
+      protected function idleNote() : String
+      {
+         return IDLE_NOTE;
+      }
+
+      protected function noteW() : int
+      {
+         return W - OUT * 2 - BTN_W * 2 - 30;
+      }
+
+      protected function resetLabel() : String
+      {
+         return "Reset All";
+      }
+
+      protected function searchW() : int
+      {
+         return W - OUT * 2;
+      }
+
+      protected function columns() : int
+      {
+         return 2;
+      }
+
+      protected function listed(param1:String) : Boolean
+      {
+         return true;
+      }
+
+      protected function sections() : Array
+      {
+         return SECTIONS;
+      }
+
       private function onResize(param1:Event) : void
       {
          this.place();
@@ -358,7 +403,7 @@ package liteAssets.mobile
          }
       }
 
-      private function keys() : Object
+      protected function keys() : Object
       {
          try
          {
@@ -370,7 +415,7 @@ package liteAssets.mobile
          return {};
       }
 
-      private function isStaff() : Boolean
+      protected function isStaff() : Boolean
       {
          var _loc1_:Object = null;
          try
@@ -384,13 +429,13 @@ package liteAssets.mobile
          return false;
       }
 
-      private function layout() : void
+      protected function layout() : void
       {
          this.buildChrome();
          var _loc1_:Sprite = new Sprite();
          _loc1_.graphics.lineStyle(1,3815994,1,true);
          _loc1_.graphics.beginFill(657930);
-         _loc1_.graphics.drawRoundRect(0,0,W - OUT * 2,SEARCH_H,SEARCH_H,SEARCH_H);
+         _loc1_.graphics.drawRoundRect(0,0,this.searchW(),SEARCH_H,SEARCH_H,SEARCH_H);
          _loc1_.graphics.endFill();
          _loc1_.x = OUT;
          _loc1_.y = SEARCH_Y;
@@ -402,7 +447,7 @@ package liteAssets.mobile
          _loc2_.graphics.lineTo(23,20);
          _loc1_.addChild(_loc2_);
          this.placeholder = MailArt.tf(13,7829367);
-         this.placeholder.text = "Search keybinds";
+         this.placeholder.text = this.searchHint();
          this.placeholder.x = 30;
          this.placeholder.y = Math.round((SEARCH_H - this.placeholder.height) / 2);
          _loc1_.addChild(this.placeholder);
@@ -410,7 +455,7 @@ package liteAssets.mobile
          this.search.type = TextFieldType.INPUT;
          this.search.defaultTextFormat = new TextFormat("Arial",13,16777215);
          this.search.x = 30;
-         this.search.width = W - OUT * 2 - 40;
+         this.search.width = this.searchW() - 40;
          this.search.height = 20;
          this.search.y = Math.round((SEARCH_H - 20) / 2);
          this.search.addEventListener(Event.CHANGE,this.onSearch,false,0,true);
@@ -440,7 +485,7 @@ package liteAssets.mobile
          this.note.filters = [textShadow()];
          this.win.addChild(this.note);
          var _loc4_:int = WELL_Y + this.wellH + 10;
-         this.resetBtn = new VolumeButton(BTN_W,this.btnH,"Reset All");
+         this.resetBtn = new VolumeButton(BTN_W,this.btnH,this.resetLabel());
          this.resetBtn.x = W - OUT - BTN_W * 2 - 12;
          this.resetBtn.y = _loc4_;
          this.resetBtn.addEventListener(MouseEvent.CLICK,this.onReset,false,0,true);
@@ -455,23 +500,23 @@ package liteAssets.mobile
             TouchTargets.pad(this.resetBtn);
             TouchTargets.pad(this.doneBtn);
          }
-         this.setNote(IDLE_NOTE,9079434);
+         this.setNote(this.idleNote(),9079434);
          this.scroller = TouchScroll.attach(this.content,this.getPos,this.setPos,this.getMax);
          this.build();
          this.place();
          this.startAnim();
       }
 
-      private function setNote(param1:String, param2:uint) : void
+      protected function setNote(param1:String, param2:uint) : void
       {
          this.note.textColor = param2;
          this.note.text = param1;
-         MailArt.fit(this.note,W - OUT * 2 - BTN_W * 2 - 30);
+         MailArt.fit(this.note,this.noteW());
          this.note.x = OUT + 4;
          this.note.y = WELL_Y + this.wellH + 10 + Math.round((this.btnH - this.note.height) / 2);
       }
 
-      private function build() : void
+      protected function build() : void
       {
          var _loc1_:Array = null;
          var _loc2_:Array = null;
@@ -490,25 +535,29 @@ package liteAssets.mobile
          this.pills = {};
          var _loc9_:String = this.search != null ? this.search.text.toLowerCase() : "";
          this.placeholder.visible = _loc9_.length == 0;
-         var _loc10_:Boolean = Boolean(this.isStaff());
+         var _loc10_:Boolean = this.isStaff();
          var _loc11_:int = W - OUT * 2 - PAD * 2 - BAR_W - 6;
-         var _loc12_:int = int((_loc11_ - COL_GAP) / 2);
-         var _loc13_:int = OUT + PAD;
-         var _loc14_:int = WELL_Y + 6;
-         var _loc15_:Object = {};
-         for each(_loc1_ in SECTIONS)
+         var _loc12_:int = this.columns();
+         var _loc13_:int = int((_loc11_ - COL_GAP * (_loc12_ - 1)) / _loc12_);
+         var _loc14_:int = OUT + PAD;
+         var _loc15_:int = WELL_Y + 6;
+         var _loc16_:Object = {};
+         for each(_loc1_ in this.sections())
          {
             _loc2_ = [];
             for each(_loc3_ in _loc1_[1])
             {
-               if(_loc15_[_loc3_] != true)
+               if(_loc16_[_loc3_] != true)
                {
                   if(!(_loc3_.indexOf("@ Debugger") == 0 && !_loc10_))
                   {
-                     if(!(_loc9_.length > 0 && _loc3_.toLowerCase().indexOf(_loc9_) < 0))
+                     if(this.listed(_loc3_))
                      {
-                        _loc2_.push(_loc3_);
-                        _loc15_[_loc3_] = true;
+                        if(!(_loc9_.length > 0 && _loc3_.toLowerCase().indexOf(_loc9_) < 0))
+                        {
+                           _loc2_.push(_loc3_);
+                           _loc16_[_loc3_] = true;
+                        }
                      }
                   }
                }
@@ -516,36 +565,36 @@ package liteAssets.mobile
             if(_loc2_.length != 0)
             {
                _loc4_ = new RowHeader(_loc1_[0],_loc11_);
-               _loc4_.x = _loc13_;
-               _loc4_.y = _loc14_;
+               _loc4_.x = _loc14_;
+               _loc4_.y = _loc15_;
                this.content.addChild(_loc4_);
-               _loc14_ += RowHeader.H + 2;
+               _loc15_ += RowHeader.H + 2;
                _loc5_ = 0;
                while(_loc5_ < _loc2_.length)
                {
-                  _loc6_ = _loc5_ % 2;
-                  _loc7_ = _loc14_ + int(_loc5_ / 2) * this.rowH;
-                  this.buildRow(_loc2_[_loc5_],_loc13_ + _loc6_ * (_loc12_ + COL_GAP),_loc7_,_loc12_);
+                  _loc6_ = _loc5_ % _loc12_;
+                  _loc7_ = _loc15_ + int(_loc5_ / _loc12_) * this.rowH;
+                  this.buildRow(_loc2_[_loc5_],_loc14_ + _loc6_ * (_loc13_ + COL_GAP),_loc7_,_loc13_);
                   _loc5_++;
                }
-               _loc14_ += int((_loc2_.length + 1) / 2) * this.rowH + 6;
+               _loc15_ += int((_loc2_.length + _loc12_ - 1) / _loc12_) * this.rowH + 6;
             }
          }
-         if(_loc14_ == WELL_Y + 6)
+         if(_loc15_ == WELL_Y + 6)
          {
             _loc8_ = MailArt.tf(13,9079434);
-            _loc8_.text = "No keybinds match \"" + this.search.text + "\".";
+            _loc8_.text = "Nothing matches \"" + this.search.text + "\".";
             _loc8_.x = Math.round(W / 2 - _loc8_.width / 2);
             _loc8_.y = WELL_Y + 30;
             this.content.addChild(_loc8_);
-            _loc14_ += 60;
+            _loc15_ += 60;
          }
-         this.contentH = _loc14_ - WELL_Y;
+         this.contentH = _loc15_ - WELL_Y;
          this.setPos(Math.min(this.pos,this.getMax()));
          this.drawBar();
       }
 
-      private function buildRow(param1:String, param2:int, param3:int, param4:int) : void
+      protected function buildRow(param1:String, param2:int, param3:int, param4:int) : void
       {
          var _loc1_:Sprite = new Sprite();
          _loc1_.name = param1;
@@ -598,7 +647,7 @@ package liteAssets.mobile
          _loc1_.dim = param1 != this.waiting && (_loc2_ == null || int(_loc2_) == 0);
       }
 
-      private function onRowOver(param1:MouseEvent) : void
+      protected function onRowOver(param1:MouseEvent) : void
       {
          if(this.waiting != null)
          {
@@ -611,15 +660,15 @@ package liteAssets.mobile
          }
       }
 
-      private function onRowOut(param1:MouseEvent) : void
+      protected function onRowOut(param1:MouseEvent) : void
       {
          if(this.waiting == null)
          {
-            this.setNote(IDLE_NOTE,9079434);
+            this.setNote(this.idleNote(),9079434);
          }
       }
 
-      private function closeTip() : void
+      protected function closeTip() : void
       {
          try
          {
@@ -660,7 +709,7 @@ package liteAssets.mobile
          this.showKey(_loc1_);
          if(param1)
          {
-            this.setNote(IDLE_NOTE,9079434);
+            this.setNote(this.idleNote(),9079434);
          }
       }
 
@@ -785,7 +834,7 @@ package liteAssets.mobile
          this.build();
       }
 
-      private function onReset(param1:MouseEvent) : void
+      protected function onReset(param1:MouseEvent) : void
       {
          var cls:Class;
          var modal:*;
@@ -1006,7 +1055,7 @@ package liteAssets.mobile
          }
          try
          {
-            this.bg.tTitle.text = "Keybinds";
+            this.bg.tTitle.text = this.titleText();
             this.bg.tTitle.textColor = 16777215;
             this.bg.tTitle.x = int(W / 2 - this.bg.tTitle.width / 2);
          }
@@ -1039,7 +1088,7 @@ package liteAssets.mobile
          this.win.addChildAt(_loc1_,0);
          var _loc4_:TextField = MailArt.tf(14,16777215,true);
          _loc4_.filters = [textShadow()];
-         _loc4_.text = "Keybinds";
+         _loc4_.text = this.titleText();
          _loc4_.x = int(W / 2 - _loc4_.width / 2);
          _loc4_.y = 10;
          this.win.addChild(_loc4_);

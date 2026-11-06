@@ -1268,6 +1268,10 @@ package liteAssets.mobile
             {
                this.cd.previewDrop(param2);
             }
+            else if(param1 == DropPopover.BLOCK)
+            {
+               this.cd.blacklist(param2);
+            }
          }
          catch(e:Error)
          {

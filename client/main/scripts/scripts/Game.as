@@ -34,7 +34,7 @@ package
 
       public static var strToken:String;
 
-      public static var vParam:String = "5.31";
+      public static var vParam:String = "5.32";
 
       public static var ISWEB:Boolean = true;
 
@@ -67,6 +67,8 @@ package
       public static const FB_APP_ID:String = "51356733862";
 
       public static const FB_APP_SEC:String = "This should never be stored in the client";
+
+      public static const BIND_ORDER:Array = ["Target Random Monster","Travel Menu\'s Travel","Camera Tool","World Camera","Inventory","Bank","Quest Log","Friends List","Character Panel","Player HP Bar","Options","Area List","Jump","Rest","Hide Monsters","Hide Players","Cancel Target","Hide UI","Battle Analyzer","Decline All Drops","Stats Overview","Battle Analyzer Toggle","Custom Drops UI","@ Debugger - Cell Menu","@ Debugger - Packet Logger","Dash","Outfits","Friendships UI"];
 
       private static const PROC_SLOTS:Object = {
          "aa":"Auto Attack",
@@ -392,7 +394,7 @@ package
 
       public var BOOK_DATA_READY:* = null;
 
-      private var bookInfo:Object = null;
+      private var bookJson:String = null;
 
       public var bolLoader:Loader;
 
@@ -1158,7 +1160,10 @@ package
             var dItem:* = undefined;
             var iData:* = undefined;
             var isOK:Boolean = false;
+            var bList:Array = null;
+            var bValid:Array = null;
             var bItem:* = undefined;
+            var bID:Number = NaN;
             var mdID:* = undefined;
             var dropitem:* = undefined;
             var ItemID:* = undefined;
@@ -3436,18 +3441,25 @@ package
                            isOK = true;
                            if(litePreference.data.blackList)
                            {
-                              for each(bItem in litePreference.data.blackList)
+                              bList = litePreference.data.blackList;
+                              bValid = [];
+                              for each(bItem in bList)
                               {
-                                 if(isNaN(parseInt(bItem.value)))
+                                 bID = Number(parseInt(bItem.value));
+                                 if(!isNaN(bID))
                                  {
-                                    litePreference.data.blackList.splice(litePreference.data.blackList.indexOf(bItem.value),1);
-                                 }
-                                 else if(dItem.ItemID == parseInt(bItem.value))
-                                 {
-                                    isOK = false;
+                                    bValid.push(bItem);
+                                    if(dItem.ItemID == bID)
+                                    {
+                                       isOK = false;
+                                    }
                                  }
                               }
-                              litePreference.flush();
+                              if(bValid.length != bList.length)
+                              {
+                                 litePreference.data.blackList = bValid;
+                                 litePreference.flush();
+                              }
                            }
                            if(isOK)
                            {
@@ -6079,12 +6091,8 @@ package
 
       public function key_StageGame(param1:KeyboardEvent) : *
       {
-         var _loc1_:Array = null;
+         var _loc1_:Object = null;
          var _loc2_:String = null;
-         var _loc3_:uint = 0;
-         var _loc4_:MovieClip = null;
-         var _loc5_:MovieClip = null;
-         var _loc6_:int = 0;
          if(GameKeys.firing)
          {
             return;
@@ -6103,328 +6111,241 @@ package
             {
                param1.keyCode -= 48;
             }
-            if(param1.keyCode == this.litePreference.data.keys["Target Random Monster"])
+            if(this.isInputFocused())
             {
-               if(!this.isInputFocused())
-               {
-                  _loc1_ = this.world.getMonstersByCell(this.world.strFrame);
-                  _loc2_ = this.world.strFrame;
-                  if(_loc1_.length > 0)
-                  {
-                     _loc3_ = Math.round(Math.random() * (_loc1_.length - 1));
-                     while(_loc1_.length > 1 && !_loc1_[_loc3_] && !_loc1_[_loc3_].pMC && _loc1_[_loc3_].dataLeaf.intState == 0 && this.world.myAvatar.target == _loc1_[_loc3_])
-                     {
-                        if(this.world.strFrame != _loc2_)
-                        {
-                           break;
-                        }
-                        _loc3_ = Math.round(Math.random() * (_loc1_.length - 1));
-                     }
-                     if(this.world.strFrame == _loc2_)
-                     {
-                        if(Boolean(_loc1_[_loc3_] && _loc1_[_loc3_].pMC) && Boolean(_loc1_[_loc3_].dataLeaf.strFrame == this.world.strFrame) && _loc1_[_loc3_].dataLeaf.intState != 0)
-                        {
-                           this.world.setTarget(_loc1_[_loc3_]);
-                        }
-                     }
-                  }
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Travel Menu\'s Travel"])
-            {
-               if(!this.isInputFocused())
-               {
-                  if(this.ui.getChildByName("mcTravelMenu"))
-                  {
-                     (this.ui.getChildByName("mcTravelMenu") as MovieClip).dispatchTravel();
-                  }
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Camera Tool"])
-            {
-               if(!this.isInputFocused())
-               {
-                  if(Boolean(stage.getChildByName("worldCameraMC")) || Boolean(getChildByName("cameraToolMC")))
-                  {
-                     return;
-                  }
-                  _loc4_ = new cameraTool(this);
-                  _loc4_.name = "cameraToolMC";
-                  _loc4_.x = -7;
-                  addChild(_loc4_);
-                  this.world.visible = false;
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["World Camera"])
-            {
-               if(!this.isInputFocused())
-               {
-                  if(Boolean(stage.getChildByName("worldCameraMC")) || Boolean(getChildByName("cameraToolMC")))
-                  {
-                     if(stage.getChildByName("worldCameraMC"))
-                     {
-                        MovieClip(stage.getChildByName("worldCameraMC")).dispatchExit();
-                     }
-                     return;
-                  }
-                  _loc5_ = new worldCamera(this);
-                  _loc5_.name = "worldCameraMC";
-                  stage.addChild(_loc5_);
-               }
+               return;
             }
             if(String.fromCharCode(param1.charCode) == ">")
             {
-               if(!this.isInputFocused())
+               if(this.chatF.pmSourceA[0] != null && this.chatF.pmSourceA[0].length >= 1)
                {
-                  if(this.chatF.pmSourceA[0] != null && this.chatF.pmSourceA[0].length >= 1)
+                  this.chatF.openPMsg(this.chatF.pmSourceA[0]);
+                  if(this.intChatMode)
                   {
-                     this.chatF.openPMsg(this.chatF.pmSourceA[0]);
-                     if(this.intChatMode)
-                     {
-                        this.ui.mcInterface.ncText.text = "> ";
-                     }
-                     else
-                     {
-                        this.ui.mcInterface.te.text = "> ";
-                     }
-                  }
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Inventory"])
-            {
-               if(!this.isInputFocused())
-               {
-                  this.ui.mcInterface.mcMenu.toggleInventory();
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Bank"] && (this.world.myAvatar.isStaff() || this.hasBankItem()))
-            {
-               if(!this.isInputFocused())
-               {
-                  this.world.toggleBank();
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Quest Log"])
-            {
-               if(stage.focus != this.ui.mcInterface.te && stage.focus != this.ui.mcInterface.ncText && stage.focus != this.ui.mcInterface.ncText)
-               {
-                  this.world.toggleQuestLog();
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Friends List"])
-            {
-               if(!this.isInputFocused())
-               {
-                  if(this.ui.mcOFrame.isOpen)
-                  {
-                     this.ui.mcOFrame.fClose();
+                     this.ui.mcInterface.ncText.text = "> ";
                   }
                   else
                   {
-                     this.world.showFriendsList();
+                     this.ui.mcInterface.te.text = "> ";
                   }
+                  return;
                }
             }
-            if(param1.keyCode == this.litePreference.data.keys["Character Panel"])
+            _loc1_ = this.litePreference.data.keys;
+            for each(_loc2_ in BIND_ORDER)
             {
-               if(!this.isInputFocused())
+               if(param1.keyCode == _loc1_[_loc2_] && !this.runBind(_loc2_))
                {
-                  this.toggleCharpanel("overview");
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Player HP Bar"])
-            {
-               if(!this.isInputFocused())
-               {
-                  this.world.toggleHPBar();
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Options"])
-            {
-               if(!this.isInputFocused())
-               {
-                  if(this.ui.mcPopup.currentLabel == "Option")
-                  {
-                     this.ui.mcPopup.onClose();
-                  }
-                  else
-                  {
-                     this.ui.mcPopup.fOpen("Option");
-                  }
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Area List"])
-            {
-               if(!this.isInputFocused())
-               {
-                  if(!this.ui.mcOFrame.isOpen)
-                  {
-                     this.world.sendWhoRequest();
-                  }
-                  else
-                  {
-                     this.ui.mcOFrame.fClose();
-                  }
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Jump"])
-            {
-               if(stage.focus != this.ui.mcInterface.te && stage.focus != this.ui.mcInterface.ncText)
-               {
-                  this.world.myAvatar.pMC.mcChar.gotoAndPlay("Jump");
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Rest"])
-            {
-               if(param1.target != this.ui.mcInterface.te && param1.target != this.ui.mcInterface.ncText)
-               {
-                  this.world.rest();
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Hide Monsters"])
-            {
-               if(param1.target != this.ui.mcInterface.te && param1.target != this.ui.mcInterface.ncText)
-               {
-                  this.world.toggleMonsters();
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Hide Players"])
-            {
-               if(param1.target != this.ui.mcInterface.te && param1.target != this.ui.mcInterface.ncText)
-               {
-                  optionHandler.cmd(MovieClip(this),"Hide Players");
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Cancel Target"])
-            {
-               if(param1.target != this.ui.mcInterface.te && param1.target != this.ui.mcInterface.ncText)
-               {
-                  if(this.cancelTargetTimer.running)
-                  {
-                     return;
-                  }
-                  if(this.world.autoActionTimer != null && this.world.autoActionTimer.running)
-                  {
-                     this.world.cancelAutoAttack();
-                     this.world.myAvatar.pMC.mcChar.gotoAndStop("Idle");
-                  }
-                  if(this.world.myAvatar.target != null)
-                  {
-                     this.world.setTarget(null);
-                  }
-                  if(!this.cancelTargetTimer.hasEventListener(TimerEvent.TIMER))
-                  {
-                     this.cancelTargetTimer.addEventListener(TimerEvent.TIMER,this.hasCanceledAlready,false,0,true);
-                  }
-                  _loc6_ = int(parseInt(this.world.getActionByRef(String(this.world.actionMap[0])).cd));
-                  this.cancelTargetTimer.delay = _loc6_ < 2000 ? 2000 : _loc6_;
-                  this.cancelTargetTimer.start();
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Hide UI"])
-            {
-               if(param1.target != this.ui.mcInterface.te && param1.target != this.ui.mcInterface.ncText)
-               {
-                  optionHandler.cmd(MovieClip(this),"Hide UI");
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Battle Analyzer"])
-            {
-               if(param1.target != this.ui.mcInterface.te && param1.target != this.ui.mcInterface.ncText)
-               {
-                  optionHandler.cmd(MovieClip(this),"Battle Analyzer");
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Decline All Drops"])
-            {
-               if(param1.target != this.ui.mcInterface.te && param1.target != this.ui.mcInterface.ncText)
-               {
-                  optionHandler.cmd(MovieClip(this),"Decline All Drops");
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Stats Overview"])
-            {
-               if(param1.target != this.ui.mcInterface.te && param1.target != this.ui.mcInterface.ncText)
-               {
-                  this.toggleStatspanel();
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Battle Analyzer Toggle"])
-            {
-               if(param1.target != this.ui.mcInterface.te && param1.target != this.ui.mcInterface.ncText)
-               {
-                  if(this.bAnalyzer)
-                  {
-                     this.bAnalyzer.toggle();
-                  }
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Custom Drops UI"])
-            {
-               if(param1.target != this.ui.mcInterface.te && param1.target != this.ui.mcInterface.ncText)
-               {
-                  if(Boolean(this.ui.mcPortrait.iconDrops) && Boolean(this.ui.mcPortrait.iconDrops.visible))
-                  {
-                     this.ui.mcPortrait.iconDrops.dispatchEvent(new MouseEvent(MouseEvent.CLICK));
-                  }
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["@ Debugger - Cell Menu"])
-            {
-               if(Boolean(this.ui && this.ui.mcInterface && this.ui.mcInterface.te) && Boolean(param1.target != this.ui.mcInterface.te) && param1.target != this.ui.mcInterface.ncText)
-               {
-                  if(this.cMenuUI)
-                  {
-                     this.cMenuUI.toggle();
-                  }
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["@ Debugger - Packet Logger"])
-            {
-               if(Boolean(this.ui && this.ui.mcInterface && this.ui.mcInterface.te) && Boolean(param1.target != this.ui.mcInterface.te) && param1.target != this.ui.mcInterface.ncText)
-               {
-                  if(Boolean(this.pLoggerUI) && Boolean(this.litePreference.data.dOptions["debugPacket"]))
-                  {
-                     this.pLoggerUI.visible = !this.pLoggerUI.visible;
-                     this.pLoggerUI.toggle();
-                  }
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Dash"])
-            {
-               if(Boolean(this.ui && this.ui.mcInterface && this.ui.mcInterface.te) && Boolean(param1.target != this.ui.mcInterface.te) && param1.target != this.ui.mcInterface.ncText)
-               {
-                  if(!this.world.uoTree[this.world.myAvatar.pnm].sta.$dsh)
-                  {
-                     this.world.uoTree[this.world.myAvatar.pnm].sta.$dsh = 100;
-                  }
-                  if(this.world.myAvatar.dataLeaf.intSP >= this.world.uoTree[this.world.myAvatar.pnm].sta.$dsh)
-                  {
-                     this.pDash = true;
-                  }
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Outfits"])
-            {
-               if(Boolean(this.ui && this.ui.mcInterface && this.ui.mcInterface.te) && Boolean(param1.target != this.ui.mcInterface.te) && param1.target != this.ui.mcInterface.ncText)
-               {
-                  if(!this.getInterface("outfitSets"))
-                  {
-                     this.toggleOutfits();
-                  }
-               }
-            }
-            if(param1.keyCode == this.litePreference.data.keys["Friendships UI"])
-            {
-               if(Boolean(this.ui && this.ui.mcInterface && this.ui.mcInterface.te) && Boolean(param1.target != this.ui.mcInterface.te) && param1.target != this.ui.mcInterface.ncText)
-               {
-                  if(!this.getInterface("Friendships UI"))
-                  {
-                     this.showFriendshipUI();
-                  }
+                  return;
                }
             }
          }
+      }
+
+      public function runBind(param1:String) : Boolean
+      {
+         var _loc1_:Array = null;
+         var _loc2_:String = null;
+         var _loc3_:MovieClip = null;
+         var _loc4_:MovieClip = null;
+         var _loc5_:int = 0;
+         var _loc6_:uint = 0;
+         switch(param1)
+         {
+            case "Target Random Monster":
+               _loc1_ = this.world.getMonstersByCell(this.world.strFrame);
+               _loc2_ = this.world.strFrame;
+               if(_loc1_.length > 0)
+               {
+                  _loc6_ = Math.round(Math.random() * (_loc1_.length - 1));
+                  while(_loc1_.length > 1 && !_loc1_[_loc6_] && !_loc1_[_loc6_].pMC && _loc1_[_loc6_].dataLeaf.intState == 0 && this.world.myAvatar.target == _loc1_[_loc6_])
+                  {
+                     if(this.world.strFrame != _loc2_)
+                     {
+                        break;
+                     }
+                     _loc6_ = Math.round(Math.random() * (_loc1_.length - 1));
+                  }
+                  if(this.world.strFrame == _loc2_)
+                  {
+                     if(Boolean(_loc1_[_loc6_] && _loc1_[_loc6_].pMC) && Boolean(_loc1_[_loc6_].dataLeaf.strFrame == this.world.strFrame) && _loc1_[_loc6_].dataLeaf.intState != 0)
+                     {
+                        this.world.setTarget(_loc1_[_loc6_]);
+                     }
+                  }
+               }
+               break;
+            case "Travel Menu\'s Travel":
+               if(this.ui.getChildByName("mcTravelMenu"))
+               {
+                  (this.ui.getChildByName("mcTravelMenu") as MovieClip).dispatchTravel();
+               }
+               break;
+            case "Camera Tool":
+               if(Boolean(stage.getChildByName("worldCameraMC")) || Boolean(getChildByName("cameraToolMC")))
+               {
+                  return false;
+               }
+               _loc3_ = new cameraTool(this);
+               _loc3_.name = "cameraToolMC";
+               _loc3_.x = -7;
+               addChild(_loc3_);
+               this.world.visible = false;
+               break;
+            case "World Camera":
+               if(Boolean(stage.getChildByName("worldCameraMC")) || Boolean(getChildByName("cameraToolMC")))
+               {
+                  if(stage.getChildByName("worldCameraMC"))
+                  {
+                     MovieClip(stage.getChildByName("worldCameraMC")).dispatchExit();
+                  }
+                  return false;
+               }
+               _loc4_ = new worldCamera(this);
+               _loc4_.name = "worldCameraMC";
+               stage.addChild(_loc4_);
+               break;
+            case "Inventory":
+               this.ui.mcInterface.mcMenu.toggleInventory();
+               break;
+            case "Bank":
+               if(this.world.myAvatar.isStaff() || this.hasBankItem())
+               {
+                  this.world.toggleBank();
+               }
+               break;
+            case "Quest Log":
+               this.world.toggleQuestLog();
+               break;
+            case "Friends List":
+               if(this.ui.mcOFrame.isOpen)
+               {
+                  this.ui.mcOFrame.fClose();
+               }
+               else
+               {
+                  this.world.showFriendsList();
+               }
+               break;
+            case "Character Panel":
+               this.toggleCharpanel("overview");
+               break;
+            case "Player HP Bar":
+               this.world.toggleHPBar();
+               break;
+            case "Options":
+               if(this.ui.mcPopup.currentLabel == "Option")
+               {
+                  this.ui.mcPopup.onClose();
+               }
+               else
+               {
+                  this.ui.mcPopup.fOpen("Option");
+               }
+               break;
+            case "Area List":
+               if(!this.ui.mcOFrame.isOpen)
+               {
+                  this.world.sendWhoRequest();
+               }
+               else
+               {
+                  this.ui.mcOFrame.fClose();
+               }
+               break;
+            case "Jump":
+               if(this.world.myAvatar.pMC != null)
+               {
+                  this.world.myAvatar.pMC.mcChar.gotoAndPlay("Jump");
+               }
+               break;
+            case "Rest":
+               this.world.rest();
+               break;
+            case "Hide Monsters":
+               this.world.toggleMonsters();
+               break;
+            case "Hide Players":
+               optionHandler.cmd(MovieClip(this),"Hide Players");
+               break;
+            case "Cancel Target":
+               if(this.cancelTargetTimer.running)
+               {
+                  return false;
+               }
+               if(this.world.autoActionTimer != null && this.world.autoActionTimer.running)
+               {
+                  this.world.cancelAutoAttack();
+                  this.world.myAvatar.pMC.mcChar.gotoAndStop("Idle");
+               }
+               if(this.world.myAvatar.target != null)
+               {
+                  this.world.setTarget(null);
+               }
+               if(!this.cancelTargetTimer.hasEventListener(TimerEvent.TIMER))
+               {
+                  this.cancelTargetTimer.addEventListener(TimerEvent.TIMER,this.hasCanceledAlready,false,0,true);
+               }
+               _loc5_ = int(parseInt(this.world.getActionByRef(String(this.world.actionMap[0])).cd));
+               this.cancelTargetTimer.delay = _loc5_ < 2000 ? 2000 : _loc5_;
+               this.cancelTargetTimer.start();
+               break;
+            case "Hide UI":
+            case "Battle Analyzer":
+            case "Decline All Drops":
+               optionHandler.cmd(MovieClip(this),param1);
+               break;
+            case "Stats Overview":
+               this.toggleStatspanel();
+               break;
+            case "Battle Analyzer Toggle":
+               if(this.bAnalyzer)
+               {
+                  this.bAnalyzer.toggle();
+               }
+               break;
+            case "Custom Drops UI":
+               if(Boolean(this.ui.mcPortrait.iconDrops) && Boolean(this.ui.mcPortrait.iconDrops.visible))
+               {
+                  this.ui.mcPortrait.iconDrops.dispatchEvent(new MouseEvent(MouseEvent.CLICK));
+               }
+               break;
+            case "@ Debugger - Cell Menu":
+               if(this.cMenuUI)
+               {
+                  this.cMenuUI.toggle();
+               }
+               break;
+            case "@ Debugger - Packet Logger":
+               if(Boolean(this.pLoggerUI) && Boolean(this.litePreference.data.dOptions["debugPacket"]))
+               {
+                  this.pLoggerUI.visible = !this.pLoggerUI.visible;
+                  this.pLoggerUI.toggle();
+               }
+               break;
+            case "Dash":
+               if(!this.world.uoTree[this.world.myAvatar.pnm].sta.$dsh)
+               {
+                  this.world.uoTree[this.world.myAvatar.pnm].sta.$dsh = 100;
+               }
+               if(this.world.myAvatar.dataLeaf.intSP >= this.world.uoTree[this.world.myAvatar.pnm].sta.$dsh)
+               {
+                  this.pDash = true;
+               }
+               break;
+            case "Outfits":
+               if(!this.getInterface("outfitSets"))
+               {
+                  this.toggleOutfits();
+               }
+               break;
+            case "Friendships UI":
+               if(!this.getInterface("Friendships UI"))
+               {
+                  this.showFriendshipUI();
+               }
+         }
+         return true;
       }
 
       private function hasCanceledAlready(param1:TimerEvent) : void
@@ -10819,12 +10740,12 @@ package
             this.iMaxLoadoutSlots = Number(this.world.objInfo["iMaxLoadoutSlots"]);
             if(ASSETS_READY == this.world.objInfo["sAssets"])
             {
-               this.bookInfo = null;
+               this.bookJson = null;
                this.resumeOnLoginResponse();
             }
             else
             {
-               this.bookInfo = null;
+               this.bookJson = null;
                this.loadExternalAssets();
             }
             return;
@@ -10838,7 +10759,7 @@ package
       public function retrieveBook() : void
       {
          var _loc1_:URLLoader = null;
-         if(this.bookInfo != null)
+         if(this.bookJson != null)
          {
             this.showBook();
             return;
@@ -10888,12 +10809,12 @@ package
          this.iMaxLoadoutSlots = Number(_loc2_["iMaxLoadoutSlots"]);
          if(ASSETS_READY == _loc2_["sAssets"])
          {
-            this.bookInfo = null;
+            this.bookJson = null;
             this.resumeOnLoginResponse();
          }
          else
          {
-            this.bookInfo = null;
+            this.bookJson = null;
             this.loadExternalAssets();
          }
       }
@@ -10920,13 +10841,13 @@ package
             _loc1_.removeEventListener(ProgressEvent.PROGRESS,this.onBoLProgress);
          }
          this.dropBookLoader();
-         this.bookInfo = JSON.parse(param1.target.data);
+         this.bookJson = String(param1.target.data);
          this.showBook();
       }
 
       private function showBook() : void
       {
-         this.world.bookData = this.bookInfo;
+         this.world.bookData = JSON.parse(this.bookJson);
          this.dropBook();
          this.bolLoader = new AirLoader();
          this.bolLoader.contentLoaderInfo.addEventListener(Event.INIT,this.onBoLContentComplete,false,0,true);
@@ -10935,6 +10856,21 @@ package
 
       private function dropBook() : void
       {
+         var _loc1_:Function = null;
+         if(this.bolContent != null)
+         {
+            _loc1_ = this.bolContent["dispose"] as Function;
+            if(_loc1_ != null)
+            {
+               try
+               {
+                  _loc1_.call(this.bolContent);
+               }
+               catch(errDispose:Error)
+               {
+               }
+            }
+         }
          if(this.bolContent != null && this.bolContent.parent != null)
          {
             this.bolContent.parent.removeChild(this.bolContent);
@@ -10966,6 +10902,7 @@ package
       {
          var _loc1_:LoaderInfo = null;
          var _loc2_:MovieClip = null;
+         var _loc3_:Function = null;
          trace("[Load] BoL content loaded");
          _loc1_ = param1.currentTarget as LoaderInfo;
          _loc1_.removeEventListener(Event.INIT,this.onBoLContentComplete);
@@ -10983,6 +10920,17 @@ package
          if(_loc2_.numChildren > 0)
          {
             _loc2_.removeChildAt(0);
+         }
+         _loc3_ = this.bolContent["start"] as Function;
+         if(_loc3_ != null)
+         {
+            try
+            {
+               _loc3_.call(this.bolContent,this.world.bookData);
+            }
+            catch(errStart:Error)
+            {
+            }
          }
          _loc2_.addChild(this.bolContent);
       }
@@ -11761,11 +11709,15 @@ package
          },{
             "strName":"Item Drops Block List",
             "extra":"btn",
-            "sDesc":"Shift+Click dropped items while using \"Custom Drops UI\" to add items to block!"
+            "sDesc":"Hold (or Shift+Click) a dropped item in \"Custom Drops UI\" to block it.\nOn the mobile drop tray, tap a drop and press Block."
          },{
             "strName":"Keybinds",
             "extra":"btn",
             "sDesc":"Customize game keybinds.\nYou can not bind ENTER or /.\nUse BACKSPACE to delete a bind."
+         },{
+            "strName":"Quick Actions",
+            "extra":"btn",
+            "sDesc":"Put keybind actions on screen as buttons: pin them to the quick actions tray, or add them as their own buttons.\nUse Move in the Quick Actions window to place them."
          },{
             "strName":"Reaccept Quest After Turn-In",
             "bEnabled":this.litePreference.data.bReaccept,

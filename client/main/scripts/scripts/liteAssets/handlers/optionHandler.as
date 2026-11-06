@@ -654,6 +654,9 @@ package liteAssets.handlers
             case "Keybinds":
                KeybindsPanel.open(r);
                break;
+            case "Quick Actions":
+               QuickActionsPanel.open(r);
+               break;
             case "Reaccept Quest After Turn-In":
                r.litePreference.data.bReaccept = !r.litePreference.data.bReaccept;
                r.litePreference.flush();

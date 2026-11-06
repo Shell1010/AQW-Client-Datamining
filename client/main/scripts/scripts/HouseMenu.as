@@ -3,8 +3,11 @@ package
    import flash.display.*;
    import flash.events.*;
    import flash.filters.*;
+   import flash.geom.Matrix;
    import flash.geom.Rectangle;
    import flash.text.*;
+   import flash.utils.*;
+   import liteAssets.draw.*;
 
    [Embed(source="/_assets/assets.swf", symbol="symbol2650")]
    public class HouseMenu extends MovieClip
@@ -58,6 +61,20 @@ package
 
       internal var scrTgt:MovieClip;
 
+      internal var magDown:Sprite;
+
+      internal var magUp:Sprite;
+
+      internal var settle:Timer;
+
+      internal var settleTgt:MovieClip;
+
+      internal var magTxt:TextField;
+
+      internal var magW:int = 0;
+
+      internal var wheelStage:Stage;
+
       private var currentCategory:String = "";
 
       public function HouseMenu()
@@ -87,6 +104,13 @@ package
          _loc1_.bCancel.buttonMode = true;
          _loc1_.bDelete.buttonMode = true;
          _loc1_.bFlip.buttonMode = true;
+         this.buildMagnify(_loc1_);
+         if(this.wheelStage != null)
+         {
+            this.wheelStage.removeEventListener(MouseEvent.MOUSE_WHEEL,this.onHandleWheel);
+         }
+         this.wheelStage = stage;
+         this.wheelStage.addEventListener(MouseEvent.MOUSE_WHEEL,this.onHandleWheel,false,0,true);
          var _loc2_:MovieClip = MovieClip(this.rootClass.ui.mcPopup);
          _loc2_.mcHouseOptions.cnt.bDesign.addEventListener(MouseEvent.CLICK,this.world.onHouseOptionsDesignClick,false,0,true);
          _loc2_.mcHouseOptions.cnt.bSave.addEventListener(MouseEvent.CLICK,this.world.onHouseOptionsSaveClick,false,0,true);
@@ -165,8 +189,7 @@ package
 
       public function showEditMenu() : void
       {
-         var _loc1_:MovieClip = null;
-         _loc1_ = MovieClip(this);
+         var _loc1_:MovieClip = MovieClip(this);
          this.buildHouseMenu();
          _loc1_.visible = true;
          _loc1_.y = 315;
@@ -185,7 +208,8 @@ package
 
       public function hideEditMenu() : void
       {
-         var _loc1_:MovieClip = MovieClip(this);
+         var _loc1_:MovieClip = null;
+         _loc1_ = MovieClip(this);
          _loc1_.visible = false;
          _loc1_.x = 1000;
          stage.focus = stage;
@@ -219,6 +243,24 @@ package
          _loc3_.bDelete.removeEventListener(MouseEvent.CLICK,this.onHandleDeleteClick);
          _loc3_.bFlip.removeEventListener(MouseEvent.CLICK,this.onHandleFlipClick);
          _loc3_.frame.removeEventListener(MouseEvent.MOUSE_DOWN,this.onHandleMoveClick);
+         if(this.magDown != null)
+         {
+            this.magDown.removeEventListener(MouseEvent.CLICK,this.onMagnifyClick);
+         }
+         if(this.magUp != null)
+         {
+            this.magUp.removeEventListener(MouseEvent.CLICK,this.onMagnifyClick);
+         }
+         if(this.wheelStage != null)
+         {
+            this.wheelStage.removeEventListener(MouseEvent.MOUSE_WHEEL,this.onHandleWheel);
+         }
+         this.wheelStage = null;
+         if(this.settle != null)
+         {
+            this.settle.stop();
+         }
+         this.settleTgt = null;
          _loc1_.txtSearch.removeEventListener(MouseEvent.MOUSE_DOWN,this.onHouseMenuBGClick);
          _loc2_.mcHouseOptions.cnt.bDesign.removeEventListener(MouseEvent.CLICK,this.world.onHouseOptionsDesignClick);
          _loc2_.mcHouseOptions.cnt.bSave.removeEventListener(MouseEvent.CLICK,this.world.onHouseOptionsSaveClick);
@@ -719,7 +761,8 @@ package
          var _loc3_:MovieClip = MovieClip(this.parent).mcHouseItemHandle as MovieClip;
          _loc3_.visible = true;
          var _loc4_:Rectangle = param1.getBounds(stage);
-         _loc3_.frame.width = _loc1_ > 100 ? _loc1_ : 100;
+         var _loc5_:int = 100 + this.magW;
+         _loc3_.frame.width = _loc1_ > _loc5_ ? _loc1_ : _loc5_;
          _loc3_.frame.height = _loc2_ > 50 ? _loc2_ : 50;
          _loc3_.x = int(param1.x - _loc3_.frame.width / 2);
          _loc3_.y = int(_loc4_.y);
@@ -729,6 +772,186 @@ package
          }
          _loc3_.tgt = param1;
          _loc3_.tgt.filters = [new GlowFilter(16777215,1,8,8,2,2)];
+         this.showMagnify(param1);
+      }
+
+      private function buildMagnify(param1:MovieClip) : void
+      {
+         if(this.magDown == null)
+         {
+            this.magDown = this.blueButton(param1.bFlip as MovieClip,false);
+            this.magUp = this.blueButton(param1.bFlip as MovieClip,true);
+            this.magDown.name = "magDown";
+            this.magUp.name = "magUp";
+            this.magTxt = MailArt.tf(11,16777215,true);
+            this.magTxt.filters = [new GlowFilter(0,1,3,3,8,1)];
+            this.magTxt.text = "8888%";
+            this.magTxt.autoSize = TextFieldAutoSize.NONE;
+            this.magTxt.width = Math.ceil(this.magTxt.textWidth) + 6;
+            this.magW = Math.ceil(this.magDown.width + this.magUp.width) + this.magTxt.width + 12;
+            this.settle = new Timer(700,1);
+            this.settle.addEventListener(TimerEvent.TIMER,this.onSettle,false,0,true);
+         }
+         param1.addChild(this.magDown);
+         param1.addChild(this.magTxt);
+         param1.addChild(this.magUp);
+         this.magDown.addEventListener(MouseEvent.CLICK,this.onMagnifyClick,false,0,true);
+         this.magUp.addEventListener(MouseEvent.CLICK,this.onMagnifyClick,false,0,true);
+      }
+
+      private function blueButton(param1:MovieClip, param2:Boolean) : Sprite
+      {
+         var _loc1_:Rectangle = null;
+         var _loc2_:Number = NaN;
+         var _loc3_:BitmapData = null;
+         var _loc4_:Matrix = null;
+         var _loc5_:Bitmap = null;
+         var _loc6_:Sprite = new Sprite();
+         _loc6_.buttonMode = true;
+         _loc6_.useHandCursor = true;
+         _loc6_.mouseChildren = false;
+         var _loc7_:Rectangle = param1.getBounds(param1);
+         _loc6_.graphics.beginFill(0,0);
+         _loc6_.graphics.drawRect(_loc7_.x,_loc7_.y,_loc7_.width,_loc7_.height);
+         _loc6_.graphics.endFill();
+         var _loc8_:DisplayObject = param1.numChildren > 0 ? param1.getChildAt(0) : null;
+         if(_loc8_ != null)
+         {
+            _loc1_ = _loc8_.getBounds(param1);
+            _loc2_ = 4;
+            if(_loc1_.width > 0 && _loc1_.height > 0)
+            {
+               _loc3_ = new BitmapData(Math.ceil(_loc1_.width * _loc2_),Math.ceil(_loc1_.height * _loc2_),true,0);
+               _loc4_ = _loc8_.transform.matrix.clone();
+               _loc4_.translate(-_loc1_.x,-_loc1_.y);
+               _loc4_.scale(_loc2_,_loc2_);
+               _loc3_.draw(_loc8_,_loc4_,_loc8_.transform.colorTransform,null,null,true);
+               _loc5_ = new Bitmap(_loc3_,PixelSnapping.NEVER,true);
+               _loc5_.scaleX = _loc5_.scaleY = 1 / _loc2_;
+               _loc5_.x = _loc1_.x;
+               _loc5_.y = _loc1_.y;
+               _loc6_.addChild(_loc5_);
+            }
+         }
+         var _loc9_:Shape = new Shape();
+         var _loc10_:Number = Math.min(_loc7_.width,_loc7_.height);
+         var _loc11_:Number = Math.max(2,Math.round(_loc10_ * 0.18));
+         var _loc12_:Number = Math.round(_loc10_ * 0.56);
+         var _loc13_:Number = _loc7_.x + _loc7_.width / 2;
+         var _loc14_:Number = _loc7_.y + _loc7_.height / 2;
+         _loc9_.graphics.beginFill(16777215);
+         _loc9_.graphics.drawRect(_loc13_ - _loc12_ / 2,_loc14_ - _loc11_ / 2,_loc12_,_loc11_);
+         _loc9_.graphics.endFill();
+         if(param2)
+         {
+            _loc9_.graphics.beginFill(16777215);
+            _loc9_.graphics.drawRect(_loc13_ - _loc11_ / 2,_loc14_ - _loc12_ / 2,_loc11_,(_loc12_ - _loc11_) / 2);
+            _loc9_.graphics.drawRect(_loc13_ - _loc11_ / 2,_loc14_ + _loc11_ / 2,_loc11_,(_loc12_ - _loc11_) / 2);
+            _loc9_.graphics.endFill();
+         }
+         _loc6_.addChild(_loc9_);
+         _loc6_.scaleX = param1.scaleX;
+         _loc6_.scaleY = param1.scaleY;
+         return _loc6_;
+      }
+
+      private function showMagnify(param1:MovieClip) : void
+      {
+         if(this.magTxt == null || param1 == null)
+         {
+            return;
+         }
+         var _loc1_:int = int(this.world.houseMagOf(param1));
+         var _loc2_:Array = this.world.houseScaleRange(param1);
+         this.magTxt.text = _loc1_ + "%";
+         this.magDown.alpha = _loc2_ != null && _loc1_ <= _loc2_[0] ? 0.4 : 1;
+         this.magUp.alpha = _loc2_ != null && _loc1_ >= _loc2_[1] ? 0.4 : 1;
+      }
+
+      private function onMagnifyClick(param1:MouseEvent) : void
+      {
+         this.stepMagnify(param1.currentTarget == this.magUp ? 1 : -1);
+      }
+
+      private function onHandleWheel(param1:MouseEvent) : void
+      {
+         if(!this.visible || this.rootClass == null || param1.delta == 0)
+         {
+            return;
+         }
+         var _loc1_:MovieClip = this.rootClass.ui.mcPopup.mcHouseItemHandle as MovieClip;
+         if(_loc1_ == null || !_loc1_.visible || _loc1_.tgt == null || Boolean(_loc1_.mDown))
+         {
+            return;
+         }
+         var _loc2_:DisplayObject = param1.target as DisplayObject;
+         if(_loc2_ == null || !(_loc1_.contains(_loc2_) || Boolean(MovieClip(_loc1_.tgt).contains(_loc2_))))
+         {
+            return;
+         }
+         this.stepMagnify(param1.delta > 0 ? 1 : -1);
+      }
+
+      private function stepMagnify(param1:int) : void
+      {
+         var _loc1_:MovieClip = this.rootClass.ui.mcPopup.mcHouseItemHandle;
+         var _loc2_:MovieClip = _loc1_.tgt as MovieClip;
+         if(_loc2_ == null)
+         {
+            return;
+         }
+         var _loc3_:int = int(this.world.houseMagOf(_loc2_));
+         var _loc4_:int = param1 > 0 ? int((int(_loc3_ / 10) + 1) * 10) : int((Math.ceil(_loc3_ / 10) - 1) * 10);
+         var _loc5_:Number = _loc1_.x + _loc1_.frame.width;
+         var _loc6_:Number = _loc1_.y;
+         if(this.world.setHouseItemScale(_loc2_,_loc4_) == _loc3_)
+         {
+            this.showMagnify(_loc2_);
+            return;
+         }
+         this.rootClass.mixer.playSound("Click");
+         var _loc7_:int = 100 + this.magW;
+         var _loc8_:int = Math.ceil(_loc2_.width);
+         var _loc9_:int = Math.ceil(_loc2_.height);
+         _loc1_.frame.width = _loc8_ > _loc7_ ? _loc8_ : _loc7_;
+         _loc1_.frame.height = _loc9_ > 50 ? _loc9_ : 50;
+         _loc1_.x = int(_loc5_ - _loc1_.frame.width);
+         _loc1_.y = int(_loc6_);
+         _loc2_.x = Math.ceil(_loc1_.x + _loc1_.frame.width / 2);
+         _loc2_.y = Math.ceil(_loc1_.y - (_loc2_.getBounds(stage).y - _loc2_.y));
+         if(_loc2_.item != null && _loc2_.item.sType == "Floor Item")
+         {
+            _loc2_.removeEventListener(Event.ENTER_FRAME,this.world.onHouseItemEnterFrame);
+            _loc2_.isStable = false;
+            this.settleTgt = _loc2_;
+            this.settle.reset();
+            this.settle.start();
+         }
+         else
+         {
+            this.world.houseItemValidate(_loc2_);
+         }
+         this.showMagnify(_loc2_);
+         this.rootClass.world.hasModified = true;
+      }
+
+      private function onSettle(param1:TimerEvent) : void
+      {
+         var _loc1_:MovieClip = this.settleTgt;
+         this.settleTgt = null;
+         if(_loc1_ == null || _loc1_.parent == null || this.rootClass == null)
+         {
+            return;
+         }
+         var _loc2_:MovieClip = this.rootClass.ui.mcPopup.mcHouseItemHandle as MovieClip;
+         if(_loc2_ != null && Boolean(_loc2_.mDown))
+         {
+            this.settleTgt = _loc1_;
+            this.settle.reset();
+            this.settle.start();
+            return;
+         }
+         this.world.houseItemValidate(_loc1_);
       }
 
       public function hideItemHandle() : void
@@ -788,6 +1011,12 @@ package
       public function onHandleCancelClick(param1:MouseEvent = null) : void
       {
          var _loc1_:MovieClip = this.rootClass.ui.mcPopup.mcHouseItemHandle;
+         if(this.settleTgt != null && this.settleTgt == _loc1_.tgt)
+         {
+            this.settle.stop();
+            this.onSettle(null);
+            return;
+         }
          if(Boolean(_loc1_.tgt) && !_loc1_.tgt.isStable)
          {
             this.rootClass.showMessageBox("You can not leave this house item placed here!");
@@ -804,50 +1033,60 @@ package
 
       public function onHandleEnterFrame(param1:Event) : *
       {
-         var _loc1_:* = undefined;
-         var _loc2_:MovieClip = param1.currentTarget as MovieClip;
-         if(_loc2_.visible)
+         var _loc1_:Number = NaN;
+         var _loc2_:* = undefined;
+         var _loc3_:MovieClip = param1.currentTarget as MovieClip;
+         if(_loc3_.visible)
          {
-            _loc2_.bCancel.x = _loc2_.frame.width - _loc2_.bCancel.width - 8;
-            _loc2_.bDelete.x = _loc2_.bCancel.x - _loc2_.bDelete.width - 8;
-            _loc2_.bFlip.x = _loc2_.bDelete.x - _loc2_.bFlip.width - 8;
-            if(_loc2_.mDown)
+            _loc3_.bCancel.x = _loc3_.frame.width - _loc3_.bCancel.width - 8;
+            _loc3_.bDelete.x = _loc3_.bCancel.x - _loc3_.bDelete.width - 8;
+            _loc3_.bFlip.x = _loc3_.bDelete.x - _loc3_.bFlip.width - 8;
+            if(this.magUp != null)
             {
-               _loc2_.x = _loc2_.ox + (stage.mouseX - _loc2_.mox);
-               _loc2_.y = _loc2_.oy + (stage.mouseY - _loc2_.moy);
-               if(_loc2_.x + _loc2_.frame.width / 2 < 0)
+               _loc1_ = _loc3_.bFlip.y + (_loc3_.bFlip.height - this.magUp.height) / 2;
+               this.magUp.x = _loc3_.bFlip.x - this.magUp.width - 8;
+               this.magTxt.x = this.magUp.x - this.magTxt.width - 2;
+               this.magDown.x = this.magTxt.x - this.magDown.width - 2;
+               this.magUp.y = this.magDown.y = Math.round(_loc1_);
+               this.magTxt.y = Math.round(_loc1_ + (this.magUp.height - this.magTxt.height) / 2);
+            }
+            if(_loc3_.mDown)
+            {
+               _loc3_.x = _loc3_.ox + (stage.mouseX - _loc3_.mox);
+               _loc3_.y = _loc3_.oy + (stage.mouseY - _loc3_.moy);
+               if(_loc3_.x + _loc3_.frame.width / 2 < 0)
                {
-                  _loc2_.x = -int(_loc2_.frame.width / 2);
+                  _loc3_.x = -int(_loc3_.frame.width / 2);
                }
-               if(_loc2_.x + _loc2_.frame.width / 2 > 960)
+               if(_loc3_.x + _loc3_.frame.width / 2 > 960)
                {
-                  _loc2_.x = int(960 - _loc2_.frame.width / 2);
+                  _loc3_.x = int(960 - _loc3_.frame.width / 2);
                }
-               if(_loc2_.y + _loc2_.frame.height / 2 < 0)
+               if(_loc3_.y + _loc3_.frame.height / 2 < 0)
                {
-                  _loc2_.y = -int(_loc2_.frame.height / 2);
+                  _loc3_.y = -int(_loc3_.frame.height / 2);
                }
-               if(_loc2_.y + _loc2_.frame.height / 2 > 495)
+               if(_loc3_.y + _loc3_.frame.height / 2 > 495)
                {
-                  _loc2_.y = int(495 - _loc2_.frame.height / 2);
+                  _loc3_.y = int(495 - _loc3_.frame.height / 2);
                }
-               _loc2_.tgt.x = Math.ceil(_loc2_.x + _loc2_.frame.width / 2);
-               _loc2_.tgt.y = Math.ceil(_loc2_.y - (_loc2_.tgt.getBounds(stage).y - _loc2_.tgt.y));
+               _loc3_.tgt.x = Math.ceil(_loc3_.x + _loc3_.frame.width / 2);
+               _loc3_.tgt.y = Math.ceil(_loc3_.y - (_loc3_.tgt.getBounds(stage).y - _loc3_.tgt.y));
             }
          }
-         var _loc3_:MovieClip = MovieClip(this.rootClass.ui.mcPopup);
-         var _loc4_:int = 0;
+         var _loc4_:MovieClip = MovieClip(this.rootClass.ui.mcPopup);
          var _loc5_:int = 0;
-         while(_loc5_ < this.world.CHARS.numChildren)
+         var _loc6_:int = 0;
+         while(_loc6_ < this.world.CHARS.numChildren)
          {
-            _loc1_ = this.world.CHARS.getChildAt(_loc5_);
-            if(Boolean(_loc1_.hasOwnProperty("isHouseItem")) && Boolean(MovieClip(_loc1_).isHouseItem))
+            _loc2_ = this.world.CHARS.getChildAt(_loc6_);
+            if(Boolean(_loc2_.hasOwnProperty("isHouseItem")) && Boolean(MovieClip(_loc2_).isHouseItem))
             {
-               _loc4_++;
+               _loc5_++;
             }
-            _loc5_++;
+            _loc6_++;
          }
-         _loc3_.mcHouseOptions.cnt.txtPlaced.text = this.world.strFrame + " - " + _loc4_ + "/200 placed";
+         _loc4_.mcHouseOptions.cnt.txtPlaced.text = this.world.strFrame + " - " + _loc5_ + "/200 placed";
       }
 
       public function onHouseMenuBGClick(param1:MouseEvent) : void

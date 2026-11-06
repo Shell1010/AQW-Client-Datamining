@@ -22,7 +22,7 @@ package liteAssets.mobile
 
       private static const OUT:int = 16;
 
-      private static const WELL_Y:int = 66;
+      private static const TOP_Y:int = 44;
 
       private static const WELL_PAD:int = 8;
 
@@ -45,6 +45,8 @@ package liteAssets.mobile
       private var pills:Array = [];
 
       private var status:TextField;
+
+      private var offBtn:VolumeButton;
 
       private var defaultsBtn:VolumeButton;
 
@@ -70,6 +72,10 @@ package liteAssets.mobile
 
       private var btnH:int = 32;
 
+      private var topH:int = 28;
+
+      private var wellY:int = 0;
+
       private var waiting:int = -1;
 
       private var openAt:int = 0;
@@ -83,12 +89,17 @@ package liteAssets.mobile
          if(this.m)
          {
             this.pillH = Math.max(PILL_H,Mobile.touchPx(8));
+            this.topH = this.pillH;
             this.rowH = Math.max(ROW_H,this.pillH + 8);
             this.btnH = Math.max(BTN_H,Mobile.touchPx(8));
-            this.rowH = Math.min(this.rowH,int((544 - (WELL_Y + WELL_PAD * 2 + 14 + this.btnH + 18)) / ROWS));
+         }
+         this.wellY = TOP_Y + this.topH + 26;
+         if(this.m)
+         {
+            this.rowH = Math.min(this.rowH,int((544 - (this.wellY + WELL_PAD * 2 + 14 + this.btnH + 18)) / ROWS));
             this.pillH = Math.min(this.pillH,this.rowH - 6);
          }
-         this.ph = WELL_Y + WELL_PAD * 2 + this.rowH * ROWS + 14 + this.btnH + 18;
+         this.ph = this.wellY + WELL_PAD * 2 + this.rowH * ROWS + 14 + this.btnH + 18;
          addChild(this.backdrop);
          addChild(this.pivot);
          this.pivot.addChild(this.win);
@@ -203,37 +214,53 @@ package liteAssets.mobile
          this.status = MailArt.tf(12,12303291,true);
          this.status.filters = [textShadow()];
          this.win.addChild(this.status);
-         var _loc3_:int = WELL_PAD * 2 + this.rowH * ROWS;
-         var _loc4_:Shape = new Shape();
-         _loc4_.graphics.beginFill(657930);
-         _loc4_.graphics.lineStyle(1,2763306,1,true);
-         _loc4_.graphics.drawRoundRect(OUT,WELL_Y,this.pw - OUT * 2,_loc3_,12,12);
-         _loc4_.graphics.endFill();
-         _loc4_.filters = [new DropShadowFilter(2,90,0,0.5,4,4,1,1,true)];
-         this.win.addChild(_loc4_);
-         var _loc5_:int = int((this.pw - OUT * 2 - WELL_PAD * 2 - COL_GAP) / 2);
-         var _loc6_:int = 0;
-         while(_loc6_ < NAMES.length)
+         var _loc3_:TextField = MailArt.tf(13,15919317,true);
+         _loc3_.filters = [textShadow()];
+         _loc3_.text = "Disable Gamepad Input";
+         this.offBtn = new VolumeButton(PILL_W,this.topH,"",13);
+         var _loc4_:int = int((this.pw - _loc3_.width - 12 - PILL_W) / 2);
+         _loc3_.x = _loc4_;
+         _loc3_.y = Math.round(TOP_Y + this.topH / 2 - _loc3_.textHeight / 2) - 2;
+         this.offBtn.x = _loc4_ + int(_loc3_.width) + 12;
+         this.offBtn.y = TOP_Y;
+         this.offBtn.addEventListener(MouseEvent.CLICK,this.onToggleOff,false,0,true);
+         if(this.m)
          {
-            _loc1_ = _loc6_ < ROWS ? 0 : 1;
-            _loc2_ = _loc6_ % ROWS;
-            this.buildRow(_loc6_,OUT + WELL_PAD + _loc1_ * (_loc5_ + COL_GAP),WELL_Y + WELL_PAD + _loc2_ * this.rowH,_loc5_);
-            _loc6_++;
+            TouchTargets.pad(this.offBtn);
          }
-         var _loc7_:Shape = new Shape();
-         _loc7_.graphics.beginFill(MailArt.TRIM,0.4);
-         _loc7_.graphics.drawRect(int(this.pw / 2),WELL_Y + WELL_PAD + 4,1,this.rowH * ROWS - 8);
-         _loc7_.graphics.endFill();
-         this.win.addChild(_loc7_);
-         var _loc8_:int = WELL_Y + _loc3_ + 14;
+         this.win.addChild(_loc3_);
+         this.win.addChild(this.offBtn);
+         var _loc5_:int = WELL_PAD * 2 + this.rowH * ROWS;
+         var _loc6_:Shape = new Shape();
+         _loc6_.graphics.beginFill(657930);
+         _loc6_.graphics.lineStyle(1,2763306,1,true);
+         _loc6_.graphics.drawRoundRect(OUT,this.wellY,this.pw - OUT * 2,_loc5_,12,12);
+         _loc6_.graphics.endFill();
+         _loc6_.filters = [new DropShadowFilter(2,90,0,0.5,4,4,1,1,true)];
+         this.win.addChild(_loc6_);
+         var _loc7_:int = int((this.pw - OUT * 2 - WELL_PAD * 2 - COL_GAP) / 2);
+         var _loc8_:int = 0;
+         while(_loc8_ < NAMES.length)
+         {
+            _loc1_ = _loc8_ < ROWS ? 0 : 1;
+            _loc2_ = _loc8_ % ROWS;
+            this.buildRow(_loc8_,OUT + WELL_PAD + _loc1_ * (_loc7_ + COL_GAP),this.wellY + WELL_PAD + _loc2_ * this.rowH,_loc7_);
+            _loc8_++;
+         }
+         var _loc9_:Shape = new Shape();
+         _loc9_.graphics.beginFill(MailArt.TRIM,0.4);
+         _loc9_.graphics.drawRect(int(this.pw / 2),this.wellY + WELL_PAD + 4,1,this.rowH * ROWS - 8);
+         _loc9_.graphics.endFill();
+         this.win.addChild(_loc9_);
+         var _loc10_:int = this.wellY + _loc5_ + 14;
          this.defaultsBtn = new VolumeButton(BTN_W,this.btnH,"Defaults");
          this.defaultsBtn.x = int(this.pw / 2 - BTN_W - 10);
-         this.defaultsBtn.y = _loc8_;
+         this.defaultsBtn.y = _loc10_;
          this.defaultsBtn.addEventListener(MouseEvent.CLICK,this.onDefaults,false,0,true);
          this.win.addChild(this.defaultsBtn);
          this.doneBtn = new VolumeButton(BTN_W,this.btnH,"Done");
          this.doneBtn.x = int(this.pw / 2 + 10);
-         this.doneBtn.y = _loc8_;
+         this.doneBtn.y = _loc10_;
          this.doneBtn.addEventListener(MouseEvent.CLICK,this.onCloseClick,false,0,true);
          this.win.addChild(this.doneBtn);
          if(this.m)
@@ -248,26 +275,27 @@ package liteAssets.mobile
 
       private function buildRow(param1:int, param2:int, param3:int, param4:int) : void
       {
-         var _loc1_:int = 0;
-         _loc1_ = param3 + int(this.rowH / 2);
-         var _loc2_:TextField = MailArt.tf(13,15919317,true);
-         _loc2_.filters = [textShadow()];
-         _loc2_.text = NAMES[param1];
-         MailArt.fit(_loc2_,param4 - PILL_W - 16);
-         _loc2_.x = param2 + 8;
-         _loc2_.y = Math.round(_loc1_ - _loc2_.textHeight / 2) - 2;
-         this.win.addChild(_loc2_);
-         var _loc3_:VolumeButton = new VolumeButton(PILL_W,this.pillH,"",13);
-         _loc3_.name = String(param1);
-         _loc3_.x = param2 + param4 - PILL_W - 6;
-         _loc3_.y = _loc1_ - this.pillH / 2;
-         _loc3_.addEventListener(MouseEvent.CLICK,this.onPill,false,0,true);
+         var _loc1_:TextField = null;
+         var _loc2_:VolumeButton = null;
+         var _loc3_:int = param3 + int(this.rowH / 2);
+         _loc1_ = MailArt.tf(13,15919317,true);
+         _loc1_.filters = [textShadow()];
+         _loc1_.text = NAMES[param1];
+         MailArt.fit(_loc1_,param4 - PILL_W - 16);
+         _loc1_.x = param2 + 8;
+         _loc1_.y = Math.round(_loc3_ - _loc1_.textHeight / 2) - 2;
+         this.win.addChild(_loc1_);
+         _loc2_ = new VolumeButton(PILL_W,this.pillH,"",13);
+         _loc2_.name = String(param1);
+         _loc2_.x = param2 + param4 - PILL_W - 6;
+         _loc2_.y = _loc3_ - this.pillH / 2;
+         _loc2_.addEventListener(MouseEvent.CLICK,this.onPill,false,0,true);
          if(this.m)
          {
-            TouchTargets.pad(_loc3_);
+            TouchTargets.pad(_loc2_);
          }
-         this.win.addChild(_loc3_);
-         this.pills[param1] = _loc3_;
+         this.win.addChild(_loc2_);
+         this.pills[param1] = _loc2_;
       }
 
       private function onPill(param1:MouseEvent) : void
@@ -276,6 +304,11 @@ package liteAssets.mobile
          if(this.waiting == _loc1_)
          {
             this.stopWaiting();
+            return;
+         }
+         if(GamePad.disabled)
+         {
+            this.note("Gamepad input is disabled. Turn it back on to change buttons.",16751226);
             return;
          }
          if(GamePad.connectedName == null)
@@ -316,6 +349,14 @@ package liteAssets.mobile
          this.refresh();
       }
 
+      private function onToggleOff(param1:MouseEvent) : void
+      {
+         this.stopWaiting();
+         GamePad.setDisabled(!GamePad.disabled);
+         this.noteUntil = 0;
+         this.refresh();
+      }
+
       private function onDefaults(param1:MouseEvent) : void
       {
          this.stopWaiting();
@@ -329,7 +370,7 @@ package liteAssets.mobile
          this.status.text = param1;
          MailArt.fit(this.status,this.pw - OUT * 2);
          this.status.x = int(this.pw / 2 - this.status.width / 2);
-         this.status.y = WELL_Y - this.status.height - 4;
+         this.status.y = this.wellY - this.status.height - 4;
          this.noteUntil = getTimer() + 3000;
       }
 
@@ -361,6 +402,11 @@ package liteAssets.mobile
             this.status.textColor = 10066329;
             this.status.text = "Controllers aren\'t supported on this device.";
          }
+         else if(GamePad.disabled)
+         {
+            this.status.textColor = 16751226;
+            this.status.text = "Gamepad input is disabled. AQW ignores all controllers.";
+         }
          else if(_loc1_ == null)
          {
             this.status.textColor = 10066329;
@@ -373,19 +419,23 @@ package liteAssets.mobile
          }
          MailArt.fit(this.status,this.pw - OUT * 2);
          this.status.x = int(this.pw / 2 - this.status.width / 2);
-         this.status.y = WELL_Y - this.status.height - 4;
+         this.status.y = this.wellY - this.status.height - 4;
       }
 
       private function refresh() : void
       {
          var _loc1_:VolumeButton = null;
-         var _loc2_:int = 0;
-         while(_loc2_ < this.pills.length)
+         var _loc2_:Boolean = Boolean(GamePad.disabled);
+         this.offBtn.selected = _loc2_;
+         this.offBtn.label = _loc2_ ? "On" : "Off";
+         var _loc3_:int = 0;
+         while(_loc3_ < this.pills.length)
          {
-            _loc1_ = this.pills[_loc2_];
-            _loc1_.selected = _loc2_ == this.waiting;
-            _loc1_.label = _loc2_ == this.waiting ? "Press..." : GamePad.label(GamePad.bindOf(_loc2_));
-            _loc2_++;
+            _loc1_ = this.pills[_loc3_];
+            _loc1_.selected = _loc3_ == this.waiting;
+            _loc1_.dim = _loc2_;
+            _loc1_.label = _loc3_ == this.waiting ? "Press..." : GamePad.label(GamePad.bindOf(_loc3_));
+            _loc3_++;
          }
          if(this.waiting < 0 && this.noteUntil == 0)
          {

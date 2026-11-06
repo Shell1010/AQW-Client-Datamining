@@ -280,10 +280,16 @@ package liteAssets.mobile
          }
       }
 
+      public static function get instance() : DisplayObject
+      {
+         return inst;
+      }
+
       public static function zones() : Array
       {
-         var _loc1_:MobileHUD = inst;
-         if(_loc1_ == null || _loc1_.g == null)
+         var _loc1_:Rectangle = null;
+         var _loc2_:MobileHUD = inst;
+         if(_loc2_ == null || _loc2_.g == null)
          {
             if(zCache.length > 0)
             {
@@ -292,34 +298,43 @@ package liteAssets.mobile
             zKey.length = 0;
             return zCache;
          }
-         _loc1_.refreshZone();
-         var _loc2_:Rectangle = _loc1_.zone;
-         var _loc3_:Object = _loc1_.opts();
-         var _loc4_:Boolean = _loc3_.bJoyHidden == true;
-         var _loc5_:Boolean = _loc3_.bSkillsHidden == true;
-         var _loc6_:Boolean = _loc3_.bSkillsOff == true;
-         var _loc7_:Array = zKey;
-         if(_loc7_.length == 15 && _loc2_ != null && _loc7_[10] == _loc2_.x && _loc7_[11] == _loc2_.y && _loc7_[12] == _loc2_.width && _loc7_[13] == _loc2_.height && _loc7_[0] == _loc4_ && _loc7_[1] == _loc5_ && _loc7_[14] == _loc6_ && _loc7_[2] == _loc1_.x + _loc1_.joy.x && _loc7_[3] == _loc1_.y + _loc1_.joy.y && _loc7_[4] == _loc1_.x + _loc1_.skills.x && _loc7_[5] == _loc1_.y + _loc1_.skills.y && _loc7_[6] == _loc1_.skills.extL && _loc7_[7] == _loc1_.skills.extT && _loc7_[8] == _loc1_.skills.extR && _loc7_[9] == _loc1_.skills.extB)
+         _loc2_.refreshZone();
+         var _loc3_:Rectangle = _loc2_.zone;
+         var _loc4_:Object = _loc2_.opts();
+         var _loc5_:Boolean = _loc4_.bJoyHidden == true;
+         var _loc6_:Boolean = _loc4_.bSkillsHidden == true;
+         var _loc7_:Boolean = _loc4_.bSkillsOff == true;
+         var _loc8_:Array = zKey;
+         var _loc9_:ActionPad = ActionPad.current;
+         var _loc10_:int = _loc9_ != null ? _loc9_.ver : -1;
+         if(_loc8_.length == 16 && _loc8_[15] == _loc10_ && _loc3_ != null && _loc8_[10] == _loc3_.x && _loc8_[11] == _loc3_.y && _loc8_[12] == _loc3_.width && _loc8_[13] == _loc3_.height && _loc8_[0] == _loc5_ && _loc8_[1] == _loc6_ && _loc8_[14] == _loc7_ && _loc8_[2] == _loc2_.x + _loc2_.joy.x && _loc8_[3] == _loc2_.y + _loc2_.joy.y && _loc8_[4] == _loc2_.x + _loc2_.skills.x && _loc8_[5] == _loc2_.y + _loc2_.skills.y && _loc8_[6] == _loc2_.skills.extL && _loc8_[7] == _loc2_.skills.extT && _loc8_[8] == _loc2_.skills.extR && _loc8_[9] == _loc2_.skills.extB)
          {
             return zCache;
          }
-         var _loc8_:Array = [];
-         if(!_loc4_)
+         var _loc11_:Array = [];
+         if(!_loc5_)
          {
-            _loc8_.push(new Rectangle(_loc1_.x + _loc2_.x,_loc1_.y + _loc2_.y,_loc2_.width,_loc2_.height));
+            _loc11_.push(new Rectangle(_loc2_.x + _loc3_.x,_loc2_.y + _loc3_.y,_loc3_.width,_loc3_.height));
          }
-         var _loc9_:Rectangle = _loc1_.skills.handleRect;
-         if(!_loc6_ && _loc5_)
+         var _loc12_:Rectangle = _loc2_.skills.handleRect;
+         if(!_loc7_ && _loc6_)
          {
-            _loc8_.push(new Rectangle(_loc1_.x + _loc1_.skills.x + _loc9_.x,_loc1_.y + _loc1_.skills.y + _loc9_.y,_loc9_.width,_loc9_.height));
+            _loc11_.push(new Rectangle(_loc2_.x + _loc2_.skills.x + _loc12_.x,_loc2_.y + _loc2_.skills.y + _loc12_.y,_loc12_.width,_loc12_.height));
          }
-         else if(!_loc6_)
+         else if(!_loc7_)
          {
-            _loc8_.push(new Rectangle(_loc1_.x + _loc1_.skills.x - _loc1_.skills.extL,_loc1_.y + _loc1_.skills.y - _loc1_.skills.extT,_loc1_.skills.extL + _loc1_.skills.extR,_loc1_.skills.extT + _loc1_.skills.extB));
+            _loc11_.push(new Rectangle(_loc2_.x + _loc2_.skills.x - _loc2_.skills.extL,_loc2_.y + _loc2_.skills.y - _loc2_.skills.extT,_loc2_.skills.extL + _loc2_.skills.extR,_loc2_.skills.extT + _loc2_.skills.extB));
          }
-         zKey = [_loc4_,_loc5_,_loc1_.x + _loc1_.joy.x,_loc1_.y + _loc1_.joy.y,_loc1_.x + _loc1_.skills.x,_loc1_.y + _loc1_.skills.y,_loc1_.skills.extL,_loc1_.skills.extT,_loc1_.skills.extR,_loc1_.skills.extB,_loc2_.x,_loc2_.y,_loc2_.width,_loc2_.height,_loc6_];
-         zCache = _loc8_;
-         return _loc8_;
+         if(_loc9_ != null)
+         {
+            for each(_loc1_ in _loc9_.rects)
+            {
+               _loc11_.push(_loc1_.clone());
+            }
+         }
+         zKey = [_loc5_,_loc6_,_loc2_.x + _loc2_.joy.x,_loc2_.y + _loc2_.joy.y,_loc2_.x + _loc2_.skills.x,_loc2_.y + _loc2_.skills.y,_loc2_.skills.extL,_loc2_.skills.extT,_loc2_.skills.extR,_loc2_.skills.extB,_loc3_.x,_loc3_.y,_loc3_.width,_loc3_.height,_loc7_,_loc10_];
+         zCache = _loc11_;
+         return _loc11_;
       }
 
       public static function applyTabOption() : void
@@ -465,6 +480,7 @@ package liteAssets.mobile
          {
             inst = null;
          }
+         zKey.length = 0;
          GameKeys.setActive(false);
          removeEventListener(MouseEvent.MOUSE_DOWN,this.onOwnPress);
          removeEventListener(MouseEvent.CLICK,this.onOwnPress);
@@ -1398,6 +1414,7 @@ package liteAssets.mobile
          this.editing = param1;
          this.joy.editing = param1;
          this.skills.editing = param1;
+         ActionPad.setEditing(param1);
          DropTray.setEditing(param1);
          if(param1 && this.done == null)
          {
@@ -1433,12 +1450,15 @@ package liteAssets.mobile
          delete _loc1_.posMobileTab;
          delete _loc1_.posDrops;
          delete _loc1_.posVMouse;
+         delete _loc1_.posQaTray;
+         delete _loc1_.posQaBtns;
          _loc1_.bJoyHidden = false;
          _loc1_.bSkillsHidden = false;
          _loc1_.bSkillsOff = false;
          _loc1_.bVMouseMin = false;
          this.flush();
          DropTray.resetPos();
+         ActionPad.resetPositions();
          this.applyPositions();
          this.drawChevron();
          this.applySkillsBtn();

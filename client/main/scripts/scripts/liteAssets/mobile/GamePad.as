@@ -148,6 +148,63 @@ package liteAssets.mobile
          idle();
       }
 
+      public static function get disabled() : Boolean
+      {
+         try
+         {
+            return game != null && game.litePreference.data.dOptions["bPadOff"] == true;
+         }
+         catch(e:Error)
+         {
+         }
+         return false;
+      }
+
+      public static function setDisabled(param1:Boolean) : void
+      {
+         var _loc1_:GameInputDevice = null;
+         var _loc2_:int = 0;
+         if(game == null)
+         {
+            return;
+         }
+         try
+         {
+            if(game.litePreference.data.dOptions == null)
+            {
+               game.litePreference.data.dOptions = {};
+            }
+            game.litePreference.data.dOptions["bPadOff"] = param1;
+            game.litePreference.flush();
+         }
+         catch(e:Error)
+         {
+         }
+         if(param1)
+         {
+            for each(_loc1_ in devices)
+            {
+               try
+               {
+                  _loc1_.enabled = false;
+               }
+               catch(e2:Error)
+               {
+               }
+            }
+            stop();
+         }
+         else
+         {
+            _loc2_ = 0;
+            while(_loc2_ < GameInput.numDevices)
+            {
+               add(GameInput.getDeviceAt(_loc2_));
+               _loc2_++;
+            }
+         }
+      }
+
       public static function get connectedName() : String
       {
          return devices.length > 0 ? devices[0].name : null;
@@ -342,7 +399,7 @@ package liteAssets.mobile
 
       private static function add(param1:GameInputDevice) : void
       {
-         if(param1 == null || stage == null || devices.indexOf(param1) >= 0)
+         if(param1 == null || stage == null || devices.indexOf(param1) >= 0 || disabled)
          {
             return;
          }

@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3652")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3654")]
    public dynamic class mcForgotPassword_73 extends MovieClip
    {
 

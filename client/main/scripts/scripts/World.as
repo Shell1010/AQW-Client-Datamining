@@ -60,6 +60,12 @@ package
 
       public static const PRIORITY_BACKGROUND:int = 0;
 
+      public static const HOUSE_MIN_PX:int = 24;
+
+      public static const HOUSE_MAG_MIN:int = 10;
+
+      public static const HOUSE_MAG_MAX:int = 2500;
+
       public var uiLock:Boolean = false;
 
       public var objSession:SessionData = new SessionData();
@@ -4928,7 +4934,7 @@ package
                            _loc2_ = this.getHouseItem(this.objHouseData.arrPlacement[_loc3_]["xi"][_loc1_]["ID"]);
                            if(_loc2_ != null)
                            {
-                              this.loadHouseItem(_loc2_,this.objHouseData.arrPlacement[_loc3_]["xi"][_loc1_]["x"],this.objHouseData.arrPlacement[_loc3_]["xi"][_loc1_]["y"],this.objHouseData.arrPlacement[_loc3_]["xi"][_loc1_]["f"]);
+                              this.loadHouseItem(_loc2_,this.objHouseData.arrPlacement[_loc3_]["xi"][_loc1_]["x"],this.objHouseData.arrPlacement[_loc3_]["xi"][_loc1_]["y"],this.objHouseData.arrPlacement[_loc3_]["xi"][_loc1_]["f"],this.objHouseData.arrPlacement[_loc3_]["xi"][_loc1_]["m"]);
                            }
                            _loc1_++;
                         }
@@ -4969,9 +4975,53 @@ package
          {
             _loc1_.scaleX = _loc1_.scaleX * -1;
          }
+         this.setHouseItemScale(_loc1_,int(param1.m),false);
          _loc2_ = this.CHARS.addChild(_loc1_) as MovieClip;
          _loc2_.name = "mc" + getQualifiedClassName(_loc2_);
          this.houseItemValidate(_loc1_);
+      }
+
+      public function houseScaleRange(param1:MovieClip) : Array
+      {
+         var _loc1_:Rectangle = null;
+         var _loc2_:int = 0;
+         var _loc3_:int = 0;
+         _loc1_ = param1.getBounds(param1);
+         if(_loc1_.width <= 0 || _loc1_.height <= 0)
+         {
+            return null;
+         }
+         _loc2_ = Math.ceil(100 * HOUSE_MIN_PX / Math.min(_loc1_.width,_loc1_.height));
+         _loc3_ = Math.floor(100 * Math.min(960 / _loc1_.width,550 / _loc1_.height));
+         return [Math.max(HOUSE_MAG_MIN,Math.min(_loc2_,100)),Math.min(HOUSE_MAG_MAX,Math.max(_loc3_,100))];
+      }
+
+      public function houseMagOf(param1:MovieClip) : int
+      {
+         var _loc1_:int = 0;
+         _loc1_ = int(param1.houseMag);
+         return _loc1_ > 0 ? _loc1_ : 100;
+      }
+
+      public function setHouseItemScale(param1:MovieClip, param2:int, param3:Boolean = true) : int
+      {
+         var _loc1_:Array = null;
+         var _loc2_:Number = NaN;
+         if(param2 <= 0)
+         {
+            param2 = 100;
+         }
+         _loc1_ = param3 ? this.houseScaleRange(param1) : null;
+         if(_loc1_ == null)
+         {
+            _loc1_ = [HOUSE_MAG_MIN,HOUSE_MAG_MAX];
+         }
+         param2 = Math.max(_loc1_[0],Math.min(_loc1_[1],param2));
+         param1.houseMag = param2;
+         _loc2_ = param2 / 100;
+         param1.scaleX = param1.scaleX < 0 ? -_loc2_ : _loc2_;
+         param1.scaleY = _loc2_;
+         return param2;
       }
 
       public function onHouseItemClick(param1:Event) : void
@@ -5505,6 +5555,10 @@ package
                   {
                      _loc4_["f"] = 1;
                   }
+                  if(this.houseMagOf(MovieClip(_loc3_)) != 100)
+                  {
+                     _loc4_["m"] = this.houseMagOf(MovieClip(_loc3_));
+                  }
                   _loc2_["xi"].push(_loc4_);
                }
                else
@@ -5728,12 +5782,13 @@ package
          }
       }
 
-      public function loadHouseItem(param1:Object, param2:int, param3:int, param4:int = 0) : void
+      public function loadHouseItem(param1:Object, param2:int, param3:int, param4:int = 0, param5:int = 100) : void
       {
          var item:Object = param1;
          var x:int = param2;
          var y:int = param3;
          var f:int = param4;
+         var m:int = param5;
          if(item.sLink == null || !this.loaderD.hasDefinition(item.sLink))
          {
             this.arrHouseItemQueue.push({
@@ -5741,7 +5796,8 @@ package
                "typ":"A",
                "x":x,
                "y":y,
-               "f":f
+               "f":f,
+               "m":m
             });
             if(this.arrHouseItemQueue.length > 0)
             {
@@ -5755,7 +5811,8 @@ package
                "item":item,
                "x":x,
                "y":y,
-               "f":f
+               "f":f,
+               "m":m
             });
          }
          catch(err:Error)
@@ -5765,7 +5822,8 @@ package
                "typ":"A",
                "x":x,
                "y":y,
-               "f":f
+               "f":f,
+               "m":m
             });
             if(arrHouseItemQueue.length > 0)
             {

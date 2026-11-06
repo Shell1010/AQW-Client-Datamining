@@ -17,6 +17,8 @@ package liteAssets.mobile
 
       public static const PREVIEW:String = "preview";
 
+      public static const BLOCK:String = "block";
+
       private static const STAGE_W:int = 960;
 
       private static const PAD:int = 12;
@@ -38,6 +40,10 @@ package liteAssets.mobile
       private static const ELL:String = String.fromCharCode(8230);
 
       private static const AC_GAP:int = 5;
+
+      private static const BLOCK_CAP:int = 11;
+
+      private static const BLOCK_OUTLINE:GlowFilter = new GlowFilter(0,1,3,3,8,2);
 
       private static const LIFT:DropShadowFilter = new DropShadowFilter(3,90,0,0.6,10,10,1,2);
 
@@ -95,6 +101,14 @@ package liteAssets.mobile
 
       private var previewBtn:VolumeButton;
 
+      private var blockBtn:VolumeButton;
+
+      private var blockGlyph:Shape;
+
+      private var blockCap:TextField;
+
+      private var blockW:int;
+
       private var openAt:int = 0;
 
       public function DropPopover(param1:MovieClip, param2:Function)
@@ -112,7 +126,8 @@ package liteAssets.mobile
          this.iconH = Math.round(DropSlot.ICON_H * _loc2_);
          this.pw = PAD * 2 + this.bw * 3 + GAP * 2;
          this.textX = PAD + this.iconW + TEXT_GAP;
-         this.textW = this.pw - PAD - this.textX - 6;
+         this.blockW = Math.max(36,Mobile.touchPx(7));
+         this.textW = this.pw - PAD - this.textX - 6 - this.blockW - GAP;
          this.pivot = new Sprite();
          this.win = new Sprite();
          this.pivot.addChild(this.win);
@@ -143,6 +158,26 @@ package liteAssets.mobile
          this.acceptBtn = this.button("Accept",0,this.onAccept);
          this.declineBtn = this.button("Decline",1,this.onDecline);
          this.previewBtn = this.button("Preview",2,this.onPreview);
+         this.blockBtn = new VolumeButton(this.blockW,this.blockW,"",13);
+         this.blockBtn.x = this.pw - PAD - this.blockW;
+         this.blockBtn.addEventListener(MouseEvent.CLICK,this.onBlock,false,0,true);
+         this.win.addChild(this.blockBtn);
+         this.blockGlyph = new Shape();
+         this.blockGlyph.filters = [BLOCK_OUTLINE];
+         var _loc3_:Graphics = this.blockGlyph.graphics;
+         var _loc4_:Number = this.blockW * 0.27;
+         var _loc5_:Number = _loc4_ * 0.7071;
+         _loc3_.lineStyle(Math.max(2.5,this.blockW * 0.07),16777215,1,true,LineScaleMode.NORMAL,CapsStyle.ROUND);
+         _loc3_.drawCircle(0,0,_loc4_);
+         _loc3_.moveTo(-_loc5_,_loc5_);
+         _loc3_.lineTo(_loc5_,-_loc5_);
+         this.blockGlyph.x = this.blockGlyph.y = Math.round(this.blockW / 2);
+         this.blockBtn.addChild(this.blockGlyph);
+         this.blockCap = MailArt.tf(BLOCK_CAP,16777215,true);
+         this.blockCap.filters = [BLOCK_OUTLINE];
+         this.blockCap.text = "Block";
+         this.blockCap.x = Math.round(this.blockBtn.x + (this.blockW - this.blockCap.width) / 2);
+         this.win.addChild(this.blockCap);
       }
 
       private static function makeAC(param1:Number) : DisplayObject
@@ -258,6 +293,7 @@ package liteAssets.mobile
          this.acceptBtn.removeEventListener(MouseEvent.CLICK,this.onAccept);
          this.declineBtn.removeEventListener(MouseEvent.CLICK,this.onDecline);
          this.previewBtn.removeEventListener(MouseEvent.CLICK,this.onPreview);
+         this.blockBtn.removeEventListener(MouseEvent.CLICK,this.onBlock);
          while(this.iconBox.numChildren > 0)
          {
             this.iconBox.removeChildAt(0);
@@ -348,7 +384,7 @@ package liteAssets.mobile
       {
          var _loc1_:VolumeButton = null;
          var _loc2_:Number = this.nameTf.height - 4;
-         var _loc3_:int = Math.max(this.iconH,Math.ceil(_loc2_));
+         var _loc3_:int = Math.max(this.iconH,Math.ceil(_loc2_),this.blockW + Math.ceil(this.blockCap.height) - 6);
          this.iconBox.y = PAD + Math.round((_loc3_ - this.iconH) / 2);
          this.nameTf.y = PAD - 2 + Math.round((_loc3_ - _loc2_) / 2);
          if(this.acIcon != null)
@@ -357,6 +393,8 @@ package liteAssets.mobile
          }
          this.check.x = Math.round(this.iconBox.x + this.icR.right + this.iconH * 0.15);
          this.check.y = Math.round(this.iconBox.y + this.icR.top - this.iconH * 0.08);
+         this.blockBtn.y = PAD - 2;
+         this.blockCap.y = this.blockBtn.y + this.blockW - 4;
          var _loc4_:int = PAD + _loc3_ + PAD;
          this.ph = _loc4_ + this.bh + PAD;
          var _loc5_:Array = [this.acceptBtn,this.declineBtn,this.previewBtn];
@@ -422,6 +460,11 @@ package liteAssets.mobile
       private function onPreview(param1:MouseEvent) : void
       {
          this.fire(PREVIEW);
+      }
+
+      private function onBlock(param1:MouseEvent) : void
+      {
+         this.fire(BLOCK);
       }
    }
 }

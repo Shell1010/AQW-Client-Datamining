@@ -234,6 +234,14 @@ package liteAssets.mobile
             ActBarTouch.stop();
             MapTargets.stop();
          }
+         if(hudOn)
+         {
+            ActionPad.start(game);
+         }
+         else
+         {
+            ActionPad.stop();
+         }
       }
 
       public static function get uiScale() : Number
@@ -273,6 +281,7 @@ package liteAssets.mobile
             hud.destroy();
             hud = null;
          }
+         ActionPad.stop();
          syncHud();
          return sizeLabel();
       }

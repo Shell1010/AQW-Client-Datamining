@@ -22,6 +22,7 @@ package
          "Mobile Controls":"Controls",
          "Mobile UI Size":"Controls",
          "Gamepad Controls":"Controls",
+         "Quick Actions":"Controls",
          "Hide UI":"Interface",
          "Reset UI Positions":"Interface",
          "Class Actives/Auras UI":"Interface",
@@ -988,6 +989,10 @@ package
          if(param1.indexOf("Mobile UI Size") == 0)
          {
             return "Mobile ControlsuFFFE";
+         }
+         if(param1 == "Quick Actions")
+         {
+            return "KeybindsuFFFF";
          }
          return param1 == "Gamepad Controls" ? "Mobile ControlsuFFFF" : param1;
       }

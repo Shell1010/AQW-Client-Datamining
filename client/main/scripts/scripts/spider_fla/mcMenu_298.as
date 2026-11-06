@@ -16,7 +16,7 @@ package spider_fla
    import flash.ui.*;
    import flash.utils.*;
 
-   [Embed(source="/_assets/assets.swf", symbol="symbol3961")]
+   [Embed(source="/_assets/assets.swf", symbol="symbol3963")]
    public dynamic class mcMenu_298 extends MovieClip
    {
 
