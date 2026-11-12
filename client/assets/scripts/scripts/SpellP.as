@@ -43,6 +43,7 @@ package
             this.turn("left");
          }
          addEventListener(Event.ENTER_FRAME,this.moveMe,false,0,true);
+         addEventListener(Event.REMOVED,this.onRemoved,false,0,true);
          addEventListener(Event.REMOVED_FROM_STAGE,this.onRemovedFromStage,false,0,true);
       }
 
@@ -56,14 +57,20 @@ package
 
       public function killSpell() : void
       {
+         this.dispose(true);
+      }
+
+      private function dispose(detach:Boolean) : void
+      {
          if(this._disposed)
          {
             return;
          }
          this._disposed = true;
          removeEventListener(Event.ENTER_FRAME,this.moveMe);
+         removeEventListener(Event.REMOVED,this.onRemoved);
          removeEventListener(Event.REMOVED_FROM_STAGE,this.onRemovedFromStage);
-         if(parent != null)
+         if(detach && parent != null)
          {
             parent.removeChild(this);
          }
@@ -117,9 +124,17 @@ package
          }
       }
 
+      private function onRemoved(e:Event) : void
+      {
+         if(e.target == this)
+         {
+            this.dispose(false);
+         }
+      }
+
       private function onRemovedFromStage(e:Event) : void
       {
-         this.killSpell();
+         this.dispose(true);
       }
    }
 }
