@@ -127,6 +127,7 @@ package
             _loc3_.itemEventType = "listItemBSel";
             _loc3_.eventTypes = ["listItemASel","refreshInv","refreshItems"];
             _loc3_.filter = "sES";
+            _loc3_.search = true;
             _loc3_.multiSelect = MovieClip(fParent).sMode == "shopBuy";
             addFrame(_loc3_);
          }

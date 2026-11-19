@@ -208,29 +208,30 @@ package
 
       protected function fDraw() : void
       {
+         var _loc1_:Object = null;
          this.btnDelete.visible = false;
-         var _loc1_:String = "";
          var _loc2_:String = "";
-         var _loc3_:String = "#00CCFF";
-         var _loc4_:Object = this.iSel;
-         if(_loc4_ != null)
+         var _loc3_:String = "";
+         var _loc4_:String = "#00CCFF";
+         _loc1_ = this.iSel;
+         if(_loc1_ != null)
          {
             this.btnDelete.visible = true;
-            this.tInfo.htmlText = this.rootClass.getItemInfoStringB(_loc4_);
+            this.tInfo.htmlText = this.rootClass.getItemInfoStringB(_loc1_);
             this.tInfo.height = this.tInfo.textHeight + 4;
             this.tInfo.y = int(Math.max(PAD,this.ph - PAD - 2 - this.tInfo.textHeight));
             this.mcUpgrade.visible = false;
             this.mcCoin.visible = false;
-            if(_loc4_.bUpg == 1)
+            if(_loc1_.bUpg == 1)
             {
                this.mcUpgrade.visible = true;
             }
-            if(_loc4_.bCoins == 1)
+            if(_loc1_.bCoins == 1)
             {
                this.mcUpgrade.visible = false;
                this.mcCoin.visible = true;
             }
-            this.loadPreview(_loc4_);
+            this.loadPreview(_loc1_);
          }
          else
          {
@@ -242,7 +243,7 @@ package
          }
          if(this.favBtn != null)
          {
-            this.favBtn.bind(_loc4_,this.rootClass,true);
+            this.favBtn.bind(_loc1_,this.rootClass,true);
          }
          this.btnDelete.visible = false;
       }

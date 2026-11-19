@@ -4229,12 +4229,86 @@ package
       public function openApop(param1:*) : *
       {
          var _loc1_:MovieClip = null;
+         if(param1 != null && (param1.npcLinkage == null || param1.cnt == null))
+         {
+            this.refillApop(param1);
+         }
          if(this.isMovieFront("Apop") || (!("frame" in param1) || "frame" in param1 && "cnt" in param1))
          {
             this.rootClass.menuClose();
             _loc1_ = this.attachMovieFront("Apop");
             _loc1_.update(param1);
          }
+      }
+
+      private function refillApop(param1:Object) : void
+      {
+         var _loc1_:DisplayObject = null;
+         var _loc2_:Object = null;
+         _loc1_ = this.apopOwner(this.map,param1,3);
+         if(_loc1_ == null)
+         {
+            return;
+         }
+         _loc2_ = _loc1_;
+         try
+         {
+            if(param1.npcLinkage == null)
+            {
+               param1.npcLinkage = _loc2_.npcLinkage;
+            }
+            if(param1.cnt == null)
+            {
+               param1.cnt = "cntLinkage" in _loc2_ && _loc2_.cntLinkage != null ? _loc2_.cntLinkage : _loc2_.apopLinkage;
+            }
+            if("npcEntry" in param1 && param1.npcEntry == null && "npcEntry" in _loc2_)
+            {
+               param1.npcEntry = _loc2_.npcEntry;
+            }
+            if("scene" in param1 && param1.scene == null)
+            {
+               param1.scene = "scene" in _loc2_ && _loc2_.scene != null ? _loc2_.scene : _loc2_.strFrame;
+            }
+         }
+         catch(e:Error)
+         {
+         }
+         trace("openApop: names were null, re-read from " + _loc1_.name);
+      }
+
+      private function apopOwner(param1:DisplayObjectContainer, param2:Object, param3:int) : DisplayObject
+      {
+         var _loc1_:DisplayObject = null;
+         var _loc2_:int = 0;
+         if(param1 == null)
+         {
+            return null;
+         }
+         _loc2_ = 0;
+         while(_loc2_ < param1.numChildren)
+         {
+            _loc1_ = param1.getChildAt(_loc2_);
+            if(_loc1_ != null && "apopObj" in _loc1_ && Object(_loc1_).apopObj === param2)
+            {
+               return _loc1_;
+            }
+            _loc2_++;
+         }
+         if(--param3 <= 0)
+         {
+            return null;
+         }
+         _loc2_ = 0;
+         while(_loc2_ < param1.numChildren)
+         {
+            _loc1_ = this.apopOwner(param1.getChildAt(_loc2_) as DisplayObjectContainer,param2,param3);
+            if(_loc1_ != null)
+            {
+               return _loc1_;
+            }
+            _loc2_++;
+         }
+         return null;
       }
 
       public function setSpawnPoint(param1:*, param2:*) : void

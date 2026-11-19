@@ -33,6 +33,8 @@ package
 
       private var touch:TouchScroll;
 
+      private var wheelStage:Stage;
+
       internal var qly:int = 57;
 
       internal var iRepMax:int = 302500;
@@ -125,6 +127,7 @@ package
             _loc4_.h.addEventListener(Event.ENTER_FRAME,this.hEF,false,0,true);
             _loc6_.addEventListener(Event.ENTER_FRAME,this.dEF,false,0,true);
             this.attachTouch();
+            this.attachWheel();
          }
          this.mc.cnt.scr.hit.buttonMode = true;
          this.mc.cnt.fList.iproto.visible = false;
@@ -160,6 +163,47 @@ package
             this.touch.detach();
             this.touch = null;
          }
+      }
+
+      private function attachWheel() : void
+      {
+         this.detachWheel();
+         this.wheelStage = stage;
+         if(this.wheelStage != null)
+         {
+            this.wheelStage.addEventListener(MouseEvent.MOUSE_WHEEL,this.onStageWheel,true,0,true);
+         }
+      }
+
+      private function detachWheel() : void
+      {
+         if(this.wheelStage == null)
+         {
+            return;
+         }
+         this.wheelStage.removeEventListener(MouseEvent.MOUSE_WHEEL,this.onStageWheel,true);
+         this.wheelStage = null;
+      }
+
+      private function onStageWheel(param1:MouseEvent) : void
+      {
+         if(stage == null)
+         {
+            this.detachWheel();
+            return;
+         }
+         if(this.mDown || this.hRun <= 0 || this.dRun <= 0 || !this.mc.cnt.scr.visible)
+         {
+            return;
+         }
+         var _loc1_:DisplayObject = param1.target as DisplayObject;
+         if(_loc1_ == null || !this.mc.contains(_loc1_))
+         {
+            return;
+         }
+         var _loc2_:MovieClip = this.mc.cnt.scr.h;
+         var _loc3_:Number = _loc2_.y - param1.delta * (20 / 3) * this.hRun / this.dRun;
+         _loc2_.y = _loc3_ < 0 ? 0 : (_loc3_ > this.hRun ? this.hRun : _loc3_);
       }
 
       private function touchMax() : Number
@@ -246,6 +290,7 @@ package
       public function fClose() : void
       {
          this.detachTouch();
+         this.detachWheel();
          this.mc.cnt.bg.btnClose.removeEventListener(MouseEvent.CLICK,this.xClick);
          this.rootClass.ui.mcPopup.onClose();
       }

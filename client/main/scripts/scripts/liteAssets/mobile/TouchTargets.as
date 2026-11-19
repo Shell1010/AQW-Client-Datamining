@@ -125,9 +125,18 @@ package liteAssets.mobile
             return param2.clone();
          }
          _loc1_.invert();
-         var _loc2_:Point = _loc1_.transformPoint(param2.topLeft);
-         var _loc3_:Point = _loc1_.transformPoint(param2.bottomRight);
-         return new Rectangle(Math.min(_loc2_.x,_loc3_.x),Math.min(_loc2_.y,_loc3_.y),Math.abs(_loc3_.x - _loc2_.x),Math.abs(_loc3_.y - _loc2_.y));
+         return span(param2,_loc1_);
+      }
+
+      internal static function span(param1:Rectangle, param2:Matrix) : Rectangle
+      {
+         var _loc1_:Point = param2.transformPoint(param1.topLeft);
+         var _loc2_:Point = param2.transformPoint(param1.bottomRight);
+         var _loc3_:Point = param2.transformPoint(new Point(param1.right,param1.y));
+         var _loc4_:Point = param2.transformPoint(new Point(param1.x,param1.bottom));
+         var _loc5_:Number = Math.min(_loc1_.x,_loc2_.x,_loc3_.x,_loc4_.x);
+         var _loc6_:Number = Math.min(_loc1_.y,_loc2_.y,_loc3_.y,_loc4_.y);
+         return new Rectangle(_loc5_,_loc6_,Math.max(_loc1_.x,_loc2_.x,_loc3_.x,_loc4_.x) - _loc5_,Math.max(_loc1_.y,_loc2_.y,_loc3_.y,_loc4_.y) - _loc6_);
       }
 
       private static function padButton(param1:SimpleButton, param2:Number, param3:Number, param4:Rectangle) : void
@@ -138,16 +147,22 @@ package liteAssets.mobile
             _loc1_ = param1.hitTestState;
             origs[param1] = _loc1_;
          }
-         var _loc2_:Rectangle = area(param1,_loc1_.getBounds(_loc1_),param2,param3,param4);
-         if(_loc2_ == null)
+         var _loc2_:Rectangle = _loc1_.getBounds(_loc1_);
+         var _loc3_:Matrix = _loc1_.transform.matrix;
+         if(_loc3_ != null)
+         {
+            _loc2_ = span(_loc2_,_loc3_);
+         }
+         var _loc4_:Rectangle = area(param1,_loc2_,param2,param3,param4);
+         if(_loc4_ == null)
          {
             return;
          }
-         var _loc3_:Shape = new Shape();
-         _loc3_.graphics.beginFill(0,1);
-         _loc3_.graphics.drawRect(_loc2_.x,_loc2_.y,_loc2_.width,_loc2_.height);
-         _loc3_.graphics.endFill();
-         param1.hitTestState = _loc3_;
+         var _loc5_:Shape = new Shape();
+         _loc5_.graphics.beginFill(0,1);
+         _loc5_.graphics.drawRect(_loc4_.x,_loc4_.y,_loc4_.width,_loc4_.height);
+         _loc5_.graphics.endFill();
+         param1.hitTestState = _loc5_;
       }
    }
 }

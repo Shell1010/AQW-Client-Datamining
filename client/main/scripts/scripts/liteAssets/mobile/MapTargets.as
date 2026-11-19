@@ -256,10 +256,7 @@ package liteAssets.mobile
          }
          var _loc3_:Matrix = _loc2_.transform.matrix;
          _loc3_.concat(stageMatrix(_loc1_));
-         var _loc4_:Rectangle = _loc2_.getBounds(_loc2_);
-         var _loc5_:Point = _loc3_.transformPoint(_loc4_.topLeft);
-         var _loc6_:Point = _loc3_.transformPoint(_loc4_.bottomRight);
-         return new Rectangle(Math.min(_loc5_.x,_loc6_.x),Math.min(_loc5_.y,_loc6_.y),Math.abs(_loc6_.x - _loc5_.x),Math.abs(_loc6_.y - _loc5_.y));
+         return TouchTargets.span(_loc2_.getBounds(_loc2_),_loc3_);
       }
 
       private static function shown(param1:InteractiveObject, param2:Rectangle) : Boolean

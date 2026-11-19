@@ -214,47 +214,48 @@ package liteAssets.mobile
       private function setText(param1:Object) : void
       {
          var _loc1_:int = 0;
-         var _loc2_:DisplayObject = null;
-         var _loc3_:Rectangle = null;
-         var _loc4_:Number = NaN;
-         var _loc5_:TextField = param1.qTf;
-         var _loc6_:TextField = param1.nTf;
-         _loc5_.text = "x" + param1.qty;
-         _loc6_.text = param1.name;
-         MailArt.fit(_loc6_,220);
-         _loc1_ = 12 + Math.round(_loc5_.width) + 4 + Math.round(_loc6_.width) + 8 + SLOT + 6;
+         var _loc2_:int = 0;
+         var _loc3_:DisplayObject = null;
+         var _loc4_:Rectangle = null;
+         var _loc5_:Number = NaN;
+         var _loc6_:TextField = param1.qTf;
+         var _loc7_:TextField = param1.nTf;
+         _loc6_.text = "x" + param1.qty;
+         _loc7_.text = param1.name;
+         MailArt.fit(_loc7_,220);
+         _loc1_ = 12 + Math.round(_loc6_.width) + 4 + Math.round(_loc7_.width) + 8 + SLOT + 6;
          param1.w = _loc1_;
-         var _loc7_:Sprite = param1.sprite;
-         var _loc8_:int = -_loc1_;
-         _loc5_.scaleX = _loc5_.scaleY = 1;
-         _loc5_.x = _loc8_ + 12;
-         _loc5_.y = Math.round((ROW_H - _loc5_.height) / 2);
-         param1.qx = _loc5_.x;
-         param1.qy = _loc5_.y;
-         param1.qw = _loc5_.width;
-         param1.qh = _loc5_.height;
-         _loc6_.x = _loc5_.x + Math.round(_loc5_.width) + 4;
+         var _loc8_:Sprite = param1.sprite;
+         _loc2_ = -_loc1_;
+         _loc6_.scaleX = _loc6_.scaleY = 1;
+         _loc6_.x = _loc2_ + 12;
          _loc6_.y = Math.round((ROW_H - _loc6_.height) / 2);
+         param1.qx = _loc6_.x;
+         param1.qy = _loc6_.y;
+         param1.qw = _loc6_.width;
+         param1.qh = _loc6_.height;
+         _loc7_.x = _loc6_.x + Math.round(_loc6_.width) + 4;
+         _loc7_.y = Math.round((ROW_H - _loc7_.height) / 2);
          var _loc9_:int = -SLOT - 4;
          var _loc10_:int = Math.round((ROW_H - SLOT) / 2);
-         this.drawPlate(Shape(param1.plate).graphics,_loc8_,_loc1_);
+         this.drawPlate(Shape(param1.plate).graphics,_loc2_,_loc1_);
          var _loc11_:Graphics = Shape(param1.slot).graphics;
          _loc11_.clear();
          _loc11_.lineStyle(1,13145646,0.9,true);
          _loc11_.beginFill(723723,0.9);
          _loc11_.drawRoundRect(_loc9_,_loc10_,SLOT,SLOT,6,6);
          _loc11_.endFill();
-         _loc2_ = param1.icon;
-         if(_loc2_ != null)
+         _loc3_ = param1.icon;
+         if(_loc3_ != null)
          {
-            _loc2_.scaleX = _loc2_.scaleY = 1;
-            _loc3_ = _loc2_.getBounds(_loc2_);
-            if(_loc3_.width > 0 && _loc3_.height > 0)
+            _loc3_.scaleX = _loc3_.scaleY = 1;
+            _loc4_ = _loc3_.getBounds(_loc3_);
+            if(_loc4_.width > 0 && _loc4_.height > 0)
             {
-               _loc4_ = Math.min((SLOT - 6) / _loc3_.width,(SLOT - 6) / _loc3_.height);
-               _loc2_.scaleX = _loc2_.scaleY = _loc4_;
-               _loc2_.x = _loc9_ + SLOT / 2 - (_loc3_.x + _loc3_.width / 2) * _loc4_;
-               _loc2_.y = _loc10_ + SLOT / 2 - (_loc3_.y + _loc3_.height / 2) * _loc4_;
+               _loc5_ = Math.min((SLOT - 6) / _loc4_.width,(SLOT - 6) / _loc4_.height);
+               _loc3_.scaleX = _loc3_.scaleY = _loc5_;
+               _loc3_.x = _loc9_ + SLOT / 2 - (_loc4_.x + _loc4_.width / 2) * _loc5_;
+               _loc3_.y = _loc10_ + SLOT / 2 - (_loc4_.y + _loc4_.height / 2) * _loc5_;
             }
          }
       }
